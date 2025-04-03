@@ -2,20 +2,22 @@
 #include <string.h>
 #include <stdlib.h>
 
-int contarNumeros (int numero){
+int contarNumeros (int numero){ /*A função contarNumeros calcula e retorna a quantidade de dígitos de um número inteiro. 
+    Ela trata o caso especial de 0 e utiliza um loop para dividir o número por 10 até que ele se torne 0,
+    contando os dígitos no processo.*/
     
-    int contador;
+    int contador; // contador de dígitos
 
-    if (numero == 0){
+    if (numero == 0){ // se o número for 0, retorna 1
         return 1;
     }
 
-    while (numero != 0) {
+    while (numero != 0) { 
     numero /= 10;
     contador++;
-    }
+    } // enquanto o número não for 0, divide por 10 e incrementa o contador
 
-    return contador;
+    return contador; // retorna o número de dígitos
 
 
 }
