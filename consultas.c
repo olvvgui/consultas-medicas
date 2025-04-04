@@ -2,54 +2,45 @@
 #include <string.h>
 #include <stdlib.h>
 
-int contarNumeros (int numero){ /*A função contarNumeros calcula e retorna a quantidade de dígitos de um número inteiro. 
-    Ela trata o caso especial de 0 e utiliza um loop para dividir o número por 10 até que ele se torne 0,
-    contando os dígitos no processo.*/
-    
-    int contador; // contador de dígitos
-
-    if (numero == 0){ // se o número for 0, retorna 1
-        return 1;
-    }
-
-    while (numero != 0) { 
-    numero /= 10;
-    contador++;
-    } // enquanto o número não for 0, divide por 10 e incrementa o contador
-
-    return contador; // retorna o número de dígitos
-
-
-}
 
 int main ( ){
 
   char logado;
-  printf("\tVocê já tem conta no sistema? (s/n)");
-  scanf ("|%d", &logado);
+  printf("\tVocê já tem conta no sistema? (s/n): ");
+  scanf (" %c", &logado);
 
-  if (logado == 's') {
+  if (logado == 'n') {
+
+      FILE *arquivo; 
+        arquivo = fopen ("cadastro.txt", "a"); // abrindo (criando) o arquivo em modo append (adicionar)
+
+        if (arquivo == NULL) {
+            return 1; // fecha o programa se o arquivo não abrir
+        }
 
       printf ("\n\t\tLOGIN\n");
 
      char nome [61]; // criando a sting do nome com máximo de 60 caracteres
      char senha1 [61]; // máximo de 60 caracteres 
      char senha2 [61]; // máximo de 60 caracteres 
-     int cpf;
+     char cpf [12]; // máximo de 11 caracteres
 
-     printf ("\tDigite o seu nome e sobrenome: ");
+     getchar(); // limpa o buffer pra iniciar
+
+     printf ("\n\tDigite o seu nome e sobrenome: ");
      fgets(nome, sizeof(nome), stdin); /* fgets funcina melhor que o scanf para pegar string (lê espaço). 
      sizeof é pra garantir que o fgtes n ultrapasse 60 caracteres. e o stdin define o fluxo de entrada padrão */
-    
+     nome [strcspn(nome, "\n")] = 0;// remove o \n da string
+
      printf ("\n\tDigite o seu cpf no formato (00000000000): "); // digitar cpf
-     scanf ("%d", &cpf);
+     scanf ("%s", &cpf);
 
-     do {
+     while (strlen(cpf) != 11) { // loop que lê o cpf vê se ele é igual ou diferente de 11
 
-         printf ("\n\tSeu CPF é inválido! Digite ele novamente: ");
-         scanf ("%d", &cpf);
+           printf ("\n\tSeu CPF é inválido! Digite ele novamente: ");
+              scanf ("%s", &cpf);
 
-     } while (contarNumeros(cpf) == 11);
+     }
 
 
      printf ("\n\tDigite a sua senha: ");
@@ -63,6 +54,9 @@ int main ( ){
              printf ("\n\tAs senhas são diferentes! Tente novamente.\n");
 
         } while(strcmp(senha1, senha2) !=0); // loop até as senhas serem iguais
+
+        fprintf (arquivo, "Nome: %s\nCPF: %s\nSenha: %s\n", nome, cpf, senha2); // escreve no arquivo
+        fclose (arquivo); // fecha o arquivo
 
      printf ("\t\nPárabens, você está logado!\n\n");
 
