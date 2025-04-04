@@ -8,7 +8,7 @@ struct paciente//Estrutura para guardar as infomrações
 
 };
 
-struct paciente paciente;//Inicializando a estrutura
+struct paciente paciente;//Inicializando uma estrutura
 
 int main(){
     int dia;int mes;int ano;
@@ -18,6 +18,9 @@ int main(){
     printf("Infome a data da consulta: (dia,mes,ano) ");scanf("%d %d %d",&dia,&mes,&ano);
     paciente.dia[0] = dia; paciente.dia[1] = mes; paciente.dia[2] = ano;
     //Lendo e colocando o dia, o mes e o ano dentro do vetor
+    
+
+
     printf("Horarios disponiveis: \n");
     printf("01 - 8:00\n02 - 10:00\n03 - 14:00\nR: "); scanf("%d",&paciente.horario);
     switch(paciente.horario){
@@ -30,6 +33,10 @@ int main(){
         case 03:
             paciente.horario = 14;
     }
+    
+
+
+
     fflush(stdin);//limpando a memoria do buffer
     printf("Informe o nome do médico: ");gets(paciente.nome);
 
