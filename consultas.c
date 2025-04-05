@@ -4,7 +4,8 @@
 
 
 int main ( ){
-
+  
+  printf ("\t===Consultas Médicas===\n");
   char logado;
   printf("\tVocê já tem conta no sistema? (s/n): ");
   scanf (" %c", &logado);
@@ -55,7 +56,7 @@ int main ( ){
 
         } while(strcmp(senha1, senha2) !=0); // loop até as senhas serem iguais
 
-        fprintf (arquivo, "Nome: %s\nCPF: %s\nSenha: %s\n", nome, cpf, senha2); // escreve no arquivo
+        fprintf (arquivo, "\nNome: %s\nCPF: %s\nSenha: %s\n", nome, cpf, senha2); // escreve no arquivo
         fclose (arquivo); // fecha o arquivo
 
      printf ("\t\nPárabens, você está logado!\n\n");
