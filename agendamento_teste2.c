@@ -18,7 +18,7 @@ int main(){
     
     
     
-    system("clear");//Limpando o terminal
+    system("cls");//Limpando o terminal
     printf("Infome a data da consulta: (dia,mes,ano)\n");scanf(" %d %d %d",&dia,&mes,&ano);
     paciente.dia[0] = dia; paciente.dia[1] = mes; paciente.dia[2] = ano;
     //Lendo e colocando o dia, o mes e o ano dentro do vetor
@@ -35,7 +35,7 @@ int main(){
             paciente.horario = 14;
     }
 
-    system("clear");
+    system("cls");
     printf("Escolha o médico responsável de acordo com o número:\n1. Paulo Roberto     /  Nutrólogo.\n2. José Moura        /  Cirurgião Geral.\n3. Rodrigo Coentrão  /  Urologista.\n4. Paula Pereira     /  Ginecologista.\n5. Fernanda Silva    /  Pediatra.\n6. Flavia Nunes      /  Ortopedista.\n7. Fabricio Mendes   /  Proctologista.\n8. Bruna Fernandes   /  Neurologista.\n9. Bruno Silva       /  Oftalmologista.\n10. Alex Jonas       /  Médico Clínico.\n");
   
     scanf( "%d", &medicos );

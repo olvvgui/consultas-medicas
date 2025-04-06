@@ -1,14 +1,15 @@
+#include <locale.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
 
 int main ( ){
-  
+
   printf ("\t===Consultas Médicas===\n");
   char logado;
   printf("\tVocê já tem conta no sistema? (s/n): ");
-  scanf (" %c", &logado);
+  scanf(" %c", &logado);
 
   if (logado == 'n') {
 
@@ -62,7 +63,5 @@ int main ( ){
      printf ("\t\nPárabens, você está logado!\n\n");
 
     }
-
-
 
 }

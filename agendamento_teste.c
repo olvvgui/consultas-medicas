@@ -10,7 +10,7 @@ struct paciente//Estrutura para guardar as infomrações
 
 struct paciente paciente;//Inicializando uma estrutura
 
-int main(){
+int main() {
     int dia;int mes;int ano;
     
     
@@ -26,10 +26,10 @@ int main(){
     switch(paciente.horario){
         case 01:
             paciente.horario = 8;
-            break;
+        break;
         case 02:
             paciente.horario = 10;
-            break;
+        break;
         case 03:
             paciente.horario = 14;
     }
@@ -46,3 +46,4 @@ int main(){
 
 
     return 0;
+}
