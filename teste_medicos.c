@@ -3,6 +3,7 @@
  int main(){
    int Medicos,Especialidade;
    char Nome_Medico[50];
+  //Pergunta e escaneia a especialidade medica desejada.
    printf("Selecione uma especialidade médica:\n1. Nutrólogo.\n2. Cirurgião Geral.\n3. Urologista.\n4. Ginecologista.\n5. Pediatra.\n6. Ortopedista.\n7. Proctologista.\n8. Neurologista\n9. Oftalmologista.\n10. Médico Clínico.\n");
    scanf( "%d", &Especialidade);
    while (Especialidade > 10 || Especialidade < 1)
@@ -10,6 +11,7 @@
     printf("Especialidade inválida, selecione uma especialidade médica:\n1. Nutrólogo.\n2. Cirurgião Geral.\n3. Urologista.\n4. Ginecologista.\n5. Pediatra.\n6. Ortopedista.\n7. Proctologista.\n8. Neurologista\n9. Oftalmologista.\n10. Médico Clínico.\n");
    scanf( "%d", &Especialidade);
    }
+  // Testes comparando a especialidade escolhida e o nome do médico.
    if(Especialidade == 1){
     printf("Nutrólogos disponíveis:\n1. Ricardo Nunes.\n2. Adriana Lima.\n ");
     scanf("%d",&Medicos);
@@ -241,6 +243,7 @@
         break;
     }
    }
+  //Imprime o médico e sua especialidade
    printf(" Medico escolhido = %s", Nome_Medico);
    return 0; 
 }
