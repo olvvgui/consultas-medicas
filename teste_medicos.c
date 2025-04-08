@@ -4,23 +4,23 @@
    int Medicos,Especialidade;
    char Nome_Medico[50];
   //Pergunta e escaneia a especialidade medica desejada.
-   printf("Selecione uma especialidade médica:\n1. Nutrólogo.\n2. Cirurgião Geral.\n3. Urologista.\n4. Ginecologista.\n5. Pediatra.\n6. Ortopedista.\n7. Proctologista.\n8. Neurologista\n9. Oftalmologista.\n10. Médico Clínico.\n");
+   printf("\nSelecione uma especialidade médica:\n1. Nutrólogo.\n2. Cirurgião Geral.\n3. Urologista.\n4. Ginecologista.\n5. Pediatra.\n6. Ortopedista.\n7. Proctologista.\n8. Neurologista\n9. Oftalmologista.\n10. Médico Clínico.\n\n");
    scanf( "%d", &Especialidade);
    while (Especialidade > 10 || Especialidade < 1)
    {
-    printf("Especialidade inválida, selecione uma especialidade médica:\n1. Nutrólogo.\n2. Cirurgião Geral.\n3. Urologista.\n4. Ginecologista.\n5. Pediatra.\n6. Ortopedista.\n7. Proctologista.\n8. Neurologista\n9. Oftalmologista.\n10. Médico Clínico.\n");
+    printf("\nEspecialidade inválida, selecione uma especialidade médica:\n1. Nutrólogo.\n2. Cirurgião Geral.\n3. Urologista.\n4. Ginecologista.\n5. Pediatra.\n6. Ortopedista.\n7. Proctologista.\n8. Neurologista\n9. Oftalmologista.\n10. Médico Clínico.\n\n");
    scanf( "%d", &Especialidade);
    }
   // Testes comparando a especialidade escolhida e o nome do médico.
    if(Especialidade == 1){
-    printf("Nutrólogos disponíveis:\n1. Ricardo Nunes.\n2. Adriana Lima.\n ");
+    printf("\nNutrólogos disponíveis:\n1. Ricardo Nunes.\n2. Adriana Lima.\n\n");
     scanf("%d",&Medicos);
     do
     {
         if (Medicos < 1 || Medicos > 2)
         {
-            printf("Médico inválido, Selecione Novamente\n");
-            printf("Nutrólogos disponíveis:\n1. Ricardo Nunes.\n2. Adriana Lima.\n ");
+            printf("\nMédico inválido, Selecione Novamente\n\n");
+            printf("\nNutrólogos disponíveis:\n1. Ricardo Nunes.\n2. Adriana Lima.\n\n");
     scanf("%d",&Medicos);
         }}while (Medicos < 1 || Medicos > 2);
     switch (Medicos)
@@ -36,14 +36,14 @@
     }
    }
    else if(Especialidade == 2){
-    printf("Cirurgiões Gerais disponíveis:\n1. Paula Ribeiro.\n2. Caio Luis.\n ");
+    printf("\nCirurgiões Gerais disponíveis:\n1. Paula Ribeiro.\n2. Caio Luis.\n\n");
     scanf("%d",&Medicos);
     do
     {
         if (Medicos < 1 || Medicos > 2)
         {   
-            printf("Médico inválido, Selecione Novamente\n");
-            printf("Cirurgiões Gerais disponíveis:\n1. Paula Ribeiro.\n2. Caio Luis.\n ");
+            printf("\nMédico inválido, Selecione Novamente\n\n");
+            printf("\nCirurgiões Gerais disponíveis:\n1. Paula Ribeiro.\n2. Caio Luis.\n\n");
     scanf("%d",&Medicos);
             
         }}while (Medicos < 1 || Medicos > 2);
@@ -60,14 +60,14 @@
     }
    }
    else if(Especialidade == 3){
-    printf("Urologistas disponíveis:\n1. Diego Fonseca.\n2. Paulo Goncalves.\n ");
+    printf("\nUrologistas disponíveis:\n1. Diego Fonseca.\n2. Paulo Goncalves.\n\n");
     scanf("%d",&Medicos);
     do
     {
         if (Medicos < 1 || Medicos > 2)
         {   
-            printf("Médico inválido, Selecione Novamente\n");
-            printf("Urologistas disponíveis:\n1. Diego Fonseca.\n2. Paulo Goncalves.\n ");
+            printf("\nMédico inválido, Selecione Novamente\n\n");
+            printf("\nUrologistas disponíveis:\n1. Diego Fonseca.\n2. Paulo Goncalves.\n\n");
     scanf("%d",&Medicos);
         }}while (Medicos < 1 || Medicos > 2);
     switch (Medicos)
@@ -83,14 +83,14 @@
     }
    }
    else if(Especialidade == 4){
-    printf("Ginecologistas disponíveis:\n1. Debora Novaes.\n2. Alice Xavier.\n ");
+    printf("\nGinecologistas disponíveis:\n1. Debora Novaes.\n2. Alice Xavier.\n\n");
     scanf("%d",&Medicos); 
     do
     {
         if (Medicos < 1 || Medicos > 2)
         {   
-            printf("Médico inválido, Selecione Novamente\n");
-            printf("Ginecologistas disponíveis:\n1. Debora Novaes.\n2. Alice Xavier.\n ");
+            printf("\nMédico inválido, Selecione Novamente\n\n");
+            printf("\nGinecologistas disponíveis:\n1. Debora Novaes.\n2. Alice Xavier.\n\n");
     scanf("%d",&Medicos);    
         }}while (Medicos < 1 || Medicos > 2);
     switch (Medicos)
@@ -106,14 +106,14 @@
     }
    }
    else if(Especialidade == 5){
-    printf("Pediatras disponíveis:\n1. Raiane Silva.\n2. Pedro Carvalho.\n ");
+    printf("\nPediatras disponíveis:\n1. Raiane Silva.\n2. Pedro Carvalho.\n\n");
     scanf("%d",&Medicos);   
     do
     {
         if (Medicos < 1 || Medicos > 2)
         {   
-            printf("Médico inválido, Selecione Novamente\n");
-            printf("Pediatras disponíveis:\n1. Raiane Silva.\n2. Pedro Carvalho.\n ");
+            printf("\nMédico inválido, Selecione Novamente\\nn");
+            printf("Pediatras disponíveis:\n1. Raiane Silva.\n2. Pedro Carvalho.\n\n");
     scanf("%d",&Medicos);    
         }}while (Medicos < 1 || Medicos > 2);
     switch (Medicos)
@@ -129,14 +129,14 @@
     }
    }
    else if(Especialidade == 6){
-    printf("Ortopedistas disponíveis:\n1. Cristina Pereira.\n2. Pietro Martins.\n ");
+    printf("\nOrtopedistas disponíveis:\n1. Cristina Pereira.\n2. Pietro Martins.\n\n");
     scanf("%d",&Medicos);
     do
     {
         if (Medicos < 1 || Medicos > 2)
         {   
-            printf("Médico inválido, Selecione Novamente\n");
-            printf("Ortopedistas disponíveis:\n1. Cristina Pereira.\n2. Pietro Martins.\n ");
+            printf("\nMédico inválido, Selecione Novamente\n\n");
+            printf("\nOrtopedistas disponíveis:\n1. Cristina Pereira.\n2. Pietro Martins.\n ");
             scanf("%d",&Medicos);
         }}while (Medicos < 1 || Medicos > 2);
     switch (Medicos)
@@ -152,14 +152,14 @@
     }
    }
    else if(Especialidade == 7){
-    printf("Proctologistas disponíveis:\n1. Ruan Pedro.\n2. Vitoria Farias.\n ");
+    printf("\nProctologistas disponíveis:\n1. Ruan Pedro.\n2. Vitoria Farias.\n\n");
     scanf("%d",&Medicos);  
     do
     {
         if (Medicos < 1 || Medicos > 2)
         {   
-            printf("Médico inválido, Selecione Novamente\n");
-            printf("Proctologistas disponíveis:\n1. Ruan Pedro.\n2. Vitoria Farias.\n ");
+            printf("\nMédico inválido, Selecione Novamente\n\n");
+            printf("\nProctologistas disponíveis:\n1. Ruan Pedro.\n2. Vitoria Farias.\n\n");
     scanf("%d",&Medicos);    
         }}while (Medicos < 1 || Medicos > 2);
     switch (Medicos)
@@ -175,14 +175,14 @@
     }
    }
    else if(Especialidade == 8){
-    printf("Neurologistas disponíveis:\n1. Vitor Junior.\n2. Francisca Gabrielle.\n ");
+    printf("\nNeurologistas disponíveis:\n1. Vitor Junior.\n2. Francisca Gabrielle.\n\n");
     scanf("%d",&Medicos); 
     do
     {
         if (Medicos < 1 || Medicos > 2)
         {   
-            printf("Médico inválido, Selecione Novamente\n");
-            printf("Neurologistas disponíveis:\n1. Vitor Junior.\n2. Francisca Gabrielle.\n ");
+            printf("\nMédico inválido, Selecione Novamente\n\n");
+            printf("\nNeurologistas disponíveis:\n1. Vitor Junior.\n2. Francisca Gabrielle.\n\n");
     scanf("%d",&Medicos);    
         }}while (Medicos < 1 || Medicos > 2);
     switch (Medicos)
@@ -198,14 +198,14 @@
     }
    }
    else if(Especialidade == 9){
-    printf("Oftalmologistas disponíveis:\n1. Francisco Coelho.\n2. Barbara Oliveira.\n ");
+    printf("\nOftalmologistas disponíveis:\n1. Francisco Coelho.\n2. Barbara Oliveira.\n\n");
     scanf("%d",&Medicos);
     do
     {
         if (Medicos < 1 || Medicos > 2)
         {   
-            printf("Médico inválido, Selecione Novamente\n");
-            printf("Oftalmologistas disponíveis:\n1. Francisco Coelho.\n2. Barbara Oliveira.\n ");
+            printf("\nMédico inválido, Selecione Novamente\n\n");
+            printf("\nOftalmologistas disponíveis:\n1. Francisco Coelho.\n2. Barbara Oliveira.\n\n");
     scanf("%d",&Medicos);    
         }}while (Medicos < 1 || Medicos > 2);
     switch (Medicos)
@@ -221,14 +221,14 @@
     }
    }
    else if(Especialidade == 10){
-    printf("Médicos Clínicos disponíveis:\n1. Ana Julia.\n2. Junior Moreira.\n ");
+    printf("\nMédicos Clínicos disponíveis:\n1. Ana Julia.\n2. Junior Moreira.\n\n");
     scanf("%d",&Medicos); 
     do
     {
         if (Medicos < 1 || Medicos > 2)
         {   
-            printf("Médico inválido, Selecione Novamente\n");
-            printf("Médicos Clínicos disponíveis:\n1. Ana Julia.\n2. Junior Moreira.\n ");
+            printf("\nMédico inválido, Selecione Novamente\n\n");
+            printf("\nMédicos Clínicos disponíveis:\n1. Ana Julia.\n2. Junior Moreira.\n\n");
     scanf("%d",&Medicos);    
         }}while (Medicos < 1 || Medicos > 2);
     switch (Medicos)
@@ -244,6 +244,6 @@
     }
    }
   //Imprime o médico e sua especialidade
-   printf(" Medico escolhido = %s", Nome_Medico);
+   printf("\nMedico escolhido = %s\n\n", Nome_Medico);
    return 0; 
 }
