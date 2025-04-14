@@ -1,6 +1,10 @@
+-- lider, selecionar quais tasks vao ser efetivadas
+
 Opção de redefinir ou voltar nos agendamentos (se eu tiver selecionado o errado);
 Não permitir que um cpf inexistente no cadastro efetue login - redirecionar para o menu inicial;
 Outras alterações anti shitting do usuário;
+Ao logar, separar um comando para exibir as consultas agendadas e outro para verficar se o usuário deseja agendar uma nova consulta
 
 Modularização do projeto??
+
 Adicionar alterações futuras aq;
