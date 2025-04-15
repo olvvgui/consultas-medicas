@@ -2,14 +2,11 @@
 #include <stdio.h>  // para printf, fgets, fopen, etc
 #include <string.h> // para manipulação de strings: strcmp, strtok, etc
 #include <stdlib.h> // para funções gerais (como exit, malloc, etc se usadas futuramente)
-
+#include "funcoes.c"
 // Essa função remove o '\n' que o fgets captura do teclado.
 // Exemplo: se você digita "joao", o fgets salva "joao\n", o que atrapalha a comparação.
 // Essa função localiza o '\n' e troca por '\0', o caractere de fim de string.
-void removerQuebraDeLinha(char *str)
-{
-    str[strcspn(str, "\n")] = '\0';
-}
+
 
 struct paciente // Estrutura para guardar as infomrações
 {
@@ -21,39 +18,13 @@ struct paciente // Estrutura para guardar as infomrações
 
 struct paciente paciente; // Inicializando uma estrutura
 
-void selecionar(char especialidade[50], char med1[50], char med2[50], char nome_medico[50])
-{
-    int escolha;
-    int medico;
-    printf("Escolha um %s:\n", especialidade);
-    printf("\n1. %s\n", med1);
-    printf("2. %s\n\n\tValor digitado: ", med2);
-    scanf("%d", &escolha);
-    while (escolha < 1 || escolha > 2)
-    {
-        printf("Opção inválida. Digite 1 ou 2.\n");
-        printf("Escolha um %s:\n", especialidade);
-        printf("1. %s\n", med1);
-        printf("2. %s\n", med2);
-        scanf("%d", &escolha);
-    }
-    switch (escolha)
-    {
-    case 1:
-        strcpy(nome_medico, med1);
-        break;
-    case 2:
-        strcpy(nome_medico, med2);
-        break;
-    }
-}
 
 int main()
 {
 
-    printf("\t=== Consultas Médicas ===\n");
+    printf("\t=== Consultas Medicas ===\n");
     char logado;
-    printf("\tVocê já tem conta no sistema? (s/n): ");
+    printf("\tVoce ja tem conta no sistema? (s/n): ");
     scanf(" %c", &logado);
 
     char nome[61];   // criando a sting do nome com máximo de 60 caracteres
@@ -78,7 +49,7 @@ int main()
 
         printf("\n\tDigite o seu nome e sobrenome: ");
         fgets(nome, sizeof(nome), stdin); /* fgets funcina melhor que o scanf para pegar string (lê espaço).
-        sizeof é pra garantir que o fgtes n ultrapasse 60 caracteres. e o stdin define o fluxo de entrada padrão */
+        sizeof é pra garantir que o fgts n ultrapasse 60 caracteres. e o stdin define o fluxo de entrada padrão */
         nome[strcspn(nome, "\n")] = 0;    // remove o \n da string
 
         printf("\n\tDigite o seu cpf no formato (00000000000): "); // digitar cpf
@@ -112,11 +83,11 @@ int main()
         fprintf(arquivo, "%s;%s;%s;\n", cpf, nome, senha2); // escreve no arquivo
         fclose(arquivo);                                    // fecha o arquivo
 
-        printf("\t\nPárabens, você está logado!\n\n");
+        printf("\t\nParabens, voce está logado!\n\n");
     }
 
-    FILE *arquivo = fopen("cadastro.txt", "r");
-    if (arquivo == NULL)
+    FILE *arquivo = fopen("cadastro.txt", "r"); //abre o arquivo no modo leitura
+    if (arquivo == NULL) //se o arquivo nao existir?
     {
         printf("\n\tErro: não foi possível abrir o arquivo de usuários.\n");
         return 1; // encerra o programa com erro
@@ -194,7 +165,7 @@ int main()
     scanf("%d", &especialidade);
     while (especialidade > 5 || especialidade < 1)
     {
-        printf("\nEspecialidade inválida,selecione uma especialidade médica:\n1. Nutrólogo.\n2. Pediatra.\n3. Ortopedista.\n4. Neurologista.\n5. Oftalmologista.\n");
+        printf("\nEspecialidade inválida, selecione uma especialidade médica:\n1. Nutrólogo.\n2. Pediatra.\n3. Ortopedista.\n4. Neurologista.\n5. Oftalmologista.\n");
 
         printf("\nDigite o número da especialidade desejada: ");
             scanf("%d", &especialidade);
@@ -229,8 +200,7 @@ int main()
     getchar();
 
     // aloca os dados da consulta agendada pelo paciente
-    int dia, mes, ano, hora, medicos; // declaracao de variaveis
-    int i;                            // contador do loop
+    int dia, mes, ano, hora; // declaracao de variaveis // contador do loop
 
     // char confirmacao[3];
 
@@ -251,18 +221,22 @@ int main()
     {
     case 01:
         paciente.horario = 8;
-
+        break;
     case 02:
-        paciente.horario = 10; // nao usar break
-
+        paciente.horario = 10;
+        break;
     case 03:
         paciente.horario = 14;
+        break;
+
+    default:
+        paciente.horario = 0;
 
     } // aloca o horario escolhido pelo paciente na struct
 
     printf("\n\nDia: %02d/%02d/%d\nHorario: %d:00\n", paciente.dia[0], paciente.dia[1], paciente.dia[2], paciente.horario, paciente.nome);
     printf("Medico escolhido = %s\n", nome_medico);
 
-    printf("\n\tConsulta agendada com sucesso!\n\n");
+    printf("\n\tConsulta agendada com sucesso!\n");
     return 0; // encerra o programa com sucesso
 }
