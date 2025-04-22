@@ -54,7 +54,7 @@ int main()
 
         printf("\n\tDigite o seu cpf no formato (00000000000): "); // digitar cpf
         getchar();                                                 // limpa o buffer pra iniciar
-        fgets(cpf, sizeof(cpf), stdin);
+        scanf("%s", &cpf);
 
         while (strlen(cpf) != 11)
         { // loop que lê o cpf vê se ele é igual ou diferente de 11
@@ -80,82 +80,98 @@ int main()
         removerQuebraDeLinha(nome);
         removerQuebraDeLinha(senha2);
 
-        fprintf(arquivo, "%s;%s;%s;\n", cpf, nome, senha2); // escreve no arquivo
+        fprintf(arquivo, "%s;%s;%s\n", cpf, nome, senha2); // escreve no arquivo
         fclose(arquivo);                                    // fecha o arquivo
 
         printf("\t\nParabens, voce está logado!\n\n");
     }
 
-    FILE *arquivo = fopen("cadastro.txt", "r"); //abre o arquivo no modo leitura
-    if (arquivo == NULL) //se o arquivo nao existir?
-    {
-        printf("\n\tErro: não foi possível abrir o arquivo de usuários.\n");
-        return 1; // encerra o programa com erro
-    }
-
-    // Variáveis para armazenar o que o usuário vai digitar
-    char cpfDigitado[12];
-    char senhaDigitada[61];
-
-    // Linha lida do arquivo e controle do login
-    char linha[200];
-    int loginRealizado = 0;
-
     printf("\n\t\t=== LOGIN ===");
 
-    // Limpeza mais robusta do buffer de entrada
     int c;
     while ((c = getchar()) != '\n' && c != EOF)
-        ; // Limpa todo o buffer
+        ;
 
-    // Entrada do nome de usuário
-    printf("\n\tDigite o seu CPF: ");
-    getchar();                                      // Limpa o buffer de entrada antes de usar fgets
-    fgets(cpfDigitado, sizeof(cpfDigitado), stdin); // lê com segurança
-    removerQuebraDeLinha(cpfDigitado);              // remove \n
-
-    // Entrada da senha
-    printf("\n\tSenha: ");
-    fgets(senhaDigitada, sizeof(senhaDigitada), stdin); // lê com segurança
-    removerQuebraDeLinha(senhaDigitada);                // remove \n
-
-    // Abre o arquivo de usuários para leitura
-
-    // Lê o arquivo linha por linha
-    while (fgets(linha, sizeof(linha), arquivo))
+    while (1)
     {
 
-        removerQuebraDeLinha(linha); // remove \n da linha lida
+        // Variáveis para armazenar o que o usuário vai digitar
+        char cpfDigitado[12];
+        char senhaDigitada[61];
+        char linha[1200]; // Linha lida do arquivo e controle do login
+        int loginRealizado = 0;
 
-        // Usa strtok para separar a string em partes: cpf, nome e senha
-        // strtok divide a string onde encontra ';'
-        char *cpf = strtok(linha, ";");
-        char *nome = strtok(NULL, ";");
-        char *senha2 = strtok(NULL, ";");
+        printf("\n\tDigite o seu CPF (ou digite 'sair' para fechar o programa): ");
+        scanf("%s", cpfDigitado);
+        removerQuebraDeLinha(cpfDigitado);
 
-        // Verifica se ambas partes foram lidas com sucesso
-        if (cpf != NULL && senha2 != NULL && nome != NULL)
+        if (strcmp(cpfDigitado, "sair") == 0)
+        {
+            printf("\n\tFechando...");
+            return 0;
+            break;
+        }
+
+        FILE *arquivo = fopen("cadastro.txt", "r");
+        if (arquivo == NULL)
+        {
+            printf("\n\tErro: não foi possível abrir o arquivo de usuários.\n");
+            return 1; // encerra o programa com erro
+        }
+
+        while (fgets(linha, sizeof(linha), arquivo) != NULL)
         {
 
-            // Compara os dados digitados com os do arquivo
-            // strcmp retorna 0 se as strings forem iguais
+            sscanf(linha, "%[^;];%[^;];%s", cpf, nome, senha2); // escaneia a formatação
 
-            if (strcmp(cpfDigitado, cpf) == 0 &&
-                strcmp(senhaDigitada, senha2) == 0)
+            removerQuebraDeLinha(senha2);
+
+            if (sscanf(linha, "%[^;];%[^;];%s", cpf, nome, senha2) != 3)
             {
-                loginRealizado = 1; // marca como sucesso
-                printf("\n\tLogin bem-sucedido! Bem-vindo, %s.", nome);
-                break; // para a leitura do arquivo
+                printf("\n\tErro ao processar linha do arquivo.");
+                continue;
+            }
+
+            if (strcmp(cpfDigitado, cpf) == 0) // busca o cpf
+            {
+                loginRealizado = 1;
+                break; // retorna 1 quando achado
             }
         }
-    }
+        fclose(arquivo); // fecha o arquivo
 
-    fclose(arquivo); // fecha o arquivo
+        if (loginRealizado)
+        {
 
-    // Verifica se o login foi realizado com sucesso
-    if (!loginRealizado)
-    {
-        printf("\n\tUsuário ou senha incorretos.");
+            while (1)
+            { // Entrada da senha
+
+                printf("\n\tSenha: ");
+                scanf("%s", senhaDigitada);
+                removerQuebraDeLinha(senhaDigitada);
+
+                
+
+                // Compara os dados digitados com os do arquivo. Strcmp retorna 0 se as strings forem iguais
+
+                if (strcmp(senhaDigitada, senha2) == 0)
+                {
+
+                    printf("\n\tLogin bem-sucedido! Bem-vindo, %s.", nome);
+
+                    break; // para a leitura do arquivo
+                }
+
+                else
+                {
+                    printf("\n\tSenha incorreta! Tente novamente.");
+                }
+            }
+            break;
+        }
+
+        else
+            printf("\n\tCPF incorreto! Tente novamente.");
     }
 
     int especialidade;
