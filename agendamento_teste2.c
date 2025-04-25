@@ -12,7 +12,8 @@ struct paciente//Estrutura para guardar as infomrações
 };
 
 struct paciente paciente; //Inicializando uma estrutura
-void verificaHorario(int *);
+void verificarHorario(int *);
+void verificaData(int *);
 
 
 int main(){ //aloca os dados da consulta agendada pelo paciente
@@ -26,13 +27,15 @@ int main(){ //aloca os dados da consulta agendada pelo paciente
     printf("Informe a data da consulta: (dia,mes,ano)\n"); scanf(" %d %d %d", &dia, &mes, &ano);
     paciente.dia[0] = dia; paciente.dia[1] = mes; paciente.dia[2] = ano;
 
+    verificaData(paciente.dia);
+
     //Lendo e colocando o dia, o mes e o ano dentro do vetor
     printf("Horarios disponiveis: \n");
     printf("01 - 8:00\n02 - 10:00\n03 - 14:00\nR: "); scanf("%d", &*hora);
 
     verificarHorario(hora);//verifica se o horário é valido
 
-    switch (hora) {
+    switch (*hora) {
         case 01:
             paciente.horario = 8;
 
@@ -68,6 +71,11 @@ int main(){ //aloca os dados da consulta agendada pelo paciente
 
 void verificarHorario(int *escolha){
     while(*escolha!=1 && *escolha!=2 && *escolha!=3){
-        printf("Horário inválido. Escolha novamente: "); scanf("%d", &*escolha);
+        printf("Horario invalido. Tente novamente: "); scanf("%d", &*escolha);
+    }
+}
+void verificaData(int dta[3]){
+    while(dta[0]>31 || dta[1]>12 || dta[2]<2025){
+        printf("Data invalida. Tente novamente: (dia,mes,ano)\n"); scanf("%d %d %d",&dta[0],&dta[1],&dta[2]);
     }
 }
