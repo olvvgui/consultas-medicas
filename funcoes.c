@@ -45,10 +45,10 @@ void verificaHorario(int *escolha){
         printf("Horario invalido. Tente novamente: ");scanf("%d",&*escolha);
     }
 void lembrete(int *dia,int hora,char *nome){
-    for(int i = 0;i<3;i++){
-        sleep(10);
+    for(int i = 0;i<3;i++){//Mostra a mensagem 3 vezes
+        sleep(10);//Tempo decorrido até aparecer a mensagem
         printf("LEMBRETE\nConsulta dia %02d/%02d/%d as %d:00\nMedico: %s\nAtt. Hospital\n",
             dia[0],dia[1],dia[2],hora,nome);
-        system("pause");
-        system("cls");
+        system("pause");//presisonar qualquer tecla para fechar a mensagem
+        system("cls");//limpar a tela
     }
