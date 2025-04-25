@@ -7,16 +7,18 @@
 // Exemplo: se você digita "joao", o fgets salva "joao\n", o que atrapalha a comparação.
 // Essa função localiza o '\n' e troca por '\0', o caractere de fim de string.
 
-
-struct paciente // Estrutura para guardar as infomrações
+struct dados_paciente // Estrutura para guardar as informações
 {
     int dia[3];
     int horario;
     char nome[61];
     char obs[100];
+    char medico[100];
 };
 
-struct paciente paciente; // Inicializando uma estrutura
+struct dados_paciente paciente; // Inicializando uma estrutura
+
+void ler_dados_agendamento();
 
 
 int main()
@@ -27,7 +29,7 @@ int main()
     printf("\tVoce ja tem conta no sistema? (s/n): ");
     scanf(" %c", &logado);
 
-    char nome[61];   // criando a sting do nome com máximo de 60 caracteres
+    char nome[61];   // criando a string do nome com máximo de 60 caracteres
     char senha1[61]; // máximo de 60 caracteres
     char senha2[61]; // máximo de 60 caracteres
     char cpf[12];    // máximo de 11 caracteres
@@ -43,7 +45,7 @@ int main()
             return 1; // fecha o programa se o arquivo não abrir
         }
 
-        printf("\n\t\t=== SING IN ===\n");
+        printf("\n\t\t=== SIGN IN ===\n");
 
         getchar(); // limpa o buffer pra iniciar
 
@@ -51,6 +53,7 @@ int main()
         fgets(nome, sizeof(nome), stdin); /* fgets funcina melhor que o scanf para pegar string (lê espaço).
         sizeof é pra garantir que o fgts n ultrapasse 60 caracteres. e o stdin define o fluxo de entrada padrão */
         nome[strcspn(nome, "\n")] = 0;    // remove o \n da string
+        strcpy(paciente.nome,nome);
 
         printf("\n\tDigite o seu cpf no formato (00000000000): "); // digitar cpf
         getchar();                                                 // limpa o buffer pra iniciar
@@ -174,6 +177,7 @@ int main()
             printf("\n\tCPF incorreto! Tente novamente.");
     }
 
+
     int especialidade;
     char nome_medico[50];
     // Pergunta e escaneia a especialidade medica desejada.
@@ -212,9 +216,7 @@ int main()
         selecionar("Oftalmologista", "Dr. Thiago Fernandes", "Dra. Tatiane Gomes", nome_medico);
         printf("Médico(a) selecionado(a): %s", nome_medico);
     }
-
-    getchar();
-
+    strcpy(paciente.medico,nome_medico);
     // aloca os dados da consulta agendada pelo paciente
     int dia, mes, ano, hora; // declaracao de variaveis // contador do loop
 
@@ -249,10 +251,35 @@ int main()
         paciente.horario = 0;
 
     } // aloca o horario escolhido pelo paciente na struct
+    // Pergunta se deseja adicionar alguma observacao e salva o que foi digitado.
+    printf("Adicione alguma observacao: \n");
+    getchar();
+    fgets(paciente.obs, sizeof(paciente.obs), stdin);
+    paciente.obs[strcspn(paciente.obs, "\n")] = 0;
 
-    printf("\n\nDia: %02d/%02d/%d\nHorario: %d:00\n", paciente.dia[0], paciente.dia[1], paciente.dia[2], paciente.horario, paciente.nome);
-    printf("Medico escolhido = %s\n", nome_medico);
+    // Salva os dados obtidos no arquivo dados_clientes.bin.
+    FILE *salvar_dados = fopen("dados_clientes.bin","ab");
+    fwrite(&paciente,sizeof(struct dados_paciente),1,salvar_dados);
+    fclose(salvar_dados);
 
-    printf("\n\tConsulta agendada com sucesso!\n");
+    printf("\n\tConsulta agendada com sucesso!\n\n");
+
+    // Funcao para ler todos os dados adicionados.
+    ler_dados_agendamento();
+    
     return 0; // encerra o programa com sucesso
+    
+}
+ // Funcao temporaria para ler todos os dados salvos no arquivo.
+void ler_dados_agendamento(){
+    // Funcao que le todos os dados contidos no arquivo dados_clientes.bin.
+    FILE *ler_dados_agendados = fopen("dados_clientes.bin","rb");
+    while (fread(&paciente,sizeof(struct dados_paciente), 1, ler_dados_agendados) == 1){
+         printf("Dia: %02d/%02d/%d\n",paciente.dia[0], paciente.dia[1], paciente.dia[2]);
+         printf("Horario: %02d:00\n",paciente.horario);
+         printf("Medico: %s\n",paciente.medico);
+         printf("Observacao: %s\n",paciente.obs);
+
+    }
+fclose(ler_dados_agendados);
 }
