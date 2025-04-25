@@ -1,6 +1,8 @@
 #include "funcoes.h"
 #include <string.h>
 #include <stdio.h>
+#include <unistd.h>
+
 
 void selecionar(char selecao[50], char med1[50], char med2[50], char nome_medico[50])
 {
@@ -41,4 +43,12 @@ void verificaData(int dta[3]){
 void verificaHorario(int *escolha){
     while(*escolha != 1 && *escolha != 2 && escolha != 3){
         printf("Horario invalido. Tente novamente: ");scanf("%d",&*escolha);
+    }
+void lembrete(int *dia,int hora,char *nome){
+    for(int i = 0;i<3;i++){
+        sleep(10);
+        printf("LEMBRETE\nConsulta dia %02d/%02d/%d as %d:00\nMedico: %s\nAtt. Hospital\n",
+            dia[0],dia[1],dia[2],hora,nome);
+        system("pause");
+        system("cls");
     }
