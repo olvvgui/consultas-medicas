@@ -12,9 +12,11 @@ struct paciente//Estrutura para guardar as infomrações
 };
 
 struct paciente paciente; //Inicializando uma estrutura
+void verificaHorario(int *);
+
 
 int main(){ //aloca os dados da consulta agendada pelo paciente
-    int dia, mes, ano, hora, medicos; //declaracao de variaveis
+    int dia, mes, ano, hora = &paciente.horario, medicos; //declaracao de variaveis
     int i; // contador do loop
 
     //char confirmacao[3];
@@ -26,7 +28,9 @@ int main(){ //aloca os dados da consulta agendada pelo paciente
 
     //Lendo e colocando o dia, o mes e o ano dentro do vetor
     printf("Horarios disponiveis: \n");
-    printf("01 - 8:00\n02 - 10:00\n03 - 14:00\nR: "); scanf("%d", &hora);
+    printf("01 - 8:00\n02 - 10:00\n03 - 14:00\nR: "); scanf("%d", &*hora);
+
+    verificarHorario(hora);//verifica se o horário é valido
 
     switch (hora) {
         case 01:
@@ -57,6 +61,13 @@ int main(){ //aloca os dados da consulta agendada pelo paciente
     strcpy(paciente.nome, meds[medicos - 1]);
 
     printf("\nDia: %02d/%02d/%d\nHorario: %d:00\nMedico: %s \nEspecialidade: %s\n", paciente.dia[0], paciente.dia[1], paciente.dia[2], paciente.horario, paciente.nome, espec[medicos - 1]);
-
+    
     return 0;
+}
+
+
+void verificarHorario(int *escolha){
+    while(*escolha!=1 && *escolha!=2 && *escolha!=3){
+        printf("Horário inválido. Escolha novamente: "); scanf("%d", &*escolha);
+    }
 }
