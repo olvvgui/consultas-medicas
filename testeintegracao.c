@@ -20,7 +20,6 @@ struct dados_paciente paciente; // Inicializando uma estrutura
 
 void ler_dados_agendamento();
 
-
 int main()
 {
 
@@ -53,11 +52,11 @@ int main()
         fgets(nome, sizeof(nome), stdin); /* fgets funcina melhor que o scanf para pegar string (lê espaço).
         sizeof é pra garantir que o fgts n ultrapasse 60 caracteres. e o stdin define o fluxo de entrada padrão */
         nome[strcspn(nome, "\n")] = 0;    // remove o \n da string
-        strcpy(paciente.nome,nome);
+        strcpy(paciente.nome, nome);
 
-        printf("\n\tDigite o seu cpf no formato (00000000000): "); // digitar cpf
-        getchar();                                                 // limpa o buffer pra iniciar
+        printf("\n\tDigite o seu cpf no formato (00000000000): "); // digitar cpf                                             // limpa o buffer pra iniciar
         scanf("%s", &cpf);
+        removerQuebraDeLinha(cpf);
 
         while (strlen(cpf) != 11)
         { // loop que lê o cpf vê se ele é igual ou diferente de 11
@@ -84,7 +83,7 @@ int main()
         removerQuebraDeLinha(senha2);
 
         fprintf(arquivo, "%s;%s;%s\n", cpf, nome, senha2); // escreve no arquivo
-        fclose(arquivo);                                    // fecha o arquivo
+        fclose(arquivo);                                   // fecha o arquivo
 
         printf("\t\nParabens, voce está logado!\n\n");
     }
@@ -153,8 +152,6 @@ int main()
                 scanf("%s", senhaDigitada);
                 removerQuebraDeLinha(senhaDigitada);
 
-                
-
                 // Compara os dados digitados com os do arquivo. Strcmp retorna 0 se as strings forem iguais
 
                 if (strcmp(senhaDigitada, senha2) == 0)
@@ -177,7 +174,6 @@ int main()
             printf("\n\tCPF incorreto! Tente novamente.");
     }
 
-
     int especialidade;
     char nome_medico[50];
     // Pergunta e escaneia a especialidade medica desejada.
@@ -188,7 +184,7 @@ int main()
         printf("\nEspecialidade inválida, selecione uma especialidade médica:\n1. Nutrólogo.\n2. Pediatra.\n3. Ortopedista.\n4. Neurologista.\n5. Oftalmologista.\n");
 
         printf("\nDigite o número da especialidade desejada: ");
-            scanf("%d", &especialidade);
+        scanf("%d", &especialidade);
     }
     // Testes comparando a especialidade escolhida e o nome do médico.
     if (especialidade == 1)
@@ -216,7 +212,7 @@ int main()
         selecionar("Oftalmologista", "Dr. Thiago Fernandes", "Dra. Tatiane Gomes", nome_medico);
         printf("Médico(a) selecionado(a): %s", nome_medico);
     }
-    strcpy(paciente.medico,nome_medico);
+    strcpy(paciente.medico, nome_medico);
     // aloca os dados da consulta agendada pelo paciente
     int dia, mes, ano, hora; // declaracao de variaveis // contador do loop
 
@@ -258,28 +254,28 @@ int main()
     paciente.obs[strcspn(paciente.obs, "\n")] = 0;
 
     // Salva os dados obtidos no arquivo dados_clientes.bin.
-    FILE *salvar_dados = fopen("dados_clientes.bin","ab");
-    fwrite(&paciente,sizeof(struct dados_paciente),1,salvar_dados);
+    FILE *salvar_dados = fopen("dados_clientes.bin", "ab");
+    fwrite(&paciente, sizeof(struct dados_paciente), 1, salvar_dados);
     fclose(salvar_dados);
 
     printf("\n\tConsulta agendada com sucesso!\n\n");
 
     // Funcao para ler todos os dados adicionados.
     ler_dados_agendamento();
-    
-    return 0; // encerra o programa com sucesso
-    
-}
- // Funcao temporaria para ler todos os dados salvos no arquivo.
-void ler_dados_agendamento(){
-    // Funcao que le todos os dados contidos no arquivo dados_clientes.bin.
-    FILE *ler_dados_agendados = fopen("dados_clientes.bin","rb");
-    while (fread(&paciente,sizeof(struct dados_paciente), 1, ler_dados_agendados) == 1){
-         printf("Dia: %02d/%02d/%d\n",paciente.dia[0], paciente.dia[1], paciente.dia[2]);
-         printf("Horario: %02d:00\n",paciente.horario);
-         printf("Medico: %s\n",paciente.medico);
-         printf("Observacao: %s\n",paciente.obs);
 
+    return 0; // encerra o programa com sucesso
+}
+// Funcao temporaria para ler todos os dados salvos no arquivo.
+void ler_dados_agendamento()
+{
+    // Funcao que le todos os dados contidos no arquivo dados_clientes.bin.
+    FILE *ler_dados_agendados = fopen("dados_clientes.bin", "rb");
+    while (fread(&paciente, sizeof(struct dados_paciente), 1, ler_dados_agendados) == 1)
+    {
+        printf("Dia: %02d/%02d/%d\n", paciente.dia[0], paciente.dia[1], paciente.dia[2]);
+        printf("Horario: %02d:00\n", paciente.horario);
+        printf("Medico: %s\n", paciente.medico);
+        printf("Observacao: %s\n", paciente.obs);
     }
-fclose(ler_dados_agendados);
+    fclose(ler_dados_agendados);
 }
