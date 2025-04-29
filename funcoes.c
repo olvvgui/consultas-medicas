@@ -52,7 +52,7 @@ void lembrete(int *dia,int hora,char *nome) {
         sleep(10);//Tempo decorrido até aparecer a mensagem
         printf("LEMBRETE\nConsulta dia %02d/%02d/%d as %d:00\nMedico: %s\nAtt. Hospital\n",
             dia[0],dia[1],dia[2],hora,nome);
-        system("pause");//presisonar qualquer tecla para fechar a mensagem
-        system("cls");//limpar a tela
+        //system("pause");//presisonar qualquer tecla para fechar a mensagem
+        //system("cls");//limpar a tela
     }
 }

@@ -3,7 +3,7 @@
 #include <stdio.h>  // para printf, fgets, fopen, etc
 #include <string.h> // para manipulação de strings: strcmp, strtok, etc
 #include <stdlib.h> // para funções gerais (como exit, malloc, etc se usadas futuramente)
-#include "funcoes.h"
+#include "funcoes.c"
 // Essa função remove o '\n' que o fgets captura do teclado.
 // Exemplo: se você digita "joao", o fgets salva "joao\n", o que atrapalha a comparação.
 // Essa função localiza o '\n' e troca por '\0', o caractere de fim de string.
@@ -162,45 +162,41 @@ int main()
         printf("\n\tUsuário ou senha incorretos.");
     }
     
-    int especialidade;
-    char nome_medico[50];
+    char *espec[10] = {"Clinica", "Pediatria", "Ginecologia", "Cardiologia", "Dermatologia", "Neurologia", "Ortopedia", "Psiquiatria", "Oftalmologia", "Oncologia"};
     // Pergunta e escaneia a especialidade medica desejada.
-    printf("\nSelecione uma especialidade médica:\n1. Nutrólogo.\n2. Pediatra.\n3. Ortopedista.\n4. Neurologista.\n5. Oftalmologista.\n\n\tValor Digitado: ");
-    scanf("%d", &especialidade);
-    while (especialidade > 5 || especialidade < 1)
-    {
-        printf("\nEspecialidade inválida, selecione uma especialidade médica:\n1. Nutrólogo.\n2. Pediatra.\n3. Ortopedista.\n4. Neurologista.\n5. Oftalmologista.\n");
 
-        printf("\nDigite o número da especialidade desejada: ");
-            scanf("%d", &especialidade);
+
+    for (int i = 0; i < 10; i++) {
+
+        if (i == 0)
+            printf("Selecione a especialidade: ");
+
+        printf("\n%d - %s", i + 1 , espec[i]);
+
+
     }
+    scanf("%d", &espec);
+
+
     // Testes comparando a especialidade escolhida e o nome do médico.
-    if (especialidade == 1)
-    {
-        selecionar("Nutrólogo", "Dr. Renato Nunes", "Dra. Amanda Pinheiro", nome_medico);
-        printf("Médico(a) selecionado(a): %s", nome_medico);
+
+    char *medicos[10] = {"Joao", "Medina", "Carlos", "Socrates", "Arnaldo", "Braulio", "Ulisses", "Laura", "Eneida", "Maria"};
+
+
+    for (int i = 0; i < 10; i++) {
+
+        if (i == 0)
+            printf("Selecione: ");
+
+        printf("\n%s - %s", medicos[i]);
+
+
     }
-    else if (especialidade == 2)
-    {
-        selecionar("Pediatra", "Dr. João Silva", "Dra. Julia Paes", nome_medico);
-        printf("Médico(a) selecionado(a): %s", nome_medico);
-    }
-    else if (especialidade == 3)
-    {
-        selecionar("Ortopedista", "Dr. Paulo Junior", "Dra. Flávia Ribeiro", nome_medico);
-        printf("Médico(a) selecionado(a): %s", nome_medico);
-    }
-    else if (especialidade == 4)
-    {
-        selecionar("Neurologista", "Dr. Pedro Guimaraes", "Dra. Carla Barros", nome_medico);
-        printf("Médico(a) selecionado(a): %s", nome_medico);
-    }
-    else if (especialidade == 5)
-    {
-        selecionar("Oftalmologista", "Dr. Thiago Fernandes", "Dra. Tatiane Gomes", nome_medico);
-        printf("Médico(a) selecionado(a): %s", nome_medico);
-    }
-    strcpy(paciente.medico,nome_medico);
+    int nome_med;
+    scanf("%d", &nome_med);
+
+    strcpy(paciente.medico, medicos[nome_med + 1]);
+    printf("Medico selecionado: %s!", medicos[nome_med + 1]);
     // aloca os dados da consulta agendada pelo paciente
     int dia, mes, ano, hora; // declaracao de variaveis // contador do loop
 
