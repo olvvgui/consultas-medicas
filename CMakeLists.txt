@@ -6,4 +6,6 @@ set(CMAKE_C_STANDARD 99)
 add_executable(ProjetoFinal
         testeintegracao.c
         funcoes.c
+        Teste_integracao_2.c
+        funcoes.h
 )
