@@ -60,23 +60,23 @@ int main()
         strcpy(paciente.nome, nome);
 
         printf("\n\tDigite o seu cpf no formato (00000000000): "); // digitar cpf                                             // limpa o buffer pra iniciar
-        scanf("%s", &cpf);
+        scanf("%s", cpf);
         removerQuebraDeLinha(cpf);
 
         while (strlen(cpf) != 11)
         { // loop que lê o cpf vê se ele é igual ou diferente de 11
 
             printf("\n\tSeu CPF é inválido! Digite ele novamente: ");
-            scanf("%s", &cpf);
+            scanf("%s", cpf);
         }
 
         printf("\n\tDigite a sua senha: ");
-        scanf("%s", &senha1);
+        scanf("%s", senha1);
 
         do
         {
             printf("\n\tDigite sua senha novamente: ");
-            scanf("%s", &senha2); // verificar senha
+            scanf("%s", senha2); // verificar senha
 
             if (strcmp(senha1, senha2) != 0) // o terminal imprime essa frase quando as senhas são diferentes
                 printf("\n\tAs senhas são diferentes! Tente novamente.\n");
@@ -84,7 +84,7 @@ int main()
         } while (strcmp(senha1, senha2) != 0); // loop até as senhas serem iguais
 
         printf("\n\tDigite a sua idade: ");
-        scanf("%s", &idade);
+        scanf("%s", idade);
 
         removerQuebraDeLinha(cpf);
         removerQuebraDeLinha(nome);
