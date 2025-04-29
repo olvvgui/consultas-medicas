@@ -14,6 +14,7 @@ struct dados_paciente // Estrutura para guardar as informações
     char nome[61];
     char obs[100];
     char medico[100];
+
 };
 
 struct dados_paciente paciente; // Inicializando uma estrutura
@@ -136,7 +137,7 @@ int main()
 
             removerQuebraDeLinha(senha2);
 
-            if (sscanf(linha, "%[^;];%[^;];%[^;];%s", cpf, nome, senha2, idade) != 4)
+            if (sscanf(linha, "%[^;];%[^;]; %[^;]; %s", cpf, nome, senha2, idade) != 4)
             {
                 printf("\n\tErro ao processar linha do arquivo.");
                 continue;
@@ -182,45 +183,29 @@ int main()
             printf("\n\tCPF incorreto! Tente novamente.");
     }
 
-    int especialidade;
-    char nome_medico[50];
+    char *espec[10] = {"Clinica", "Pediatria", "Ginecologia", "Cardiologia", "Dermatologia", "Neurologia", "Ortopedia", "Psiquiatria", "Oftalmologia", "Oncologia"};
+    char *medicos[10] = {"Joao", "Medina", "Carlos", "Socrates", "Arnaldo", "Braulio", "Ulisses", "Laura", "Eneida", "Maria"};
     // Pergunta e escaneia a especialidade medica desejada.
-    printf("\nSelecione uma especialidade médica:\n1. Nutrólogo.\n2. Pediatra.\n3. Ortopedista.\n4. Neurologista.\n5. Oftalmologista.\n\n\tValor Digitado: ");
-    scanf("%d", &especialidade);
-    while (especialidade > 5 || especialidade < 1)
-    {
-        printf("\nEspecialidade inválida, selecione uma especialidade médica:\n1. Nutrólogo.\n2. Pediatra.\n3. Ortopedista.\n4. Neurologista.\n5. Oftalmologista.\n");
 
-        printf("\nDigite o número da especialidade desejada: ");
-        scanf("%d", &especialidade);
+
+    for (int i = 0; i < 10; i++) {
+
+        if (i == 0)
+            printf("\nSelecione o medico: ");
+
+        printf("\n%d. %s - %s", i + 1, medicos[i] , espec[i]);
+
+
     }
+    printf("\n");
     // Testes comparando a especialidade escolhida e o nome do médico.
-    if (especialidade == 1)
-    {
-        selecionar("Nutrólogo", "Dr. Renato Nunes", "Dra. Amanda Pinheiro", nome_medico);
-        printf("Médico(a) selecionado(a): %s", nome_medico);
-    }
-    else if (especialidade == 2)
-    {
-        selecionar("Pediatra", "Dr. João Silva", "Dra. Julia Paes", nome_medico);
-        printf("Médico(a) selecionado(a): %s", nome_medico);
-    }
-    else if (especialidade == 3)
-    {
-        selecionar("Ortopedista", "Dr. Paulo Junior", "Dra. Flávia Ribeiro", nome_medico);
-        printf("Médico(a) selecionado(a): %s", nome_medico);
-    }
-    else if (especialidade == 4)
-    {
-        selecionar("Neurologista", "Dr. Pedro Guimaraes", "Dra. Carla Barros", nome_medico);
-        printf("Médico(a) selecionado(a): %s", nome_medico);
-    }
-    else if (especialidade == 5)
-    {
-        selecionar("Oftalmologista", "Dr. Thiago Fernandes", "Dra. Tatiane Gomes", nome_medico);
-        printf("Médico(a) selecionado(a): %s", nome_medico);
-    }
-    strcpy(paciente.medico, nome_medico);
+
+    int nome_med = 0;
+    scanf("%d", &nome_med);
+
+    strcpy(paciente.medico, medicos[nome_med - 1]);
+    printf("Medico selecionado: %s!", paciente.medico);
+    strcpy(paciente.medico, medicos[nome_med - 1]);
     // aloca os dados da consulta agendada pelo paciente
     int dia, mes, ano, hora; // declaracao de variaveis // contador do loop
 

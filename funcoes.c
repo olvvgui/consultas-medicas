@@ -35,20 +35,24 @@ void removerQuebraDeLinha(char *str)
     str[strcspn(str, "\n")] = '\0';
 }
 
-void verificaData(int dta[3]){
+void verificaData(int dta[3]) {
     while(dta[0]>31 || dta[1]>12 || dta[2]<2025){
         printf("Data invalida. Tente novamente: (dia,mes,ano)\n"); scanf("%d %d %d",&dta[0],&dta[1],&dta[2]);
-        }
+    }
+}
 
 void verificaHorario(int *escolha){
-    while(*escolha != 1 && *escolha != 2 && escolha != 3){
-        printf("Horario invalido. Tente novamente: ");scanf("%d",&*escolha);
+        while(*escolha != 1 && *escolha != 2 && *escolha != 3){
+            printf("Horario invalido. Tente novamente: ");  scanf("%d", &*escolha);
+        }
     }
-void lembrete(int *dia,int hora,char *nome){
-    for(int i = 0;i<3;i++){//Mostra a mensagem 3 vezes
+
+void lembrete(int *dia,int hora,char *nome) {
+    for(int i = 0;  i<3;  i++){//Mostra a mensagem 3 vezes
         sleep(10);//Tempo decorrido até aparecer a mensagem
         printf("LEMBRETE\nConsulta dia %02d/%02d/%d as %d:00\nMedico: %s\nAtt. Hospital\n",
             dia[0],dia[1],dia[2],hora,nome);
-        system("pause");//presisonar qualquer tecla para fechar a mensagem
-        system("cls");//limpar a tela
+        //system("pause");//presisonar qualquer tecla para fechar a mensagem
+        //system("cls");//limpar a tela
     }
+}
