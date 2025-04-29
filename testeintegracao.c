@@ -32,6 +32,7 @@ int main()
     char senha1[61]; // máximo de 60 caracteres
     char senha2[61]; // máximo de 60 caracteres
     char cpf[12];    // máximo de 11 caracteres
+    char idade[4];
 
     if (logado == 'n')
     {
@@ -49,8 +50,11 @@ int main()
         getchar(); // limpa o buffer pra iniciar
 
         printf("\n\tDigite o seu nome e sobrenome: ");
-        fgets(nome, sizeof(nome), stdin); /* fgets funcina melhor que o scanf para pegar string (lê espaço).
+        fgets(nome, sizeof(nome), stdin); 
+        
+        /* fgets funcina melhor que o scanf para pegar string (lê espaço).
         sizeof é pra garantir que o fgts n ultrapasse 60 caracteres. e o stdin define o fluxo de entrada padrão */
+
         nome[strcspn(nome, "\n")] = 0;    // remove o \n da string
         strcpy(paciente.nome, nome);
 
@@ -78,11 +82,15 @@ int main()
 
         } while (strcmp(senha1, senha2) != 0); // loop até as senhas serem iguais
 
+        printf("\n\tDigite a sua idade: ");
+        scanf("%s", &idade);
+
         removerQuebraDeLinha(cpf);
         removerQuebraDeLinha(nome);
         removerQuebraDeLinha(senha2);
+        removerQuebraDeLinha(idade);
 
-        fprintf(arquivo, "%s;%s;%s\n", cpf, nome, senha2); // escreve no arquivo
+        fprintf(arquivo, "%s;%s;%s;%s\n", cpf, nome, senha2, idade); // escreve no arquivo
         fclose(arquivo);                                   // fecha o arquivo
 
         printf("\t\nParabens, voce está logado!\n\n");
@@ -124,11 +132,11 @@ int main()
         while (fgets(linha, sizeof(linha), arquivo) != NULL)
         {
 
-            sscanf(linha, "%[^;];%[^;];%s", cpf, nome, senha2); // escaneia a formatação
+            sscanf(linha, "%[^;];%[^;];%[^;];%s", cpf, nome, senha2, idade); // escaneia a formatação
 
             removerQuebraDeLinha(senha2);
 
-            if (sscanf(linha, "%[^;];%[^;];%s", cpf, nome, senha2) != 3)
+            if (sscanf(linha, "%[^;];%[^;];%[^;];%s", cpf, nome, senha2, idade) != 4)
             {
                 printf("\n\tErro ao processar linha do arquivo.");
                 continue;
