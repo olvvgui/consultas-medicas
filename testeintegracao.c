@@ -21,9 +21,7 @@ struct dados_paciente paciente; // Inicializando uma estrutura
 
 void ler_dados_agendamento();
 
-int main()
-{
-
+int main() {
     printf("\t=== Consultas Medicas ===\n");
     char logado;
     printf("\tVoce ja tem conta no sistema? (s/n): ");
@@ -212,26 +210,22 @@ int main()
     paciente.dia[2] = ano;
 
     // Lendo e colocando o dia, o mes e o ano dentro do vetor
+    int available[3] = {8, 10, 14};
     printf("\nHorarios disponiveis:\n\n");
-    printf("\n01 - 8:00\n02 - 10:00\n03 - 14:00\n\nR: ");
+
+    printf("\n- 8:00\n- 10:00\n- 14:00\n\nR: ");
     scanf("%d", &hora);
 
-    switch (hora)
-    {
-    case 01:
-        paciente.horario = 8;
-        break;
-    case 02:
-        paciente.horario = 10;
-        break;
-    case 03:
-        paciente.horario = 14;
-        break;
+    for (int i = 0; i < 3; i++) {
 
-    default:
-        paciente.horario = 0;
-
-    } // aloca o horario escolhido pelo paciente na struct
+        if (hora == available[i]) {
+            paciente.horario = available[i];
+            break;
+        }
+        if (i == 2 && available[i] != hora)
+            paciente.horario = 0;
+    }
+    // aloca o horario escolhido pelo paciente na struct
     // Pergunta se deseja adicionar alguma observacao e salva o que foi digitado.
     printf("Adicione alguma observacao: \n");
     getchar();
