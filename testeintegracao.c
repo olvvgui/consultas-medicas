@@ -142,32 +142,32 @@ int main()
         paciente.dia[1] = mes;
         paciente.dia[2] = ano;
 
-        // Lendo e colocando o dia, o mes e o ano dentro do vetor
-        printf("\nHorarios disponiveis:\n\n");
-        printf("\n01 - 8:00\n02 - 10:00\n03 - 14:00\n\nR: ");
-        scanf("%d", &hora);
+    // Lendo e colocando o dia, o mes e o ano dentro do vetor
+    printf("\nHorarios disponiveis:\n\n");
+    printf("\n01 - 8:00\n02 - 10:00\n03 - 14:00\n\nR: ");
+    scanf("%d", &hora);
 
-        switch (hora)
-        {
-        case 01:
-            paciente.horario = 8;
-            break;
-        case 02:
-            paciente.horario = 10;
-            break;
-        case 03:
-            paciente.horario = 14;
-            break;
+    switch (hora)
+    {
+    case 01:
+        paciente.horario = 8;
+        break;
+    case 02:
+        paciente.horario = 10;
+        break;
+    case 03:
+        paciente.horario = 14;
+        break;
 
-        default:
-            paciente.horario = 0;
+    default:
+        paciente.horario = 0;
 
-        } // aloca o horario escolhido pelo paciente na struct
-        // Pergunta se deseja adicionar alguma observacao e salva o que foi digitado.
-        printf("Adicione alguma observacao: \n");
-        getchar();
-        fgets(paciente.obs, sizeof(paciente.obs), stdin);
-        paciente.obs[strcspn(paciente.obs, "\n")] = 0;
+    } // aloca o horario escolhido pelo paciente na struct
+    // Pergunta se deseja adicionar alguma observacao e salva o que foi digitado.
+    printf("Adicione alguma observacao: \n");
+    getchar();
+    fgets(paciente.obs, sizeof(paciente.obs), stdin);
+    paciente.obs[strcspn(paciente.obs, "\n")] = 0;
 
         // Salva os dados obtidos no arquivo dados_clientes.bin.
         FILE *salvar_dados = fopen("dados_clientes.bin", "ab");
