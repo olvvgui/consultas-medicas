@@ -4,7 +4,7 @@ project(ProjetoFinal C)
 set(CMAKE_C_STANDARD 99)
 
 add_executable(ProjetoFinal
-        testeintegracao.c
-        funcoes.c
-        funcoes.h
+        source/testeintegracao.c
+        bibiotecas/funcoes.c
+        bibiotecas/funcoes.h
 )

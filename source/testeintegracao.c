@@ -2,7 +2,7 @@
 #include <stdio.h>  // para printf, fgets, fopen, etc
 #include <string.h> // para manipulação de strings: strcmp, strtok, etc
 #include <stdlib.h> // para funções gerais (como exit, malloc, etc se usadas futuramente)
-#include "funcoes.c"
+#include "../bibiotecas/funcoes.c"
 // Essa função remove o '\n' que o fgets captura do teclado.
 // Exemplo: se você digita "joao", o fgets salva "joao\n", o que atrapalha a comparação.
 // Essa função localiza o '\n' e troca por '\0', o caractere de fim de string.
@@ -109,7 +109,6 @@ int main() {
         if (strcmp(cpfDigitado, "sair") == 0)
         {
             printf("\n\tFechando...");
-            return 0;
             break;
         }
 
