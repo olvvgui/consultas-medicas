@@ -14,7 +14,6 @@ struct dados_paciente // Estrutura para guardar as informações
     char nome[61];
     char obs[100];
     char medico[100];
-
 };
 
 struct dados_paciente paciente; // Inicializando uma estrutura
@@ -24,20 +23,21 @@ void ler_dados_agendamento();
 int main()
 {
 
-    printf("\t=== Consultas Medicas ===\n");
-    char logado;
-    printf("\tVoce ja tem conta no sistema? (s/n): ");
-    scanf(" %c", &logado);
+    int choose = menu();
 
     char nome[61];   // criando a string do nome com máximo de 60 caracteres
     char senha1[61]; // máximo de 60 caracteres
     char senha2[61]; // máximo de 60 caracteres
     char cpf[12];    // máximo de 11 caracteres
     char idade[4];
+    char cpfDigitado[12];
+    char senhaDigitada[61];
+    int logado = 0;
+    int *plog;
+    plog = &logado;
 
-    if (logado == 'n')
+    if (choose == 1)
     {
-
         FILE *arquivo;
         arquivo = fopen("cadastro.txt", "a"); // abrindo (criando) o arquivo em modo append (adicionar)
 
@@ -51,12 +51,12 @@ int main()
         getchar(); // limpa o buffer pra iniciar
 
         printf("\n\tDigite o seu nome e sobrenome: ");
-        fgets(nome, sizeof(nome), stdin); 
-        
+        fgets(nome, sizeof(nome), stdin);
+
         /* fgets funcina melhor que o scanf para pegar string (lê espaço).
         sizeof é pra garantir que o fgts n ultrapasse 60 caracteres. e o stdin define o fluxo de entrada padrão */
 
-        nome[strcspn(nome, "\n")] = 0;    // remove o \n da string
+        nome[strcspn(nome, "\n")] = 0; // remove o \n da string
         strcpy(paciente.nome, nome);
 
         printf("\n\tDigite o seu cpf no formato (00000000000): "); // digitar cpf                                             // limpa o buffer pra iniciar
@@ -92,169 +92,93 @@ int main()
         removerQuebraDeLinha(idade);
 
         fprintf(arquivo, "%s;%s;%s;%s\n", cpf, nome, senha2, idade); // escreve no arquivo
-        fclose(arquivo);                                   // fecha o arquivo
+        fclose(arquivo);                                             // fecha o arquivo
 
-        printf("\t\nParabens, voce está logado!\n\n");
+        printf("\t\nParabens, voce está cadastrado! O que deseja fazer agora?\n\n");
+
+        logado = 1;
+        strcpy (cpfDigitado, cpf);
+
+        choose = menu ();
     }
 
-    printf("\n\t\t=== LOGIN ===");
-
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF)
-        ;
-
-    while (1)
+    if (choose == 2)
     {
+        if (logado = 1)
+        login(cpfDigitado, senhaDigitada, nome, idade, plog);
 
-        // Variáveis para armazenar o que o usuário vai digitar
-        char cpfDigitado[12];
-        char senhaDigitada[61];
-        char linha[1200]; // Linha lida do arquivo e controle do login
-        int loginRealizado = 0;
+        printf("Bem vindo, Senhor(a) %s", nome);
 
-        printf("\n\tDigite o seu CPF (ou digite 'sair' para fechar o programa): ");
-        scanf("%s", cpfDigitado);
-        removerQuebraDeLinha(cpfDigitado);
+        char *espec[10] = {"Clinica", "Pediatria", "Ginecologia", "Cardiologia", "Dermatologia", "Neurologia", "Ortopedia", "Psiquiatria", "Oftalmologia", "Oncologia"};
+        char *medicos[10] = {"Joao", "Medina", "Carlos", "Socrates", "Arnaldo", "Braulio", "Ulisses", "Laura", "Eneida", "Maria"};
+        // Pergunta e escaneia a especialidade medica desejada.
 
-        if (strcmp(cpfDigitado, "sair") == 0)
+        for (int i = 0; i < 10; i++)
         {
-            printf("\n\tFechando...");
-            return 0;
+            if (i == 0)
+                printf("\nSelecione o medico: ");
+
+            printf("\n%d. %s - %s", i + 1, medicos[i], espec[i]);
+        }
+        printf("\n");
+        // Testes comparando a especialidade escolhida e o nome do médico.
+
+        int nome_med = 0;
+        scanf("%d", &nome_med);
+
+        strcpy(paciente.medico, medicos[nome_med - 1]);
+        printf("Medico selecionado: %s!", paciente.medico);
+        strcpy(paciente.medico, medicos[nome_med - 1]);
+        // aloca os dados da consulta agendada pelo paciente
+        int dia, mes, ano, hora; // declaracao de variaveis // contador do loop
+
+        // char confirmacao[3];
+
+        // system("clear"); //Limpando o terminal - linux
+        // system("cls");//Limpando o terminal - windows
+        printf("\nInforme a data da consulta (dia mês ano): ");
+        scanf(" %d %d %d", &dia, &mes, &ano);
+        paciente.dia[0] = dia;
+        paciente.dia[1] = mes;
+        paciente.dia[2] = ano;
+
+        // Lendo e colocando o dia, o mes e o ano dentro do vetor
+        printf("\nHorarios disponiveis:\n\n");
+        printf("\n01 - 8:00\n02 - 10:00\n03 - 14:00\n\nR: ");
+        scanf("%d", &hora);
+
+        switch (hora)
+        {
+        case 01:
+            paciente.horario = 8;
             break;
-        }
-
-        FILE *arquivo = fopen("cadastro.txt", "r");
-        if (arquivo == NULL)
-        {
-            printf("\n\tErro: não foi possível abrir o arquivo de usuários.\n");
-            return 1; // encerra o programa com erro
-        }
-
-        while (fgets(linha, sizeof(linha), arquivo) != NULL)
-        {
-
-            sscanf(linha, "%[^;];%[^;];%[^;];%s", cpf, nome, senha2, idade); // escaneia a formatação
-
-            removerQuebraDeLinha(senha2);
-
-            if (sscanf(linha, "%[^;];%[^;]; %[^;]; %s", cpf, nome, senha2, idade) != 4)
-            {
-                printf("\n\tErro ao processar linha do arquivo.");
-                continue;
-            }
-
-            if (strcmp(cpfDigitado, cpf) == 0) // busca o cpf
-            {
-                loginRealizado = 1;
-                break; // retorna 1 quando achado
-            }
-        }
-        fclose(arquivo); // fecha o arquivo
-
-        if (loginRealizado)
-        {
-
-            while (1)
-            { // Entrada da senha
-
-                printf("\n\tSenha: ");
-                scanf("%s", senhaDigitada);
-                removerQuebraDeLinha(senhaDigitada);
-
-                // Compara os dados digitados com os do arquivo. Strcmp retorna 0 se as strings forem iguais
-
-                if (strcmp(senhaDigitada, senha2) == 0)
-                {
-
-                    printf("\n\tLogin bem-sucedido! Bem-vindo, %s.", nome);
-
-                    break; // para a leitura do arquivo
-                }
-
-                else
-                {
-                    printf("\n\tSenha incorreta! Tente novamente.");
-                }
-            }
+        case 02:
+            paciente.horario = 10;
             break;
-        }
+        case 03:
+            paciente.horario = 14;
+            break;
 
-        else
-            printf("\n\tCPF incorreto! Tente novamente.");
+        default:
+            paciente.horario = 0;
+
+        } // aloca o horario escolhido pelo paciente na struct
+        // Pergunta se deseja adicionar alguma observacao e salva o que foi digitado.
+        printf("Adicione alguma observacao: \n");
+        getchar();
+        fgets(paciente.obs, sizeof(paciente.obs), stdin);
+        paciente.obs[strcspn(paciente.obs, "\n")] = 0;
+
+        // Salva os dados obtidos no arquivo dados_clientes.bin.
+        FILE *salvar_dados = fopen("dados_clientes.bin", "ab");
+        fwrite(&paciente, sizeof(struct dados_paciente), 1, salvar_dados);
+        fclose(salvar_dados);
+
+        printf("\n\tConsulta agendada com sucesso!\n\n");
+
+        // Funcao para ler todos os dados adicionados.
+        ler_dados_agendamento();
     }
-
-    char *espec[10] = {"Clinica", "Pediatria", "Ginecologia", "Cardiologia", "Dermatologia", "Neurologia", "Ortopedia", "Psiquiatria", "Oftalmologia", "Oncologia"};
-    char *medicos[10] = {"Joao", "Medina", "Carlos", "Socrates", "Arnaldo", "Braulio", "Ulisses", "Laura", "Eneida", "Maria"};
-    // Pergunta e escaneia a especialidade medica desejada.
-
-
-    for (int i = 0; i < 10; i++) {
-
-        if (i == 0)
-            printf("\nSelecione o medico: ");
-
-        printf("\n%d. %s - %s", i + 1, medicos[i] , espec[i]);
-
-
-    }
-    printf("\n");
-    // Testes comparando a especialidade escolhida e o nome do médico.
-
-    int nome_med = 0;
-    scanf("%d", &nome_med);
-
-    strcpy(paciente.medico, medicos[nome_med - 1]);
-    printf("Medico selecionado: %s!", paciente.medico);
-    strcpy(paciente.medico, medicos[nome_med - 1]);
-    // aloca os dados da consulta agendada pelo paciente
-    int dia, mes, ano, hora; // declaracao de variaveis // contador do loop
-
-    // char confirmacao[3];
-
-    // system("clear"); //Limpando o terminal - linux
-    // system("cls");//Limpando o terminal - windows
-    printf("\nInforme a data da consulta (dia mês ano): ");
-    scanf(" %d %d %d", &dia, &mes, &ano);
-    paciente.dia[0] = dia;
-    paciente.dia[1] = mes;
-    paciente.dia[2] = ano;
-
-    // Lendo e colocando o dia, o mes e o ano dentro do vetor
-    printf("\nHorarios disponiveis:\n\n");
-    printf("\n01 - 8:00\n02 - 10:00\n03 - 14:00\n\nR: ");
-    scanf("%d", &hora);
-
-    switch (hora)
-    {
-    case 01:
-        paciente.horario = 8;
-        break;
-    case 02:
-        paciente.horario = 10;
-        break;
-    case 03:
-        paciente.horario = 14;
-        break;
-
-    default:
-        paciente.horario = 0;
-
-    } // aloca o horario escolhido pelo paciente na struct
-    // Pergunta se deseja adicionar alguma observacao e salva o que foi digitado.
-    printf("Adicione alguma observacao: \n");
-    getchar();
-    fgets(paciente.obs, sizeof(paciente.obs), stdin);
-    paciente.obs[strcspn(paciente.obs, "\n")] = 0;
-
-    // Salva os dados obtidos no arquivo dados_clientes.bin.
-    FILE *salvar_dados = fopen("dados_clientes.bin", "ab");
-    fwrite(&paciente, sizeof(struct dados_paciente), 1, salvar_dados);
-    fclose(salvar_dados);
-
-    printf("\n\tConsulta agendada com sucesso!\n\n");
-
-    // Funcao para ler todos os dados adicionados.
-    ler_dados_agendamento();
 
     return 0; // encerra o programa com sucesso
 }
