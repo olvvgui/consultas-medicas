@@ -171,3 +171,5 @@ void lembrete(int *dia,int hora,char *nome) {
         //system("cls");//limpar a tela
     }
 }
+
+
