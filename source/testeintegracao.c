@@ -2,7 +2,7 @@
 #include <stdio.h>  // para printf, fgets, fopen, etc
 #include <string.h> // para manipulação de strings: strcmp, strtok, etc
 #include <stdlib.h> // para funções gerais (como exit, malloc, etc se usadas futuramente)
-#include "funcoes.c"
+#include "bibliotecas/funcoes.c"
 // Essa função remove o '\n' que o fgets captura do teclado.
 // Exemplo: se você digita "joao", o fgets salva "joao\n", o que atrapalha a comparação.
 // Essa função localiza o '\n' e troca por '\0', o caractere de fim de string.
@@ -43,7 +43,7 @@ int main()
     if (choose == 1)
     {
         FILE *arquivo;
-        arquivo = fopen("cadastro.txt", "a"); // abrindo (criando) o arquivo em modo append (adicionar)
+        arquivo = fopen("bin/cadastro.txt", "a"); // abrindo (criando) o arquivo em modo append (adicionar)
 
         if (arquivo == NULL)
         {
@@ -173,7 +173,7 @@ int main()
         paciente.obs[strcspn(paciente.obs, "\n")] = 0;
 
         // Salva os dados obtidos no arquivo dados_clientes.bin.
-        FILE *salvar_dados = fopen("dados_clientes.bin", "ab");
+        FILE *salvar_dados = fopen("bin/dados_clientes.bin", "ab");
         fwrite(&paciente, sizeof(struct dados_paciente), 1, salvar_dados);
         fclose(salvar_dados);
 
@@ -190,7 +190,7 @@ int main()
 void ler_dados_agendamento()
 {
     // Funcao que le todos os dados contidos no arquivo dados_clientes.bin.
-    FILE *ler_dados_agendados = fopen("dados_clientes.bin", "rb");
+    FILE *ler_dados_agendados = fopen("bin/dados_clientes.bin", "rb");
     while (fread(&paciente, sizeof(struct dados_paciente), 1, ler_dados_agendados) == 1)
     {
         printf("Dia: %02d/%02d/%d\n", paciente.dia[0], paciente.dia[1], paciente.dia[2]);
