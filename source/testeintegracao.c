@@ -3,37 +3,20 @@
 #include <string.h> // para manipulação de strings: strcmp, strtok, etc
 #include <stdlib.h> // para funções gerais (como exit, malloc, etc se usadas futuramente)
 #include "bibliotecas/funcoes.c"
+#include "bibliotecas/funcoes.h"
 // Essa função remove o '\n' que o fgets captura do teclado.
 // Exemplo: se você digita "joao", o fgets salva "joao\n", o que atrapalha a comparação.
 // Essa função localiza o '\n' e troca por '\0', o caractere de fim de string.
 
-struct dados_paciente // Estrutura para guardar as informações
-{
-    int dia[3];
-    int horario;
-    char nome[61];
-    char obs[100];
-    char medico[100];
-};
-
-struct dados_paciente paciente; // Inicializando uma estrutura
-
 void ler_dados_agendamento();
-
-int menu();
-
-void login(char cpfDigitado[12], char senhaDigitada[61], char nomeLogin[61], char idadeLogin[4], int *logado);
 
 int main()
 {
 
     int choose = menu();
-
-    char nome[61];   // criando a string do nome com máximo de 60 caracteres
-    char senha1[61]; // máximo de 60 caracteres
-    char senha2[61]; // máximo de 60 caracteres
-    char cpf[12];    // máximo de 11 caracteres
-    char idade[4];
+    
+    char senha1[21]; // máximo de 60 caracteres
+    char senha2[21]; // máximo de 60 caracteres
     char cpfDigitado[12];
     char senhaDigitada[61];
     int logado = 0;
@@ -43,35 +26,36 @@ int main()
     if (choose == 1)
     {
         FILE *arquivo;
-        arquivo = fopen("bin/cadastro.txt", "a"); // abrindo (criando) o arquivo em modo append (adicionar)
+        arquivo = fopen("bin/cadastro.bin", "ab"); // abrindo (criando) o arquivo em modo append (adicionar)
 
         if (arquivo == NULL)
         {
             return 1; // fecha o programa se o arquivo não abrir
         }
+        
 
         printf("\n\t\t=== SIGN IN ===\n");
 
         getchar(); // limpa o buffer pra iniciar
 
         printf("\n\tDigite o seu nome e sobrenome: ");
-        fgets(nome, sizeof(nome), stdin);
+        fgets(cadastro.nome, sizeof(cadastro.nome), stdin);
+        removerQuebraDeLinha(cadastro.nome);
 
         /* fgets funcina melhor que o scanf para pegar string (lê espaço).
         sizeof é pra garantir que o fgts n ultrapasse 60 caracteres. e o stdin define o fluxo de entrada padrão */
 
-        nome[strcspn(nome, "\n")] = 0; // remove o \n da string
-        strcpy(paciente.nome, nome);
+        
 
         printf("\n\tDigite o seu cpf no formato (00000000000): "); // digitar cpf                                             // limpa o buffer pra iniciar
-        scanf("%s", cpf);
-        removerQuebraDeLinha(cpf);
+        scanf("%s", cadastro.cpf);
+        removerQuebraDeLinha(cadastro.cpf);
 
-        while (strlen(cpf) != 11)
+        while (strlen(cadastro.cpf) != 11)
         { // loop que lê o cpf vê se ele é igual ou diferente de 11
 
             printf("\n\tSeu CPF é inválido! Digite ele novamente: ");
-            scanf("%s", cpf);
+            scanf("%s", cadastro.cpf);
         }
 
         printf("\n\tDigite a sua senha: ");
@@ -87,30 +71,29 @@ int main()
 
         } while (strcmp(senha1, senha2) != 0); // loop até as senhas serem iguais
 
-        printf("\n\tDigite a sua idade: ");
-        scanf("%s", idade);
-
-        removerQuebraDeLinha(cpf);
-        removerQuebraDeLinha(nome);
         removerQuebraDeLinha(senha2);
-        removerQuebraDeLinha(idade);
+        strcpy(cadastro.senha, senha2);
 
-        fprintf(arquivo, "%s;%s;%s;%s\n", cpf, nome, senha2, idade); // escreve no arquivo
+        printf("\n\tDigite a sua idade: ");
+        scanf("%s", cadastro.idade);
+        removerQuebraDeLinha(cadastro.idade);
+
+        fwrite (&cadastro, sizeof(struct cadastro_save), 1, arquivo); // escreve no arquivo
         fclose(arquivo);                                             // fecha o arquivo
 
         printf("\t\nParabens, voce está cadastrado! O que deseja fazer agora?\n\n");
 
         logado = 1;
-        strcpy (cpfDigitado, cpf);
+        strcpy (cpfDigitado, cadastro.cpf);
         choose = menu ();
     }
 
     if (choose == 2)
     {
         if (logado = 1)
-        login(cpfDigitado, senhaDigitada, nome, idade, plog);
+        login(cpfDigitado, senhaDigitada, cadastro.nome, cadastro.idade, plog);
 
-        printf("Bem vindo, Senhor(a) %s", nome);
+        printf("Bem vindo, Senhor(a) %s", cadastro.nome);
 
         char *espec[10] = {"Clinica", "Pediatria", "Ginecologia", "Cardiologia", "Dermatologia", "Neurologia", "Ortopedia", "Psiquiatria", "Oftalmologia", "Oncologia"};
         char *medicos[10] = {"Joao", "Medina", "Carlos", "Socrates", "Arnaldo", "Braulio", "Ulisses", "Laura", "Eneida", "Maria"};
@@ -119,7 +102,7 @@ int main()
         for (int i = 0; i < 10; i++)
         {
             if (i == 0)
-                printf("\nSelecione o medico: ");
+                printf("\n\nSelecione o medico: ");
 
             printf("\n%d. %s - %s", i + 1, medicos[i], espec[i]);
         }

@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <stdio.h>
 
 int menu()
 {
@@ -30,7 +31,7 @@ int menu()
     return escolha;
 }
 
-void login(char cpfDigitado[12], char senhaDigitada[61], char nomeLogin[61], char idadeLogin[4], int *logado)
+void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], char idadeLogin[4], int *logado)
 {
     printf("\n\t\t=== LOGIN ===");
 
@@ -38,10 +39,9 @@ void login(char cpfDigitado[12], char senhaDigitada[61], char nomeLogin[61], cha
     {
 
         char nome[61];   // criando a string do nome com máximo de 60 caracteres
-        char senha2[61]; // máximo de 60 caracteres
+        char senha2[21]; // máximo de 20 caracteres
         char cpf[12];    // máximo de 11 caracteres
         char idade[4];
-        char linha[1200]; // Linha lida do arquivo e controle do login
         int loginRealizado = 0;
 
         printf("\n\tDigite o seu CPF (ou digite 'sair' para fechar o programa): ");
@@ -56,67 +56,57 @@ void login(char cpfDigitado[12], char senhaDigitada[61], char nomeLogin[61], cha
 
         }
 
-        FILE *arquivo = fopen("cadastro.txt", "r");
-        if (arquivo == NULL)
+        FILE *lercadastro = fopen("bin/cadastro.bin", "rb");
+        if (lercadastro == NULL)
         {
             printf("\n\tErro: não foi possível abrir o arquivo de usuários.\n");
             exit (1);
         }
 
-        while (fgets(linha, sizeof(linha), arquivo) != NULL)
+        while (fread(&cadastro, sizeof(struct cadastro_save), 1, lercadastro) == 1)
         {
 
-            sscanf(linha, "%[^;];%[^;];%[^;];%s", cpf, nome, senha2, idade); // escaneia a formatação
-
-            removerQuebraDeLinha(senha2);
-
-            if (sscanf(linha, "%[^;];%[^;]; %[^;]; %s", cpf, nome, senha2, idade) != 4)
-            {
-                printf("\n\tErro ao processar linha do arquivo.");
-                continue;
-            }
-
-            if (strcmp(cpfDigitado, cpf) == 0) // busca o cpf
+            if (strcmp(cpfDigitado, cadastro.cpf) == 0) // busca o cpf
             {
                 loginRealizado = 1;
-                break; // retorna 1 quando achado
+                break;
             }
         }
-        fclose(arquivo); // fecha o arquivo
 
-        if (loginRealizado)
-        {
+        
+        while (1){
+        if (loginRealizado == 1){ // Entrada da senha
 
-            while (1)
-            { // Entrada da senha
+             printf("\n\tSenha: ");
+             getchar();
+             scanf("%20s", senhaDigitada);
+             removerQuebraDeLinha(senhaDigitada);
 
-                printf("\n\tSenha: ");
-                scanf("%s", senhaDigitada);
-                removerQuebraDeLinha(senhaDigitada);
+             // Compara os dados digitados com os do arquivo. Strcmp retorna 0 se as strings forem iguais
 
-                // Compara os dados digitados com os do arquivo. Strcmp retorna 0 se as strings forem iguais
-
-                if (strcmp(senhaDigitada, senha2) == 0)
-                {
-
-                    printf("\n\tLogin bem-sucedido! Bem-vindo, %s.", nome);
-                    *logado = 1;
-                    strcpy(nomeLogin, nome);
-                    strcpy(idadeLogin, idade);
-
-                    break; // para a leitura do arquivo
-                }
-
-                else
-                {
-                    printf("\n\tSenha incorreta! Tente novamente.");
-                }
+             removerQuebraDeLinha (cadastro.senha);
+             if (strcmp(senhaDigitada, cadastro.senha) == 0){
+                 printf("\n\tLogin bem-sucedido! Bem-vindo, %s.", cadastro.nome);
+                 *logado = 1;
+                 strcpy(nomeLogin, cadastro.nome);
+                 strcpy(idadeLogin, cadastro.idade);
+                 fclose(lercadastro);
+                 return;
             }
-            break;
-        }
 
-        else
-            printf("\n\tCPF incorreto! Tente novamente.");
+            else
+            {
+                 printf("\n\tSenha incorreta! Tente novamente.");
+            }
+        }
+        
+    }
+        
+
+     if (loginRealizado != 1){
+         printf("\n\tCPF incorreto! Tente novamente.");
+        }
+    
     }
 }
 void selecionar(char selecao[50], char med1[50], char med2[50], char nome_medico[50])

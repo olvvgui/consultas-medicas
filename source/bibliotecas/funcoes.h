@@ -8,4 +8,27 @@ void removerQuebraDeLinha(char *str);
 void verificaData(int *hora);
 void verificaHorario(int *escolha);
 void lembrete(int *dia,int hora,char *med);
+
+struct dados_paciente // Estrutura para guardar as informações
+{
+    int dia[3];
+    int horario;
+    char nome[61];
+    char obs[100];
+    char medico[100];
+};
+
+struct dados_paciente paciente; // Inicializando uma estrutura
+
+struct cadastro_save{
+
+    char nome[61];
+    char senha[21]; 
+    char cpf[12];    
+    char idade[4];
+
+};
+
+struct cadastro_save cadastro;
+
 #endif
