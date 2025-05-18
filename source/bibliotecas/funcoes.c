@@ -7,25 +7,27 @@
 int menu()
 {
     int escolha = 0;
-    printf("\tEscolha o que deseja fazer:");
+    printf("\n\tEscolha o que deseja fazer:");
     printf("\n\t0.Sair do programa.");
     printf("\n\t1.Cadastramento de conta.");
     printf("\n\t2.Agendamento de consulta.");
     printf("\n\t3.Busca de agendamento.");
     printf("\n\t4.Cancelamento de consulta.");
-    printf("\n\t5.Reagendamento de consulta.\n\n");
+    printf("\n\t5.Reagendamento de consulta.");
+    printf("\n\t6.Buscar consultas por dia e medico.\n");
+    printf("\n\tR: ");
     scanf("%d", &escolha);
 
     if (escolha == 0)
     {
+        printf("\n\tFinalizando programa...");
         return 0;
     }
 
-    if (escolha < 0 || escolha > 5)
+    if (escolha < 0 || escolha > 6)
     {
 
-        printf("Erro. Escolha uma opção válida.\n");
-        menu();
+        printf("\nErro. Escolha uma opção válida.\n");
     }
 
     return escolha;
@@ -33,7 +35,7 @@ int menu()
 
 void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], char idadeLogin[4], int *logado)
 {
-    printf("\n\t\t=== LOGIN ===");
+    printf("\n\t\t=== LOGIN ===\n");
 
     while (1)
     {
@@ -56,7 +58,7 @@ void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], cha
 
         }
 
-        FILE *lercadastro = fopen("bin/cadastro.bin", "rb");
+        FILE *lercadastro = fopen("cadastro.bin", "rb");
         if (lercadastro == NULL)
         {
             printf("\n\tErro: não foi possível abrir o arquivo de usuários.\n");
@@ -109,6 +111,7 @@ void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], cha
     
     }
 }
+
 void selecionar(char selecao[50], char med1[50], char med2[50], char nome_medico[50])
 {
     int escolha;
@@ -161,5 +164,3 @@ void lembrete(int *dia,int hora,char *nome) {
         //system("cls");//limpar a tela
     }
 }
-
-
