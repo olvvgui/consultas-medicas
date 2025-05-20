@@ -69,8 +69,8 @@ int main()
 
         cadastrarpaciente(plog, cadastro);
 
-
         printf("\t\nParabens, voce está cadastrado! O que deseja fazer agora?\n\n");
+
 
         main();
     }

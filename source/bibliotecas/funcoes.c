@@ -73,7 +73,7 @@ void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], cha
             break;
         }
 
-        FILE *lercadastro = fopen("cadastro.bin", "rb");
+        FILE *lercadastro = fopen("bin/cadastro.bin", "rb");
         if (lercadastro == NULL)
         {
             printf("\n\tErro: não foi possível abrir o arquivo de usuários.\n");
