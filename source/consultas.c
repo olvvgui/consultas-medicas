@@ -69,7 +69,7 @@ int main()
 
         cadastrarpaciente(plog, cadastro);
 
-        printf("\t\nParabens, voce está cadastrado! O que deseja fazer agora?\n\n");
+        printf("\n\tParabens, voce está cadastrado! O que deseja fazer agora?\n\n");
 
 
         main();
@@ -80,7 +80,7 @@ int main()
     {
         login(cpfDigitado, senhaDigitada, cadastro.nome, cadastro.idade, plog);
 
-        printf("Bem vindo, Senhor(a) %s", cadastro.nome);
+        printf("\n\tBem vindo, Senhor(a) %s", cadastro.nome);
 
         char *espec[10] = {"Clinica", "Pediatria", "Ginecologia", "Cardiologia", "Dermatologia", "Neurologia", "Ortopedia", "Psiquiatria", "Oftalmologia", "Oncologia"};
         char *medicos[10] = {"Dr. Joao", "Dr. Medina", "Dr. Carlos", "Dr. Socrates", "Dr. Arnaldo", "Dr. Braulio", "Dr. Ulisses", "Dra. Laura", "Dra. Eneida", "Dra. Maria"};
@@ -90,18 +90,18 @@ int main()
         for (int i = 0; i < 10; i++)
         {
             if (i == 0)
-                printf("\n\nSelecione o medico: ");
+                printf("\n\n\tSelecione o medico: ");
 
             printf("\n%d. %s - %s", i + 1, medicos[i], espec[i]);
         }
-        printf("\nR: ");
+        printf("\n\tR: ");
         // Testes comparando a especialidade escolhida e o nome do médico.
 
         int nome_med = 0;
         scanf("%d", &nome_med);
 
         strcpy(paciente.medico, medicos[nome_med - 1]);
-        printf("\nMedico selecionado: %s!", paciente.medico);
+        printf("\n\tMedico selecionado: %s!", paciente.medico);
         strcpy(paciente.medico, medicos[nome_med - 1]);
         // aloca os dados da consulta agendada pelo paciente
         int dia, mes, ano, hora; // declaracao de variaveis // contador do loop
@@ -110,7 +110,7 @@ int main()
 
         // system("clear"); //Limpando o terminal - linux
         // system("cls");//Limpando o terminal - windows
-        printf("\n\nInforme a data da consulta (dia mês ano): ");
+        printf("\n\tInforme a data da consulta (dia mês ano): ");
         scanf(" %d %d %d", &dia, &mes, &ano);
         paciente.dia[0] = dia;
         paciente.dia[1] = mes;
@@ -118,7 +118,7 @@ int main()
 
         // Lendo e colocando o dia, o mes e o ano dentro do vetor
         printf("\nHorarios disponiveis:\n\n");
-        printf("\n01 - 08:00\n02 - 10:00\n03 - 14:00\n\nR: ");
+        printf("\n\t01 - 08:00\n02 - 10:00\n03 - 14:00\n\nR: ");
         scanf("%d", &hora);
 
         switch (hora)
@@ -138,7 +138,7 @@ int main()
 
         } // aloca o horario escolhido pelo paciente na struct
         // Pergunta se deseja adicionar alguma observacao e salva o que foi digitado.
-        printf("\nAdicione alguma observacao: \nR: ");
+        printf("\n\tAdicione alguma observacao: \nR: ");
         getchar();
         fgets(paciente.obs, sizeof(paciente.obs), stdin);
         paciente.obs[strcspn(paciente.obs, "\n")] = 0;
@@ -209,7 +209,7 @@ int main()
 
         int escolha;
 
-        printf("Como deseja buscar as consultas:\n1. Pesquisar por nome do médico.\n2. Pesquisar por consulta marcadas no dia.\nR: ");
+        printf("\n\tComo deseja buscar as consultas:\n1. Pesquisar por nome do médico.\n2. Pesquisar por consulta marcadas no dia.\nR: ");
         scanf("%d", &escolha);
         getchar(); // Limpar buffer
 
