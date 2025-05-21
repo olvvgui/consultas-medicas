@@ -4,6 +4,12 @@
 #include <unistd.h>
 #include <stdio.h>
 
+
+void removerQuebraDeLinha(char *str)
+{
+    str[strcspn(str, "\n")] = '\0';
+}
+
 int menu()
 {
     int escolha = 0;
@@ -153,10 +159,6 @@ void selecionar(char selecao[50], char med1[50], char med2[50], char nome_medico
     }
 }
 
-void removerQuebraDeLinha(char *str)
-{
-    str[strcspn(str, "\n")] = '\0';
-}
 
 void verificaData(int dta[3])
 {
