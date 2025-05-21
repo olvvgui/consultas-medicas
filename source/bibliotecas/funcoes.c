@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <stdio.h>
+#include <stdlib.h>
 
 
 void removerQuebraDeLinha(char *str)
@@ -113,6 +113,7 @@ void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], cha
                 {
                     printf("\n\tLogin bem-sucedido! Bem-vindo, %s.", cadastro.nome);
                     *logado = 1;
+                    printf ("\t\t\t%d", *logado);
                     strcpy(nomeLogin, cadastro.nome);
                     strcpy(idadeLogin, cadastro.idade);
                     fclose(lercadastro);

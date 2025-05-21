@@ -4,9 +4,8 @@
 #include <stdlib.h> // para funções gerais (como exit, malloc, etc se usadas futuramente)
 #include "bibliotecas/funcoes.c"
 #include "bibliotecas/funcoes.h"
-// Essa função remove o '\n' que o fgets captura do teclado.
-// Exemplo: se você digita "joao", o fgets salva "joao\n", o que atrapalha a comparação.
-// Essa função localiza o '\n' e troca por '\0', o caractere de fim de string.
+
+
 
 int main()
 {
@@ -14,9 +13,10 @@ int main()
     char senha2[21]; // máximo de 60 caracteres
     char cpfDigitado[12];
     char senhaDigitada[61];
-    int logado = 0;
+    int logado;
     int *plog;
     plog = &logado;
+
 
     int choose = menu();
 
@@ -71,15 +71,19 @@ int main()
 
         printf("\n\tParabens, voce está cadastrado! O que deseja fazer agora?\n\n");
 
-
         main();
     }
 
     // Se o usuario escolher a opcao Cadastrar Agendamento.
     else if (choose == 2)
     {
-        login(cpfDigitado, senhaDigitada, cadastro.nome, cadastro.idade, plog);
+        if (logado != 1)
+        {
+            printf ("%d", logado);
+            printf("\n\tÉ necessário fazer login primeiro.\n");
+            login(cpfDigitado, senhaDigitada, cadastro.nome, cadastro.idade, plog);
 
+        }
         printf("\n\tBem vindo, Senhor(a) %s", cadastro.nome);
 
         char *espec[10] = {"Clinica", "Pediatria", "Ginecologia", "Cardiologia", "Dermatologia", "Neurologia", "Ortopedia", "Psiquiatria", "Oftalmologia", "Oncologia"};
@@ -150,56 +154,56 @@ int main()
 
         printf("\n\tConsulta agendada com sucesso! O que deseja fazer agora?\n\n");
 
-        main ();
+        main();
     }
 
     // Se o usuario escolher a opcao Buscar de agendamento.
     else if (choose == 3)
     {
-        if (!logado)
+        if (logado != 1)
         {
             printf("\n\tÉ necessário fazer login primeiro.\n");
             login(cpfDigitado, senhaDigitada, cadastro.nome, cadastro.idade, plog);
         }
-        if (logado)
+        if (logado == 1)
         {
             // Funcao para buscar consultas.
             buscar_consulta(cadastro.nome, cpfDigitado);
-            main ();
+            main();
         }
     }
 
     // Se o usuario escolher a opcao Cancelamento de consulta.
     else if (choose == 4)
     {
-        if (!logado)
+        if (logado != 1)
         {
             printf("\n\tÉ necessário fazer login primeiro.\n");
             login(cpfDigitado, senhaDigitada, cadastro.nome, cadastro.idade, plog);
         }
-        if (logado)
+        if (logado == 1)
         {
 
             // Funcao para cancelar consulta.
             cancelar_consulta(cpfDigitado);
-            main ();
+            main();
         }
     }
 
     // Se o usuario escolher a opcao Reagendamento de consulta.
     else if (choose == 5)
     {
-        if (!logado)
+        if (logado != 1)
         {
             printf("\n\tÉ necessário fazer login primeiro.\n");
             login(cpfDigitado, senhaDigitada, cadastro.nome, cadastro.idade, plog);
         }
-        if (logado)
+        if (logado == 1)
         {
 
             // Funcao para reagendar consulta.
             reagendar_consulta(cpfDigitado);
-            main ();
+            main();
         }
     }
 
@@ -218,14 +222,14 @@ int main()
 
             // Funcao para ver todas as consultas agendadas em um determinado medico.
             ver_consultas_medico();
-            main ();
+            main();
         }
         else if (escolha == 2)
         {
 
             // Funcao para ver todas as consultas agendadas em determinado dia.
             ver_consultas_no_dia();
-            main ();
+            main();
         }
     }
 

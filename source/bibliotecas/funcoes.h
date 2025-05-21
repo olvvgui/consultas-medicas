@@ -24,14 +24,30 @@ typedef struct
 
 cadastro_save cadastro;
 
-int menu();
-void cadastrarpaciente(int *pointer, cadastro_save cad);
-void login(char cpfDigitado[12], char senhaDigitada[61], char nomeLogin[61], char idadeLogin[4], int *logado);
-void selecionar(char selecao[50], char med1[50], char med2[50], char nome_medico[50]);
+// remover \n
 void removerQuebraDeLinha(char *str);
+
+// menu para escolha do que fazer
+int menu();
+
+// criação de conta
+void cadastrarpaciente(int *pointer, cadastro_save cad);
+
+// login na conta
+void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], char idadeLogin[4], int *logado);
+
+// funcao para selecionar o medico
+void selecionar(char selecao[50], char med1[50], char med2[50], char nome_medico[50]);
+
+// verifica a veracidade da data
 void verificaData(int dta[3]);
+
+// verifica a veracidade do horario
 void verificaHorario(int *escolha);
+
+//implementação dos lembretes
 void lembrete(int *dia, int hora, char *med);
+
 void buscar_consulta(const char *nome, const char *cpf);
 void reagendar_consulta(const char *cpf);
 void cancelar_consulta(const char *cpf);
