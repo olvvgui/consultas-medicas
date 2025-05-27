@@ -5,6 +5,13 @@
 #include <stdlib.h>
 
 
+void agendar_consulta(int *logado) {
+    if (*logado != 1) {
+        printf("\n\tÉ necessário fazer login primeiro.\n");
+        login(&logado, &cadastro); // Função modificada para atualizar *logado
+    }
+}
+
 void removerQuebraDeLinha(char *str)
 {
     str[strcspn(str, "\n")] = '\0';
@@ -39,7 +46,7 @@ int menu()
     return escolha;
 }
 
-void cadastrarpaciente(int *pointer, cadastro_save cad)
+void cadastrar_conta(int *pointer)
 {
     FILE *arquivo;
     arquivo = fopen("bin/cadastro.bin", "ab"); // abrindo (criando) o arquivo em modo append (adicionar)
@@ -49,90 +56,85 @@ void cadastrarpaciente(int *pointer, cadastro_save cad)
         exit(1); // fecha o programa se o arquivo não abrir
     }
 
-    fwrite(&cad, sizeof(cadastro_save), 1, arquivo); // escreve no arquivo
+    fwrite(arquivo, sizeof(cadastro_save), 1, arquivo); // escreve no arquivo
     fclose(arquivo);                                 // fecha o arquivo
 
     *pointer = 1;
 }
 
-void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], char idadeLogin[4], int *logado)
-{
-    printf("\n\t\t=== LOGIN ===\n");
+void login(int *logado, cadastro_save *atual) {
+    char cpf[12], senha[21];
 
-    while (1)
-    {
-
-        char nome[61];   // criando a string do nome com máximo de 60 caracteres
-        char senha2[21]; // máximo de 20 caracteres
-        char cpf[12];    // máximo de 11 caracteres
-        char idade[4];
-        int loginRealizado = 0;
-
+    while (1) {
         printf("\n\tDigite o seu CPF (ou digite 'sair' para fechar o programa): ");
-        scanf("%s", cpfDigitado);
-        removerQuebraDeLinha(cpfDigitado);
+        fgets(cpf, sizeof(cpf), stdin);
+        removerQuebraDeLinha(cpf);
 
-        if (strcmp(cpfDigitado, "sair") == 0)
+        if (strcmp(cpf, "sair") == 0)
         {
             printf("\n\tFechando...");
-            exit(0);
-            break;
+            return; //em vez de quebrar o laço, encerra a funcao
         }
 
         FILE *lercadastro = fopen("bin/cadastro.bin", "rb");
         if (lercadastro == NULL)
         {
             printf("\n\tErro: não foi possível abrir o arquivo de usuários.\n");
-            exit(1);
+            return;
         }
+        cadastro_save temp;
+        int encontrado = 0;
 
-        while (fread(&cadastro, sizeof(cadastro_save), 1, lercadastro) == 1)
+        while (fread(&temp, sizeof(temp), 1, lercadastro) == 1)
         {
 
-            if (strcmp(cpfDigitado, cadastro.cpf) == 0) // busca o cpf
+            if (strcmp(temp.cpf, cpf) == 0) // busca o cpf
             {
-                loginRealizado = 1;
+                encontrado = 1;
                 break;
             }
         }
+        fclose(lercadastro);
 
-        while (1)
-        {
-            if (loginRealizado == 1)
-            { // Entrada da senha
+        if (!encontrado) {
+            char opcao;
+            printf("Usuario nao cadastrado. Deseja se cadastrar? ");
 
-                printf("\n\tSenha: ");
-                getchar();
-                scanf("%20s", senhaDigitada);
-                removerQuebraDeLinha(senhaDigitada);
+            scanf("%c", &opcao);
+            getchar();
 
-                // Compara os dados digitados com os do arquivo. Strcmp retorna 0 se as strings forem iguais
+            if (opcao == 's' || opcao == 'S') {
 
-                removerQuebraDeLinha(cadastro.senha);
-                if (strcmp(senhaDigitada, cadastro.senha) == 0)
-                {
-                    printf("\n\tLogin bem-sucedido! Bem-vindo, %s.", cadastro.nome);
+                cadastrar_conta(logado, atual);
+                return;
+
+            }
+            continue;
+        }
+            int tentativas = 3;
+            while (tentativas > 0) {
+
+                fgets(senha, sizeof(senha), stdin);
+                removerQuebraDeLinha(senha);
+
+                if (strcmp(temp.cpf, senha) == 0) {
                     *logado = 1;
-                    printf ("\t\t\t%d", *logado);
-                    strcpy(nomeLogin, cadastro.nome);
-                    strcpy(idadeLogin, cadastro.idade);
-                    fclose(lercadastro);
+                    *atual = temp;
+                    printf("Bem vindo, %s", atual->nome);
                     return;
                 }
-
-                else
-                {
-                    printf("\n\tSenha incorreta! Tente novamente.");
+                else {
+                    printf("Senha invalida.");
+                    tentativas-- ;
                 }
             }
-        }
 
-        if (loginRealizado != 1)
-        {
-            printf("\n\tCPF incorreto! Tente novamente.");
+            printf("Tentativas esgotadas.");
+            *logado = 0;
+            return;
         }
     }
-}
+
 
 void selecionar(char selecao[50], char med1[50], char med2[50], char nome_medico[50])
 {
@@ -159,7 +161,6 @@ void selecionar(char selecao[50], char med1[50], char med2[50], char nome_medico
         break;
     }
 }
-
 
 void verificaData(int dta[3])
 {
@@ -206,7 +207,7 @@ void ver_consultas_medico()
         return;
     }
 
-    struct dados_paciente paciente;
+    dados_paciente paciente;
 
     char *medicos[10] = {"\nDr. Joao", "Dr. Medina", "Dr. Carlos", "Dr. Socrates", "Dr. Arnaldo", "Dr. Braulio", "Dr. Ulisses", "Dra. Laura", "Dra. Eneida", "Dra. Maria"};
     // For para escolher o medico.
@@ -223,7 +224,7 @@ void ver_consultas_medico()
     // Le o arquivo ate o fim.
 
     printf("\nConsultas marcadas por %s:\n\n", medicos[nome_med - 1]);
-    while (fread(&paciente, sizeof(struct dados_paciente), 1, consultas) == 1)
+    while (fread(&paciente, sizeof(dados_paciente), 1, consultas) == 1)
     {
         // Compara o nome do medico escolhido com o nome do medico da consulta marcada.
         if (strcmp(paciente.medico, medicos[nome_med - 1]) == 0)
@@ -253,7 +254,8 @@ void ver_consultas_no_dia()
         return;
     }
 
-    struct dados_paciente paciente;
+    dados_paciente paciente;
+
     // Escolher o dia.
     printf("\nDigite o dia (dia mes ano):\n");
     printf("R: ");
@@ -263,7 +265,7 @@ void ver_consultas_no_dia()
     printf("\nConsultas marcado no dia %02d/%02d/%04d\n", diaesc[0], diaesc[1], diaesc[2]);
 
     // Le o arquivo ate o fim.
-    while (fread(&paciente, sizeof(struct dados_paciente), 1, consultas) == 1)
+    while (fread(&paciente, sizeof(dados_paciente), 1, consultas) == 1)
     {
         // Compara o dia escolhido com o dia da consulta marcada.
 
@@ -280,10 +282,14 @@ void ver_consultas_no_dia()
 }
 
 // Funcao para buscar consultas já agendadas.
-void buscar_consulta(const char *nome, const char *cpf)
+void buscar_consulta(int *logado)
 {
     // Abre o arquivo com os agendamentos salvos e lê.
     FILE *le_dados = fopen("dados_clientes.bin", "rb");
+
+    char cpf[12], senha[21];
+    if (!logado)
+        login(cpf, senha);
 
     if (le_dados == NULL)
     {
@@ -292,12 +298,13 @@ void buscar_consulta(const char *nome, const char *cpf)
     }
 
     int encontrado = 0; // Variavel para saber se encontrou alguma consulta.
-    struct dados_paciente paciente;
+    dados_paciente paciente;
+
 
     printf("\n\n\t\t=== Consultas Agendadas ===\n\n");
 
     // Lê o arquivo até não encontrar mais dados.
-    while (fread(&paciente, sizeof(struct dados_paciente), 1, le_dados) == 1)
+    while (fread(&paciente, sizeof(dados_paciente), 1, le_dados) == 1)
     {
         // Remove quebras de linha.
         removerQuebraDeLinha(paciente.nome);
@@ -318,7 +325,7 @@ void buscar_consulta(const char *nome, const char *cpf)
     // Se não encontrou nenhuma consulta com o CPF digitado, imprime essa mensagem.
     if (!encontrado)
     {
-        printf("\n\tNenhuma consulta encontrada para %s (CPF: %s).\n\n", nome, cpf);
+        printf("\n\tNenhuma consulta encontrada para %s (CPF: %s).\n\n", paciente.nome, cpf);
     }
     // Fecha o arquivo.
     fclose(le_dados);
@@ -345,11 +352,11 @@ void cancelar_consulta(const char *cpf)
         return;
     }
 
-    struct dados_paciente paciente;
+    dados_paciente paciente;
     int encontrado = 0; // Variavel para saber se encontrou alguma consulta.
 
     // Lê o arquivo até não encontrar mais dados.
-    while (fread(&paciente, sizeof(struct dados_paciente), 1, cancelar) == 1)
+    while (fread(&paciente, sizeof(dados_paciente), 1, cancelar) == 1)
     {
 
         removerQuebraDeLinha(cadastro.cpf); // Remove quebras de linha.
@@ -367,7 +374,7 @@ void cancelar_consulta(const char *cpf)
         {
 
             // Escreve no arquivo auxiliar as consultas que não serão canceladas.
-            fwrite(&paciente, sizeof(struct dados_paciente), 1, auxiliar_cancelar);
+            fwrite(&paciente, sizeof(dados_paciente), 1, auxiliar_cancelar);
         }
     }
 
@@ -409,11 +416,11 @@ void reagendar_consulta(const char *cpf)
         return;
     }
 
-    struct dados_paciente paciente;
+    dados_paciente paciente;
     int encontrado = 0; // Variavel para sabe se encontrou alguma consulta.
 
     // Lê o arquivo até não encontrar mais dados.
-    while (fread(&paciente, sizeof(struct dados_paciente), 1, reagendar) == 1)
+    while (fread(&paciente, sizeof(dados_paciente), 1, reagendar) == 1)
     {
         removerQuebraDeLinha(cadastro.cpf);
 
@@ -455,7 +462,7 @@ void reagendar_consulta(const char *cpf)
 
             printf("\nConsulta reagendada com sucesso!\n");
         }
-        fwrite(&paciente, sizeof(struct dados_paciente), 1, auxiliar_reagendar);
+        fwrite(&paciente, sizeof(dados_paciente), 1, auxiliar_reagendar);
     }
     // Fecha os arquivos abertos.
     fclose(reagendar);

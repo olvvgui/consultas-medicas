@@ -1,16 +1,14 @@
 #ifndef FUNCOES_H
 #define FUNCOES_H
 
-struct dados_paciente // Estrutura para guardar as informações
+typedef struct  // Estrutura para guardar as informações
 {
     int dia[3];
     int horario;
     char nome[61];
     char obs[100];
     char medico[100];
-};
-
-struct dados_paciente paciente; // Inicializando uma estrutura
+} dados_paciente;
 
 typedef struct
 {
@@ -23,6 +21,7 @@ typedef struct
 } cadastro_save;
 
 cadastro_save cadastro;
+dados_paciente paciente;
 
 // remover \n
 void removerQuebraDeLinha(char *str);
@@ -31,10 +30,10 @@ void removerQuebraDeLinha(char *str);
 int menu();
 
 // criação de conta
-void cadastrarpaciente(int *pointer, cadastro_save cad);
+void cadastrar_conta(int *pointer, cadastro_save *cad);
 
 // login na conta
-void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], char idadeLogin[4], int *logado);
+void login(int *logado, cadastro_save *atual);
 
 // funcao para selecionar o medico
 void selecionar(char selecao[50], char med1[50], char med2[50], char nome_medico[50]);
