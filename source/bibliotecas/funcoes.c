@@ -8,7 +8,7 @@
 void agendar_consulta(int *logado) {
     if (*logado != 1) {
         printf("\n\tÉ necessário fazer login primeiro.\n");
-        login(&logado, &cadastro); // Função modificada para atualizar *logado
+        login(logado, &cadastro); // Função modificada para atualizar *logado
     }
 }
 
@@ -46,8 +46,13 @@ int menu()
     return escolha;
 }
 
-void cadastrar_conta(int *pointer)
+void cadastrar_conta(int *logado, cadastro_save *atual)
 {
+    if (*logado ==  1) {
+        printf("Cadastro já realizado.!");
+        return;
+    }
+
     FILE *arquivo;
     arquivo = fopen("bin/cadastro.bin", "ab"); // abrindo (criando) o arquivo em modo append (adicionar)
 
@@ -59,7 +64,7 @@ void cadastrar_conta(int *pointer)
     fwrite(arquivo, sizeof(cadastro_save), 1, arquivo); // escreve no arquivo
     fclose(arquivo);                                 // fecha o arquivo
 
-    *pointer = 1;
+    *logado = 1;
 }
 
 void login(int *logado, cadastro_save *atual) {

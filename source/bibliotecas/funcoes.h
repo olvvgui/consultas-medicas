@@ -30,7 +30,7 @@ void removerQuebraDeLinha(char *str);
 int menu();
 
 // criação de conta
-void cadastrar_conta(int *pointer, cadastro_save *cad);
+void cadastrar_conta(int *logado, cadastro_save *atual);
 
 // login na conta
 void login(int *logado, cadastro_save *atual);
@@ -47,12 +47,12 @@ void verificaHorario(int *escolha);
 //implementação dos lembretes
 void lembrete(int *dia, int hora, char *med);
 
-void buscar_consulta(const char *nome, const char *cpf);
+void buscar_consulta(int *logado);
 void reagendar_consulta(const char *cpf);
 void cancelar_consulta(const char *cpf);
 
 // Funcao para buscar consultas já agendadas.
-void buscar_consulta(const char *nome, const char *cpf);
+void buscar_consulta(int *logado);
 
 // Funcao ara cancelar consultas.
 void cancelar_consulta(const char *cpf);

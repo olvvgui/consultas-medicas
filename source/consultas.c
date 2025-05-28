@@ -13,15 +13,15 @@ int main() {
         escolha = menu();
         switch (escolha) {
 
-            case 1: cadastrar_conta(&logado); break;
+            case 1: cadastrar_conta(&logado, &cadastro); break;
 
-            case 2: agendar_consulta(&logado); break;
+            /*case 2: agendar_consulta(&logado); break;
 
             case 3: buscar_consulta(&logado); break;
-                // ... demais casos
+
             case 0: printf("Saindo...\n"); break;
 
-            default: printf("Opção inválida!\n");
+            default: printf("Opção inválida!\n");*/
         }
 
     } while (escolha != 0);
