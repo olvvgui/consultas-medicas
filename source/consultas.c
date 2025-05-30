@@ -2,13 +2,13 @@
 #include <stdio.h>  // para printf, fgets, fopen, etc
 #include <string.h> // para manipulação de strings: strcmp, strtok, etc
 #include <stdlib.h> // para funções gerais (como exit, malloc, etc se usadas futuramente)
+#include <time.h>
 #include "bibliotecas/funcoes.c"
 #include "bibliotecas/funcoes.h"
 
-
-
 int main()
 {
+
     char senha1[21]; // máximo de 60 caracteres
     char senha2[21]; // máximo de 60 caracteres
     char cpfDigitado[12];
@@ -16,7 +16,6 @@ int main()
     int logado;
     int *plog;
     plog = &logado;
-
 
     int choose = menu();
 
@@ -79,10 +78,9 @@ int main()
     {
         if (logado != 1)
         {
-            printf ("%d", logado);
+            printf("%d", logado);
             printf("\n\tÉ necessário fazer login primeiro.\n");
             login(cpfDigitado, senhaDigitada, cadastro.nome, cadastro.idade, plog);
-
         }
         printf("\n\tBem vindo, Senhor(a) %s", cadastro.nome);
 
@@ -110,37 +108,62 @@ int main()
         // aloca os dados da consulta agendada pelo paciente
         int dia, mes, ano, hora; // declaracao de variaveis // contador do loop
 
-        // char confirmacao[3];
-
-        // system("clear"); //Limpando o terminal - linux
-        // system("cls");//Limpando o terminal - windows
         printf("\n\tInforme a data da consulta (dia mês ano): ");
         scanf(" %d %d %d", &dia, &mes, &ano);
+
+        while (dia < 1 || dia > 30 || mes > 12 || mes < 1 || ano < 2025)
+        {
+            printf("\n\tInforme uma data válida de consulta (dia mês ano): ");
+            scanf(" %d %d %d", &dia, &mes, &ano);
+        }
+
         paciente.dia[0] = dia;
-        paciente.dia[1] = mes;
+        paciente.dia[1] = mes; // Lendo e colocando o dia, o mes e o ano dentro do vetor
         paciente.dia[2] = ano;
 
-        // Lendo e colocando o dia, o mes e o ano dentro do vetor
-        printf("\nHorarios disponiveis:\n\n");
-        printf("\n\t01 - 08:00\n02 - 10:00\n03 - 14:00\n\nR: ");
+        int rd[4]; // vetor para armazenar valores aleatório dos horários
+
+        randomizar(rd, 4, 6, 17); // vetor, tamanho do vetor, minimo valor atribuido, max valor atribuido
+
+        printf("\nDigite o horário que for melhor para você!\nHorarios disponiveis:\n\n");
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (rd[i] == rd[i + 1])
+                continue;
+
+            else
+                printf("\n\t%d: %d:00\n", (i + 1), rd[i]);
+        }
+
         scanf("%d", &hora);
+
+        while (hora > 4 || hora < 1)
+        {
+            printf("\n\t Horário inválido! Digite novamente: ");
+            scanf("%d", &hora);
+        }
 
         switch (hora)
         {
         case 01:
-            paciente.horario = 8;
+            paciente.horario = rd[0];
             break;
+
         case 02:
-            paciente.horario = 10;
+            paciente.horario = rd[1];
             break;
+
         case 03:
-            paciente.horario = 14;
+            paciente.horario = rd[2];
             break;
 
-        default:
-            paciente.horario = 0;
+        case 04:
+            paciente.horario = rd[3];
+            break;
+        }
 
-        } // aloca o horario escolhido pelo paciente na struct
+        // aloca o horario escolhido pelo paciente na struct
         // Pergunta se deseja adicionar alguma observacao e salva o que foi digitado.
         printf("\n\tAdicione alguma observacao: \nR: ");
         getchar();

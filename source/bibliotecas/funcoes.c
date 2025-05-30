@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
-
+#include <time.h>
 
 void removerQuebraDeLinha(char *str)
 {
@@ -113,7 +113,7 @@ void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], cha
                 {
                     printf("\n\tLogin bem-sucedido! Bem-vindo, %s.", cadastro.nome);
                     *logado = 1;
-                    printf ("\t\t\t%d", *logado);
+                    printf("\t\t\t%d", *logado);
                     strcpy(nomeLogin, cadastro.nome);
                     strcpy(idadeLogin, cadastro.idade);
                     fclose(lercadastro);
@@ -160,25 +160,34 @@ void selecionar(char selecao[50], char med1[50], char med2[50], char nome_medico
     }
 }
 
-void verificaData(int dta[3]) {
+void verificaData(int dta[3])
+{
     int tMes;
 
-    switch(dta[1]){
-        case 2:
-            tMes = 28;
-            break;
-        case 4: case 6: case 9: case 11:
-            tMes = 30;
-            break;
-        case 1: case 3: case 5: case 7: case 8:
-            tMes = 31;
-            break;
+    switch (dta[1])
+    {
+    case 2:
+        tMes = 28;
+        break;
+    case 4:
+    case 6:
+    case 9:
+    case 11:
+        tMes = 30;
+        break;
+    case 1:
+    case 3:
+    case 5:
+    case 7:
+    case 8:
+        tMes = 31;
+        break;
     }
-    while(dta[0]>tMes || dta[0]<1 || dta[2]<2025 || dta[2]>2030){
-        printf("Data invalida. Tente novamente: (dia,mes,ano)\n"); scanf("%d %d %d",&dta[0],&dta[1],&dta[2]);
+    while (dta[0] > tMes || dta[0] < 1 || dta[2] < 2025 || dta[2] > 2030)
+    {
+        printf("Data invalida. Tente novamente: (dia,mes,ano)\n");
+        scanf("%d %d %d", &dta[0], &dta[1], &dta[2]);
     }
-
-    
 }
 
 void verificaHorario(int *escolha)
@@ -192,10 +201,10 @@ void verificaHorario(int *escolha)
 
 void lembrete(int *dia, int hora, char *nome)
 {
-    print("\a");//beep
-    sleep(2); // Tempo decorrido até aparecer a mensagem
+    printf("\a"); // beep
+    sleep(2);    // Tempo decorrido até aparecer a mensagem
     printf("LEMBRETE\nConsulta dia %02d/%02d/%d as %d:00\nMedico: %s\nAtt. Hospital\n",
-            dia[0], dia[1], dia[2], hora, nome);
+           dia[0], dia[1], dia[2], hora, nome);
     // system("pause");//presisonar qualquer tecla para fechar a mensagem
     // system("cls");//limpar a tela
 }
@@ -483,3 +492,26 @@ void reagendar_consulta(const char *cpf)
     }
 }
 
+int compare(const void *a, const void *b)
+{
+    return (*(int *)a - *(int *)b); // ajustando o qsort para comparar o vetor
+}
+
+void randomizar(int rd[], int tam, int min, int max)
+{
+
+    srand(time(NULL));
+
+    for (int i = 0; i < tam; i++)
+        rd[i] = (rand() % (max - min + 1)) + min; // atribuindo valores aleatorios de min a max
+
+    qsort(rd, tam, sizeof(int), compare); // ordenando o vetor
+
+    for (int i = 0; i < tam; i++)
+    {
+        if (rd[i] == rd[i + 1])
+            rd[i] = (rand() % (max - min + 1)) + min; // nao deixando existir horarios repetidos
+    }
+
+    qsort(rd, tam, sizeof(int), compare); // ordenando o vetor
+}
