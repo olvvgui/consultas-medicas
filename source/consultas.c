@@ -112,12 +112,12 @@ int main()
         tempoagora (&data); // coletando o tempo de agora
 
         printf("\n\tInforme a data da consulta (ex: %d/%d/%d): ", data.dia, data.mes, data.ano);
-        scanf(" %d %d %d", &dia, &mes, &ano);
+        scanf("%d/%d/%d", &dia, &mes, &ano);
 
         while (validardata(dia, mes, ano) == 0)
         {
             printf("\n\tInforme uma data válida de consulta (dia mês ano): ");
-            scanf(" %d %d %d", &dia, &mes, &ano);
+            scanf("%d/%d/%d", &dia, &mes, &ano);
         }
 
         paciente.dia[0] = dia;
