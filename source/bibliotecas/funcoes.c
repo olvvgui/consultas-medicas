@@ -185,10 +185,10 @@ int validardata(int dia, int mes, int ano)
     if (ano < data.ano || mes < 1 || mes > 12 || dia < 1) // retorna erro se a data for menor ou maior que os limites (mes 13, mes -1, dia -1, ano menor que o ano de agora)
         return 0;                                         // data invalida
 
-    if (ano == data.ano && mes < data.mes) // no ano de agora, retorna erro se o mês for menor que o mês de agora e se o dia for anterior ao de hoje
+    if (ano == data.ano && mes < data.mes) // no ano de agora, retorna erro se o mês for menor que o mês de agora 
         return 0;
 
-    if (ano == 2025 && mes == data.mes && dia < data.dia)
+    if (ano == data.ano && mes == data.mes && dia < data.dia) // se for no ano e mês de agora, só pode dias >= hoje
         return 0;
 
     if (ano == 2025) // se for esse ano, só pode datas de hoje para frente
