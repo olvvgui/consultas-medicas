@@ -24,6 +24,14 @@ typedef struct
 
 cadastro_save cadastro;
 
+typedef struct
+{
+    int dia;
+    int mes;
+    int ano;
+    int hora;
+} tempo; // struct para armazenar a data de agora;
+
 // remover \n
 void removerQuebraDeLinha(char *str);
 
@@ -39,8 +47,11 @@ void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], cha
 // funcao para selecionar o medico
 void selecionar(char selecao[50], char med1[50], char med2[50], char nome_medico[50]);
 
+// pegar a data de agora
+void tempoagora(tempo *data);
+
 // verifica a veracidade da data
-void verificaData(int dta[3]);
+int validardata(int dia, int mes, int ano); 
 
 // verifica a veracidade do horario
 void verificaHorario(int *escolha);
@@ -66,6 +77,12 @@ void ver_consultas_medico();
 
 // Funcao para ver todas as consultas agendadas em determinado dia.
 void ver_consultas_no_dia();
+
+// função para fazer o qsort comparar se um n é maior que o outro e ajustar em ordem crescente
+int compare(const void *a, const void *b);
+
+// gera inteiros aleatórios em razão do vetor, tamanho dele, e limites da geração de inteiros
+void randomizar(int rd[], int tam, int min, int max); 
 
 
 

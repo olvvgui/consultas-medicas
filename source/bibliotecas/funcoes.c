@@ -160,33 +160,99 @@ void selecionar(char selecao[50], char med1[50], char med2[50], char nome_medico
     }
 }
 
-void verificaData(int dta[3])
-{
-    int tMes;
+void tempoagora(tempo *data) // função para coletar o tempo de agora e armazenar na struct.
+{                            // serve para impedir o usuário de digitar uma data anterior da data de hoje
 
-    switch (dta[1])
+    time_t agora;    // variável do tipo time para armazenar o tempo atual em segundos desde 1970
+    struct tm *info; // ponteiro para a struct da função que armazena data e hora
+
+    time(&agora); // obtem os segundos desde 1970 e armazena na varável agora
+
+    info = localtime(&agora); // converte os segundos para o tempo local do computador
+
+    // armazena na struct a data em que o ponteiro *info aponta
+    data->dia = info->tm_mday;        //  dia do mês (1-31)
+    data->mes = info->tm_mon + 1;     // meses de (0-11) + 1 =  (1-12)
+    data->ano = info->tm_year + 1900; // anos desde 1900 + 1900
+    data->hora = info->tm_hour;       // hora de agora
+}
+
+int validardata(int dia, int mes, int ano)
+{
+
+    tempo data;
+    tempoagora(&data);
+    if (ano < data.ano || mes < 1 || mes > 12 || dia < 1) // retorna erro se a data for menor ou maior que os limites (mes 13, mes -1, dia -1, ano menor que o ano de agora)
+        return 0;                                         // data invalida
+
+    if (ano == data.ano && mes < data.mes) // no ano de agora, retorna erro se o mês for menor que o mês de agora e se o dia for anterior ao de hoje
+        return 0;
+
+    if (ano == 2025 && mes == data.mes && dia < data.dia)
+        return 0;
+
+    if (ano == 2025) // se for esse ano, só pode datas de hoje para frente
     {
-    case 2:
-        tMes = 28;
-        break;
-    case 4:
-    case 6:
-    case 9:
-    case 11:
-        tMes = 30;
-        break;
-    case 1:
-    case 3:
-    case 5:
-    case 7:
-    case 8:
-        tMes = 31;
-        break;
+        switch (mes) // break é redundante nesse switch (mes)
+        {
+        case 6:
+        case 9:
+        case 11: // casos para meses de 30 dias
+
+            if (dia <= 30)
+                return 1;
+
+            else
+                return 0;
+
+        default: // padrão para meses de 31 dias
+            if (dia <= 31)
+                return 1;
+
+            else
+                return 0;
+        }
     }
-    while (dta[0] > tMes || dta[0] < 1 || dta[2] < 2025 || dta[2] > 2030)
-    {
-        printf("Data invalida. Tente novamente: (dia,mes,ano)\n");
-        scanf("%d %d %d", &dta[0], &dta[1], &dta[2]);
+
+    if (ano > 2025)
+    { // se for anos superiores, pode qualquer data dentro dos limites
+
+        int bissexto = 0;
+
+        if (ano % 4 == 0 && (ano % 100 != 0 || ano % 400 == 0))
+        {
+            bissexto += 1; // 1 se o ano é bissexto, 0 se nao
+        }
+        switch (mes)
+        {
+        case 02: // mesmas regras que os cases de cima, só pode datas dentro dos limites
+            if (bissexto == 1 && (dia <= 29))
+                return 1;
+
+            else if (bissexto == 0 && (dia <= 28))
+                return 1;
+
+            else
+                return 0;
+            break;
+        case 4:
+        case 6:
+        case 9:
+        case 11:
+
+            if (dia <= 30)
+                return 1;
+
+            else
+                return 0;
+
+        default:
+            if (dia <= 31)
+                return 1;
+
+            else
+                return 0;
+        }
     }
 }
 
@@ -202,7 +268,7 @@ void verificaHorario(int *escolha)
 void lembrete(int *dia, int hora, char *nome)
 {
     printf("\a"); // beep
-    sleep(2);    // Tempo decorrido até aparecer a mensagem
+    sleep(2);     // Tempo decorrido até aparecer a mensagem
     printf("LEMBRETE\nConsulta dia %02d/%02d/%d as %d:00\nMedico: %s\nAtt. Hospital\n",
            dia[0], dia[1], dia[2], hora, nome);
     // system("pause");//presisonar qualquer tecla para fechar a mensagem
@@ -446,7 +512,13 @@ void reagendar_consulta(const char *cpf)
             // Questiona a nova data e hora da consulta.
             printf("\nInforme a data da consulta (dia mes ano): ");
             scanf("%d %d %d", &paciente.dia[0], &paciente.dia[1], &paciente.dia[2]);
-            verificaData(paciente.dia);
+            validardata(paciente.dia[0], paciente.dia[1], paciente.dia[2]);
+
+            while (validardata(paciente.dia[0], paciente.dia[1], paciente.dia[2]))
+            {
+                printf("\n\tInforme uma data válida (dia mês ano): ");
+                scanf("%d %d %d", &paciente.dia[0], &paciente.dia[1], &paciente.dia[2]);
+            }
 
             printf("\n\nHorários disponíveis:\n");
             printf("1. 08:00\n2. 10:00\n3. 14:00\nEscolha: ");

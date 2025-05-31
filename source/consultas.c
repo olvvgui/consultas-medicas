@@ -108,10 +108,13 @@ int main()
         // aloca os dados da consulta agendada pelo paciente
         int dia, mes, ano, hora; // declaracao de variaveis // contador do loop
 
-        printf("\n\tInforme a data da consulta (dia mês ano): ");
+        tempo data;
+        tempoagora (&data); // coletando o tempo de agora
+
+        printf("\n\tInforme a data da consulta (ex: %d/%d/%d): ", data.dia, data.mes, data.ano);
         scanf(" %d %d %d", &dia, &mes, &ano);
 
-        while (dia < 1 || dia > 30 || mes > 12 || mes < 1 || ano < 2025)
+        while (validardata(dia, mes, ano) == 0)
         {
             printf("\n\tInforme uma data válida de consulta (dia mês ano): ");
             scanf(" %d %d %d", &dia, &mes, &ano);
