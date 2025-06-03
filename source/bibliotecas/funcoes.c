@@ -587,3 +587,12 @@ void randomizar(int rd[], int tam, int min, int max)
 
     qsort(rd, tam, sizeof(int), compare); // ordenando o vetor
 }
+
+void printf_vermelho(const char *txt)
+{
+    printf("\033[1;31m%s\033[0m", txt); 
+    // "\033[" ativa a sequencia ANSI (formastação espciacial d textos pro terminal)
+   // "1;31m", "1" = negrito,  "31m" = vermelho
+  // "\033[0m" reseta o texto pro normal do terminal
+
+}

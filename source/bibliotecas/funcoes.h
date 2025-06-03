@@ -84,6 +84,9 @@ int compare(const void *a, const void *b);
 // gera inteiros aleatórios em razão do vetor, tamanho dele, e limites da geração de inteiros
 void randomizar(int rd[], int tam, int min, int max); 
 
+// printa o texto em vermelho
+void printf_vermelho(const char *txt);
+
 
 
 

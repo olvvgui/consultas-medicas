@@ -13,7 +13,7 @@ int main()
     char senha2[21]; // máximo de 60 caracteres
     char cpfDigitado[12];
     char senhaDigitada[61];
-    int logado;
+    int logado = 0;
     int *plog;
     plog = &logado;
 
@@ -43,20 +43,33 @@ int main()
             printf("\n\tSeu CPF é inválido! Digite ele novamente: ");
             scanf("%s", cadastro.cpf);
         }
+  printf("\n\tDigite sua senha");
+    printf_vermelho(" (mínimo 8 caracteres & máximo 20 caracteres)");
+    printf (": ");
 
-        printf("\n\tDigite a sua senha: ");
+    scanf("%s", senha1);
+
+    while (strlen(senha1) < 8 || strlen(senha1) > 20) // senha >= 8 caracteres
+    {
+        if (strlen(senha1) > 20)
+            printf_vermelho("\n\tSenha maior que 20 caracteres!");
+
+        else
+            printf_vermelho("\n\tSenha menor que 8 caracteres!");
+
+        printf("\n\tDigite sua senha novamente (mínino: 8 caracteres): ");
         scanf("%s", senha1);
+    }
 
-        do
-        {
-            printf("\n\tDigite sua senha novamente: ");
-            scanf("%s", senha2); // verificar senha
+    do
+    {
+        printf("\n\tConfirme a sua senha: ");
+        scanf("%s", senha2); // verificar senha
 
-            if (strcmp(senha1, senha2) != 0) // o terminal imprime essa frase quando as senhas são diferentes
-                printf("\n\tAs senhas são diferentes! Tente novamente.\n");
+        if (strcmp(senha1, senha2) != 0) // o terminal imprime essa frase quando as senhas são diferentes
+            printf_vermelho("\n\tAs senhas são diferentes!");
 
-        } while (strcmp(senha1, senha2) != 0); // loop até as senhas serem iguais
-
+    } while (strcmp(senha1, senha2) != 0); // loop até as senhas serem iguais e maiores que 8 caracteres
         removerQuebraDeLinha(senha2);
         strcpy(cadastro.senha, senha2);
 
@@ -78,7 +91,6 @@ int main()
     {
         if (logado != 1)
         {
-            printf("%d", logado);
             printf("\n\tÉ necessário fazer login primeiro.\n");
             login(cpfDigitado, senhaDigitada, cadastro.nome, cadastro.idade, plog);
         }
@@ -102,6 +114,8 @@ int main()
         int nome_med = 0;
         scanf("%d", &nome_med);
 
+        // segfault quando nome_med > 10;
+
         strcpy(paciente.medico, medicos[nome_med - 1]);
         printf("\n\tMedico selecionado: %s!", paciente.medico);
         strcpy(paciente.medico, medicos[nome_med - 1]);
@@ -109,7 +123,7 @@ int main()
         int dia, mes, ano, hora; // declaracao de variaveis // contador do loop
 
         tempo data;
-        tempoagora (&data); // coletando o tempo de agora
+        tempoagora(&data); // coletando o tempo de agora
 
         printf("\n\tInforme a data da consulta (ex: %d/%d/%d): ", data.dia, data.mes, data.ano);
         scanf("%d/%d/%d", &dia, &mes, &ano);
