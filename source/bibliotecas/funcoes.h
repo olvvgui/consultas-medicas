@@ -87,6 +87,9 @@ void randomizar(int rd[], int tam, int min, int max);
 // printa o texto em vermelho
 void printf_vermelho(const char *txt);
 
+// printa o texto em verde
+void printf_verde(const char *text);
+
 
 
 

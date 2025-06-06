@@ -33,7 +33,7 @@ int menu()
     if (escolha < 0 || escolha > 6)
     {
 
-        printf("\nErro. Escolha uma opção válida.\n");
+        printf_vermelho("\nErro. Escolha uma opção válida.\n");
     }
 
     return escolha;
@@ -82,7 +82,7 @@ void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], cha
         FILE *lercadastro = fopen("bin/cadastro.bin", "rb");
         if (lercadastro == NULL)
         {
-            printf("\n\tErro: não foi possível abrir o arquivo de usuários.\n");
+            printf_vermelho("\n\tErro: não foi possível abrir o arquivo de usuários.\n");
             exit(1);
         }
 
@@ -111,7 +111,8 @@ void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], cha
                 removerQuebraDeLinha(cadastro.senha);
                 if (strcmp(senhaDigitada, cadastro.senha) == 0)
                 {
-                    printf("\n\tLogin bem-sucedido! Bem-vindo, %s.", cadastro.nome);
+                    printf_verde("\n\tLogin bem-sucedido!");
+                    printf("\n\tBem vindo! %s.", cadastro.nome);
                     *logado = 1;
                     printf("\t\t\t%d", *logado);
                     strcpy(nomeLogin, cadastro.nome);
@@ -122,14 +123,14 @@ void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], cha
 
                 else
                 {
-                    printf("\n\tSenha incorreta! Tente novamente.");
+                    printf_vermelho("\n\tSenha incorreta! Tente novamente.");
                 }
             }
         }
 
         if (loginRealizado != 1)
         {
-            printf("\n\tCPF incorreto! Tente novamente.");
+            printf_vermelho("\n\tCPF incorreto! Tente novamente.");
         }
     }
 }
@@ -143,7 +144,7 @@ void selecionar(char selecao[50], char med1[50], char med2[50], char nome_medico
     scanf("%d", &escolha);
     while (escolha < 1 || escolha > 2)
     {
-        printf("Opção inválida. Digite 1 ou 2.\n");
+        printf_vermelho("Opção inválida. Digite 1 ou 2.\n");
         printf("Escolha um %s:\n", selecao);
         printf("1. %s\n", med1);
         printf("2. %s\n", med2);
@@ -185,7 +186,7 @@ int validardata(int dia, int mes, int ano)
     if (ano < data.ano || mes < 1 || mes > 12 || dia < 1) // retorna erro se a data for menor ou maior que os limites (mes 13, mes -1, dia -1, ano menor que o ano de agora)
         return 0;                                         // data invalida
 
-    if (ano == data.ano && mes < data.mes) // no ano de agora, retorna erro se o mês for menor que o mês de agora 
+    if (ano == data.ano && mes < data.mes) // no ano de agora, retorna erro se o mês for menor que o mês de agora
         return 0;
 
     if (ano == data.ano && mes == data.mes && dia < data.dia) // se for no ano e mês de agora, só pode dias >= hoje
@@ -260,7 +261,7 @@ void verificaHorario(int *escolha)
 {
     while (*escolha != 1 && *escolha != 2 && *escolha != 3)
     {
-        printf("Horario invalido. Tente novamente: ");
+        printf_vermelho("Horario invalido. Tente novamente: ");
         scanf("%d", &*escolha);
     }
 }
@@ -286,7 +287,7 @@ void ver_consultas_medico()
 
     if (consultas == NULL)
     {
-        printf("\nNenhuma consulta agendada.\n");
+        printf("\n\tNenhuma consulta agendada.\n");
         return;
     }
 
@@ -590,9 +591,13 @@ void randomizar(int rd[], int tam, int min, int max)
 
 void printf_vermelho(const char *txt)
 {
-    printf("\033[1;31m%s\033[0m", txt); 
+    printf("\033[1;31m%s\033[0m", txt);
     // "\033[" ativa a sequencia ANSI (formastação espciacial d textos pro terminal)
-   // "1;31m", "1" = negrito,  "31m" = vermelho
-  // "\033[0m" reseta o texto pro normal do terminal
+    // "1;31m", "1" = negrito,  "31m" = vermelho
+    // "\033[0m" reseta o texto pro normal do terminal
+}
 
+void printf_verde(const char *text)
+{
+    printf("\033[1;32m%s\033[0m", text);
 }
