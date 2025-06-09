@@ -188,7 +188,7 @@ int main()
         paciente.obs[strcspn(paciente.obs, "\n")] = 0;
 
         // Salva os dados obtidos no arquivo dados_clientes.bin.
-        FILE *salvar_dados = fopen("dados_clientes.bin", "ab");
+        FILE *salvar_dados = fopen("bin/dados_clientes.bin", "ab");
         fwrite(&paciente, sizeof(struct dados_paciente), 1, salvar_dados);
         fclose(salvar_dados);
 

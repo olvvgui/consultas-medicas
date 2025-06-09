@@ -283,7 +283,7 @@ void ver_consultas_medico()
     int nome_med = 0;
 
     // Abre o arquivo com os dados das consultas.
-    FILE *consultas = fopen("dados_clientes.bin", "rb");
+    FILE *consultas = fopen("bin/dados_clientes.bin", "rb");
 
     if (consultas == NULL)
     {
@@ -330,7 +330,7 @@ void ver_consultas_no_dia()
     int diaesc[3];
 
     // Abre o arquivo com os dados das consultas.
-    FILE *consultas = fopen("dados_clientes.bin", "rb");
+    FILE *consultas = fopen("bin/dados_clientes.bin", "rb");
 
     if (consultas == NULL)
     {
@@ -368,7 +368,7 @@ void ver_consultas_no_dia()
 void buscar_consulta(const char *nome, const char *cpf)
 {
     // Abre o arquivo com os agendamentos salvos e lê.
-    FILE *le_dados = fopen("dados_clientes.bin", "rb");
+    FILE *le_dados = fopen("bin/dados_clientes.bin", "rb");
 
     if (le_dados == NULL)
     {
@@ -414,7 +414,7 @@ void cancelar_consulta(const char *cpf)
 {
 
     // Abre o arquivo onde está salvo os dados das consultas.
-    FILE *cancelar = fopen("dados_clientes.bin", "rb");
+    FILE *cancelar = fopen("bin/dados_clientes.bin", "rb");
     if (cancelar == NULL)
     {
         printf("\nConsulta não encontrada.\n");
@@ -469,8 +469,8 @@ void cancelar_consulta(const char *cpf)
     {
 
         // Apaga o arquivos que contem os dados de consultas e renomeia o arquivo auxiliar com o nome do antigo arquivo que armazenava os dados das consultas.
-        remove("dados_clientes.bin");
-        rename("auxiliar.bin", "dados_clientes.bin");
+        remove("bin/dados_clientes.bin");
+        rename("auxiliar.bin", "bin/dados_clientes.bin");
     }
 }
 
@@ -479,7 +479,7 @@ void reagendar_consulta(const char *cpf)
 {
 
     // Abre o arquivo com os dados de consultas agendadas.
-    FILE *reagendar = fopen("dados_clientes.bin", "rb");
+    FILE *reagendar = fopen("bin/dados_clientes.bin", "rb");
     if (reagendar == NULL)
     {
         printf("\nConsulta não encontrada.\n");
@@ -560,8 +560,8 @@ void reagendar_consulta(const char *cpf)
     else
     {
         // Apaga o arquivos que contem os dados de consultas e renomeia o arquivo auxiliar com o nome do antigo arquivo que armazenava os dados das consultas.
-        remove("dados_clientes.bin");
-        rename("temp.bin", "dados_clientes.bin");
+        remove("bin/dados_clientes.bin");
+        rename("temp.bin", "bin/dados_clientes.bin");
     }
 }
 
