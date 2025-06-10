@@ -138,46 +138,31 @@ int main()
         paciente.dia[1] = mes; // Lendo e colocando o dia, o mes e o ano dentro do vetor
         paciente.dia[2] = ano;
 
-        int rd[4]; // vetor para armazenar valores aleatório dos horários
+        printf("\n\tHórarios disponíveis: ");
 
-        randomizar(rd, 4, 6, 17); // vetor, tamanho do vetor, minimo valor atribuido, max valor atribuido
+        int vet[4] = {0};
+        int valido = 0;
 
-        printf("\nDigite o horário que for melhor para você!\nHorarios disponiveis:\n\n");
+        horariosvalidos(dia, vet);
 
-        for (int i = 0; i < 4; i++)
+        while (!valido)
         {
-            if (rd[i] == rd[i + 1])
-                continue;
-
-            else
-                printf("\n\t%d: %d:00\n", (i + 1), rd[i]);
-        }
-
-        scanf("%d", &hora);
-
-        while (hora > 4 || hora < 1)
-        {
-            printf("\n\t Horário inválido! Digite novamente: ");
+            printf("Digite o horário disponível que deseja agendar: ");
             scanf("%d", &hora);
-        }
 
-        switch (hora)
-        {
-        case 01:
-            paciente.horario = rd[0];
-            break;
+            // verifica se o horário digitado está entre os horários disponíveis
+            for (int i = 0; i < 4; i++)
+            {
+                // ignora posições zeradas (quando não há 4 horários)
+                if (vet[i] != 0 && hora == vet[i])
+                {
+                    valido = 1; // achou um horário válido, pode sair do while
+                    break;
+                }
+            }
 
-        case 02:
-            paciente.horario = rd[1];
-            break;
-
-        case 03:
-            paciente.horario = rd[2];
-            break;
-
-        case 04:
-            paciente.horario = rd[3];
-            break;
+            if (!valido)
+                printf("\n\tHorário inválido, digite novamente um dos horários disponíveis!\n");
         }
 
         // aloca o horario escolhido pelo paciente na struct

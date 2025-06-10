@@ -186,10 +186,10 @@ int validardata(int dia, int mes, int ano)
     if (ano < data.ano || mes < 1 || mes > 12 || dia < 1) // retorna erro se a data for menor ou maior que os limites (mes 13, mes -1, dia -1, ano menor que o ano de agora)
         return 0;                                         // data invalida
 
-    if (ano == data.ano && mes < data.mes) // no ano de agora, retorna erro se o mês for menor que o mês de agora
+    if (ano == data.ano && mes < data.mes) // no ano de agora, retorna erro se o mês for menor que o mês de agora e se o dia for anterior ao de hoje
         return 0;
 
-    if (ano == data.ano && mes == data.mes && dia < data.dia) // se for no ano e mês de agora, só pode dias >= hoje
+    if (ano == 2025 && mes == data.mes && dia < data.dia)
         return 0;
 
     if (ano == 2025) // se for esse ano, só pode datas de hoje para frente
@@ -253,6 +253,74 @@ int validardata(int dia, int mes, int ano)
 
             else
                 return 0;
+        }
+    }
+}
+
+void horariosvalidos(int dia, int *vet)
+{
+    int rd[4] = {0};
+
+    tempo data;
+    tempoagora(&data);
+
+    int min_hora, max_hora;
+    min_hora = 6;
+    max_hora = 17; // só pode marcar até 17h (17h-18h)
+
+    if (dia == data.dia)
+    {
+        // se for pra hoje, só pode horários depois da hora atual
+        // ex: agora é 13h, só pode marcar a partir das 14h
+        min_hora = data.hora + 1;
+
+        if (min_hora > max_hora)
+        {
+            printf("\nNão há horários disponíveis para hoje!\n");
+            return;
+        }
+
+        // preenche o vetor rd com horários únicos, dentro do intervalo correto
+        randomizar(rd, 4, min_hora, max_hora);
+
+        int disponiveis = 0;
+        printf("\n");
+        for (int i = 0; i < 4; i++)
+        {
+            if (rd[i] != 0)
+            {
+                vet[i] = rd[i];
+                printf("\n%d", rd[i]);
+                disponiveis++;
+            }
+        }
+
+        if (disponiveis == 0)
+        {
+            printf("\nNão há horários disponíveis para hoje!\n");
+            return;
+        }
+    }
+    else
+    {
+        // para outras datas, pode de 6 até 17
+        randomizar(rd, 4, min_hora, max_hora);
+
+        int disponiveis = 0;
+        printf("\n");
+        for (int i = 0; i < 4; i++)
+        {
+            if (rd[i] != 0)
+            {
+                vet[i] = rd[i];
+                printf("%d ", rd[i]);
+                disponiveis++;
+            }
+        }
+        if (disponiveis == 0)
+        {
+            printf("\nNão há horários disponíveis!\n");
+            return;
         }
     }
 }
@@ -570,23 +638,36 @@ int compare(const void *a, const void *b)
     return (*(int *)a - *(int *)b); // ajustando o qsort para comparar o vetor
 }
 
-void randomizar(int rd[], int tam, int min, int max)
+// essa função preenche o vetor rd com valores aleatórios únicos, no intervalo [min, max]
+// não deixa repetir horários, diferente da antiga randomizar
+void randomizar(int *rd, int tam, int min, int max)
 {
+    int total = max - min + 1; // total de opções
 
-    srand(time(NULL));
-
-    for (int i = 0; i < tam; i++)
-        rd[i] = (rand() % (max - min + 1)) + min; // atribuindo valores aleatorios de min a max
-
-    qsort(rd, tam, sizeof(int), compare); // ordenando o vetor
-
-    for (int i = 0; i < tam; i++)
+    if (total < tam) // se houver menos opções do que posições, zera tudo
     {
-        if (rd[i] == rd[i + 1])
-            rd[i] = (rand() % (max - min + 1)) + min; // nao deixando existir horarios repetidos
+        for (int i = 0; i < tam; i++)
+            rd[i] = 0;
+        return;
     }
 
-    qsort(rd, tam, sizeof(int), compare); // ordenando o vetor
+    int pool[32]; // no máximo 32 opções
+    // pool de piscina, no caso, piscina de inteiros pseudo-aleatórios com um limite definido
+    for (int i = 0; i < total; i++)
+        pool[i] = min + i; // preenche a pool com todos valores possíveis
+
+    srand(time(NULL));
+    for (int i = 0; i < tam; i++)
+    {
+        int r = rand() % (total - i); // sorteia um índice dentro do ainda disponível
+        rd[i] = pool[r];              // pega o valor sorteado
+        // remove o valor já usado da pool (troca com o último disponível)
+        int temp = pool[r];            // guarda temporariamente o valor sorteado
+        pool[r] = pool[total - i - 1]; // coloca o último disponível no lugar do sorteado
+        pool[total - i - 1] = temp;    // e coloca o sorteado no fim do pool (fora do próximo sorteio)
+    }
+
+    qsort(rd, tam, sizeof(int), compare); // ordena os horários para exibir em ordem
 }
 
 void printf_vermelho(const char *txt)

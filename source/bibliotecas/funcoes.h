@@ -51,12 +51,15 @@ void selecionar(char selecao[50], char med1[50], char med2[50], char nome_medico
 void tempoagora(tempo *data);
 
 // verifica a veracidade da data
-int validardata(int dia, int mes, int ano); 
+int validardata(int dia, int mes, int ano);
+
+// função para mostrar horários disponíveis, de acordo com a data
+void horariosvalidos(int dia, int *vet);
 
 // verifica a veracidade do horario
 void verificaHorario(int *escolha);
 
-//implementação dos lembretes
+// implementação dos lembretes
 void lembrete(int *dia, int hora, char *med);
 
 void buscar_consulta(const char *nome, const char *cpf);
@@ -81,16 +84,13 @@ void ver_consultas_no_dia();
 // função para fazer o qsort comparar se um n é maior que o outro e ajustar em ordem crescente
 int compare(const void *a, const void *b);
 
-// gera inteiros aleatórios em razão do vetor, tamanho dele, e limites da geração de inteiros
-void randomizar(int rd[], int tam, int min, int max); 
+// função para preencher um vetor com valores aleatórios únicos dentro de um intervalo fechado [min, max]
+void randomizar(int *rd, int tam, int min, int max);
 
 // printa o texto em vermelho
 void printf_vermelho(const char *txt);
 
 // printa o texto em verde
 void printf_verde(const char *text);
-
-
-
 
 #endif
