@@ -47,12 +47,11 @@ void verificaHorario(int *escolha);
 //implementação dos lembretes
 void lembrete(int *dia, int hora, char *med);
 
-void buscar_consulta(int *logado);
+void buscar_consulta(int *logado, cadastro_save *cadastro);
 void reagendar_consulta(const char *cpf);
 void cancelar_consulta(const char *cpf);
 
 // Funcao para buscar consultas já agendadas.
-void buscar_consulta(int *logado);
 
 // Funcao ara cancelar consultas.
 void cancelar_consulta(const char *cpf);

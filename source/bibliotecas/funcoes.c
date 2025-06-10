@@ -287,14 +287,15 @@ void ver_consultas_no_dia()
 }
 
 // Funcao para buscar consultas já agendadas.
-void buscar_consulta(int *logado)
+void buscar_consulta(int *logado, cadastro_save *cadastro)
 {
     // Abre o arquivo com os agendamentos salvos e lê.
     FILE *le_dados = fopen("dados_clientes.bin", "rb");
 
-    char cpf[12], senha[21];
+    char senha[21];
+    char cpf[12];
     if (!logado)
-        login(cpf, senha);
+        login(logado, cadastro);
 
     if (le_dados == NULL)
     {
@@ -313,13 +314,13 @@ void buscar_consulta(int *logado)
     {
         // Remove quebras de linha.
         removerQuebraDeLinha(paciente.nome);
-        removerQuebraDeLinha(cadastro.cpf);
+        removerQuebraDeLinha(cadastro->cpf);
 
         // Compara o cpf do paciente com o cpf dos cadastros e imprime a consulta agendada se os dados estiverem corretos.
 
-        if (strcmp(cadastro.cpf, cpf) == 0)
+        if (strcmp(cadastro->cpf, cpf) == 0)
         {
-            printf("\nPaciente CPF: %s", cadastro.cpf);
+            printf("\nPaciente CPF: %s", cadastro->cpf);
             printf("\nData: %02d/%02d/%d", paciente.dia[0], paciente.dia[1], paciente.dia[2]);
             printf("\nHorário: %02d:00", paciente.horario);
             printf("\nMédico: %s", paciente.medico);
