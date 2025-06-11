@@ -5,11 +5,55 @@
 #include <stdlib.h>
 
 
-void agendar_consulta(int *logado) {
+void agendar_consulta(int *logado, cadastro_save *usuario_logado) {
     if (*logado != 1) {
         printf("\n\tÉ necessário fazer login primeiro.\n");
         login(logado, &cadastro); // Função modificada para atualizar *logado
+
+        if (*logado != 1) {
+            return;
+        }
     }
+
+    dados_paciente nova_consulta;
+    strcpy(nova_consulta.nome, usuario_logado->nome);
+
+    printf("Agendamento");
+    selecionar("Medico", "Rodrigo - Oftalmologia", "Sandro - Oncologia", nova_consulta.medico);
+
+    printf("\nInforme a data da consulta (dia mes ano): ");
+    scanf("%d %d %d", &nova_consulta.dia[0], &nova_consulta.dia[1], &nova_consulta.dia[2]);
+
+    printf("\nHorários disponíveis:\n1. 08:00\n2. 10:00\n3. 14:00\nEscolha: ");
+    int escolha_horario;
+    scanf("%d", &escolha_horario);
+    verificaHorario(&escolha_horario);
+
+    switch (escolha_horario) {
+        case 1: nova_consulta.horario = 8; break;
+        case 2: nova_consulta.horario = 10; break;
+        case 3: nova_consulta.horario = 14; break;
+    }
+
+    printf("\nDeseja adicionar alguma observação? ");
+    getchar();
+    fgets(nova_consulta.obs, sizeof(nova_consulta.obs), stdin);
+    removerQuebraDeLinha(nova_consulta.obs);
+
+    FILE *arquivo_consulta;
+
+    arquivo_consulta = fopen("bin/dados_clientes.bin", "ab");
+
+    if (arquivo_consulta == NULL) {
+        exit(1);
+
+    }
+
+    fwrite(&nova_consulta, sizeof(nova_consulta), 1, arquivo_consulta);
+
+    fclose(arquivo_consulta);
+
+    printf("Agendado.");
 }
 
 void removerQuebraDeLinha(char *str)
@@ -292,7 +336,6 @@ void buscar_consulta(int *logado, cadastro_save *cadastro)
     // Abre o arquivo com os agendamentos salvos e lê.
     FILE *le_dados = fopen("dados_clientes.bin", "rb");
 
-    char senha[21];
     char cpf[12];
     if (!logado)
         login(logado, cadastro);

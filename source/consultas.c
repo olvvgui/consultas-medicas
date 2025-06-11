@@ -7,7 +7,7 @@
 
 int main() {
     int logado = 0; // Estado de login (0 = não logado)
-    int escolha = - 1;
+    int escolha = -1;
 
     do {
         escolha = menu();
@@ -15,13 +15,12 @@ int main() {
 
             case 1: cadastrar_conta(&logado, &cadastro); break;
 
-            /*case 2: agendar_consulta(&logado); break;
+            case 2: agendar_consulta(&logado, &cadastro); break;
 
-            case 3: buscar_consulta(&logado); break;*/
+            case 3: buscar_consulta(&logado, &cadastro); break;
 
             case 0: printf("Saindo...\n"); break;
 
-            //default: printf("Opção inválida!\n");
         }
 
     } while (escolha != 0);

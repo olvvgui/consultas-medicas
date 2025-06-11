@@ -28,7 +28,7 @@ void removerQuebraDeLinha(char *str);
 
 // menu para escolha do que fazer
 int menu();
-
+void agendar_consulta(int *logado, cadastro_save *usuario_logado);
 // criação de conta
 void cadastrar_conta(int *logado, cadastro_save *atual);
 
