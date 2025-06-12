@@ -24,7 +24,7 @@ int main()
 
     int choose = menu();
 
-    // Se o usuario escolher a opcao Cadastramento de conta.
+    // se o usuario escolher a opcao Cadastramento de conta.
     if (choose == 1)
     {
         printf_verde("\n\t\t=== SIGN IN ===\n");
@@ -217,7 +217,7 @@ int main()
             // Funcao para buscar consultas.
             buscar_consulta(cadastro.nome, cpfDigitado);
             main();
-        }
+        } 
     }
 
     // se o usuario escolher a opcao Cancelamento de consulta.
