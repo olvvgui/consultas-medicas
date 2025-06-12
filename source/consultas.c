@@ -6,6 +6,11 @@
 #include "bibliotecas/funcoes.c"
 #include "bibliotecas/funcoes.h"
 
+// login conta admin
+// cpf = 12345678901
+// senha = 12345678
+// email = adm@ufg.br
+
 int main()
 {
 
@@ -22,7 +27,7 @@ int main()
     // Se o usuario escolher a opcao Cadastramento de conta.
     if (choose == 1)
     {
-        printf("\n\t\t=== SIGN IN ===\n");
+        printf_verde("\n\t\t=== SIGN IN ===\n");
 
         getchar(); // limpa o buffer pra iniciar
 
@@ -33,16 +38,30 @@ int main()
         /* fgets funcina melhor que o scanf para pegar string (lê espaço).
         sizeof é pra garantir que o fgts n ultrapasse 60 caracteres. e o stdin define o fluxo de entrada padrão */
 
-        printf("\n\tDigite o seu cpf no formato (00000000000): "); // digitar cpf                                             // limpa o buffer pra iniciar
+        printf("\n\tDigite o seu cpf no formato"); // digitar cpf
+        printf_vermelho(" (00000000000): ");
+
         scanf("%s", cadastro.cpf);
         removerQuebraDeLinha(cadastro.cpf);
 
         while (strlen(cadastro.cpf) != 11)
         { // loop que lê o cpf vê se ele é igual ou diferente de 11
 
-            printf("\n\tSeu CPF é inválido! Digite ele novamente: ");
+            printf_vermelho("\n\tSeu CPF é inválido! Digite ele novamente: ");
             scanf("%s", cadastro.cpf);
         }
+
+        printf("\n\tDigite o seu email para contato: ");
+        scanf("%s", cadastro.email);
+
+        while (verificaEmail(cadastro.email) == 0)
+        {
+            printf_vermelho("\n\tDigite um email válido: ");
+            scanf("%s", cadastro.email);
+        }
+
+        removerQuebraDeLinha(cadastro.email);
+
         printf("\n\tDigite sua senha");
         printf_vermelho(" (mínimo 8 caracteres & máximo 20 caracteres)");
         printf(": ");
@@ -81,7 +100,7 @@ int main()
 
         cadastrarpaciente(plog, cadastro);
 
-        printf_verde("\n\tParabens, voce está cadastrado! O que deseja fazer agora?\n\n");
+        printf_verde("\n\tParabens, você está cadastrado! O que deseja fazer agora?\n\n");
 
         main();
     }
@@ -89,12 +108,13 @@ int main()
     // Se o usuario escolher a opcao Cadastrar Agendamento.
     else if (choose == 2)
     {
+
+        printf_verde("\n\t\t=== Cadastrar Agendamento ===\n");
         if (logado != 1)
         {
-            printf("\n\tÉ necessário fazer login primeiro.\n");
+            printf_vermelho("\n\tÉ necessário fazer login primeiro.\n");
             login(cpfDigitado, senhaDigitada, cadastro.nome, cadastro.idade, plog);
         }
-        printf("\n\tBem vindo, Senhor(a) %s", cadastro.nome);
 
         char *espec[10] = {"Clinica", "Pediatria", "Ginecologia", "Cardiologia", "Dermatologia", "Neurologia", "Ortopedia", "Psiquiatria", "Oftalmologia", "Oncologia"};
         char *medicos[10] = {"Dr. Joao", "Dr. Medina", "Dr. Carlos", "Dr. Socrates", "Dr. Arnaldo", "Dr. Braulio", "Dr. Ulisses", "Dra. Laura", "Dra. Eneida", "Dra. Maria"};
@@ -104,7 +124,7 @@ int main()
         for (int i = 0; i < 10; i++)
         {
             if (i == 0)
-                printf("\n\n\tSelecione o medico: ");
+                printf("\n\n\tSelecione o médico: ");
 
             printf("\n%d. %s - %s", i + 1, medicos[i], espec[i]);
         }
@@ -117,10 +137,10 @@ int main()
         // segfault quando nome_med > 10;
 
         strcpy(paciente.medico, medicos[nome_med - 1]);
-        printf("\n\tMedico selecionado: %s!", paciente.medico);
+        printf("\n\tMédico selecionado: %s!", paciente.medico);
         strcpy(paciente.medico, medicos[nome_med - 1]);
         // aloca os dados da consulta agendada pelo paciente
-        int dia, mes, ano, hora; // declaracao de variaveis // contador do loop
+        int dia, mes, ano, hora; // declaracao de variaveis
 
         tempo data;
         tempoagora(&data); // coletando o tempo de agora
@@ -130,7 +150,7 @@ int main()
 
         while (validardata(dia, mes, ano) == 0)
         {
-            printf("\n\tInforme uma data válida de consulta (dia mês ano): ");
+            printf_vermelho("\n\tInforme uma data válida de consulta (dia/mês/ano): ");
             scanf("%d/%d/%d", &dia, &mes, &ano);
         }
 
@@ -162,7 +182,7 @@ int main()
             }
 
             if (!valido)
-                printf("\n\tHorário inválido, digite novamente um dos horários disponíveis!\n");
+                printf_vermelho("\n\tHorário inválido, digite novamente um dos horários disponíveis!\n");
         }
 
         // aloca o horario escolhido pelo paciente na struct
@@ -177,7 +197,7 @@ int main()
         fwrite(&paciente, sizeof(struct dados_paciente), 1, salvar_dados);
         fclose(salvar_dados);
 
-        printf("\n\tConsulta agendada com sucesso! O que deseja fazer agora?\n\n");
+        printf_verde("\n\tConsulta agendada com sucesso! O que deseja fazer agora?\n\n");
 
         main();
     }
@@ -185,9 +205,11 @@ int main()
     // Se o usuario escolher a opcao Buscar de agendamento.
     else if (choose == 3)
     {
+
+        printf_verde("\n\t\t=== Buscar Agendamento ===\n");
         if (logado != 1)
         {
-            printf("\n\tÉ necessário fazer login primeiro.\n");
+            printf_vermelho("\n\tÉ necessário fazer login primeiro.\n");
             login(cpfDigitado, senhaDigitada, cadastro.nome, cadastro.idade, plog);
         }
         if (logado == 1)
@@ -201,9 +223,10 @@ int main()
     // Se o usuario escolher a opcao Cancelamento de consulta.
     else if (choose == 4)
     {
+        printf_verde("\n\t\t=== Cancelamento de Consulta ===\n");
         if (logado != 1)
         {
-            printf("\n\tÉ necessário fazer login primeiro.\n");
+            printf_vermelho("\n\tÉ necessário fazer login primeiro.\n");
             login(cpfDigitado, senhaDigitada, cadastro.nome, cadastro.idade, plog);
         }
         if (logado == 1)
@@ -218,9 +241,10 @@ int main()
     // Se o usuario escolher a opcao Reagendamento de consulta.
     else if (choose == 5)
     {
+        printf_verde("\n\t\t=== Reagendamento de Consulta ===\n");
         if (logado != 1)
         {
-            printf("\n\tÉ necessário fazer login primeiro.\n");
+            printf_vermelho("\n\tÉ necessário fazer login primeiro.\n");
             login(cpfDigitado, senhaDigitada, cadastro.nome, cadastro.idade, plog);
         }
         if (logado == 1)
@@ -235,6 +259,7 @@ int main()
     // Se o usuario escolher a opcao Buscar consultas por dia e medico.
     else if (choose == 6)
     {
+        printf_verde("\n\t\t=== Buscar Consultas ===\n");
 
         int escolha;
 

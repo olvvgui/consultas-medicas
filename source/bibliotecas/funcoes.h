@@ -19,6 +19,7 @@ typedef struct
     char senha[21];
     char cpf[12];
     char idade[4];
+    char email[61];
 
 } cadastro_save;
 
@@ -56,9 +57,6 @@ int validardata(int dia, int mes, int ano);
 // função para mostrar horários disponíveis, de acordo com a data
 void horariosvalidos(int dia, int *vet);
 
-// verifica a veracidade do horario
-void verificaHorario(int *escolha);
-
 // implementação dos lembretes
 void lembrete(int *dia, int hora, char *med);
 
@@ -92,5 +90,8 @@ void printf_vermelho(const char *txt);
 
 // printa o texto em verde
 void printf_verde(const char *text);
+
+// verifica se o email tem um domínio valido
+int verificaEmail(char *email);
 
 #endif

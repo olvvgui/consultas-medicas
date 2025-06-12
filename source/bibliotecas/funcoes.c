@@ -13,7 +13,7 @@ void removerQuebraDeLinha(char *str)
 int menu()
 {
     int escolha = 0;
-    printf("\n\tEscolha o que deseja fazer:");
+    printf_verde("\n\tEscolha o que deseja fazer:");
     printf("\n\t0.Sair do programa.");
     printf("\n\t1.Cadastramento de conta.");
     printf("\n\t2.Agendamento de consulta.");
@@ -26,7 +26,7 @@ int menu()
 
     if (escolha == 0)
     {
-        printf("\n\tFinalizando programa...");
+        printf_verde("\n\tFinalizando programa...");
         return 0;
     }
 
@@ -57,7 +57,7 @@ void cadastrarpaciente(int *pointer, cadastro_save cad)
 
 void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], char idadeLogin[4], int *logado)
 {
-    printf("\n\t\t=== LOGIN ===\n");
+    printf_verde("\n\t\t=== LOGIN ===\n");
 
     while (1)
     {
@@ -73,8 +73,8 @@ void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], cha
         removerQuebraDeLinha(cpfDigitado);
 
         if (strcmp(cpfDigitado, "sair") == 0)
-        {
-            printf("\n\tFechando...");
+        { 
+            printf_verde("\n\tFechando...");
             exit(0);
             break;
         }
@@ -114,7 +114,6 @@ void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], cha
                     printf_verde("\n\tLogin bem-sucedido!");
                     printf("\n\tBem vindo! %s.", cadastro.nome);
                     *logado = 1;
-                    printf("\t\t\t%d", *logado);
                     strcpy(nomeLogin, cadastro.nome);
                     strcpy(idadeLogin, cadastro.idade);
                     fclose(lercadastro);
@@ -276,7 +275,7 @@ void horariosvalidos(int dia, int *vet)
 
         if (min_hora > max_hora)
         {
-            printf("\nNão há horários disponíveis para hoje!\n");
+            printf_vermelho("\nNão há horários disponíveis para hoje!\n");
             return;
         }
 
@@ -297,7 +296,7 @@ void horariosvalidos(int dia, int *vet)
 
         if (disponiveis == 0)
         {
-            printf("\nNão há horários disponíveis para hoje!\n");
+            printf_vermelho("\nNão há horários disponíveis para hoje!\n");
             return;
         }
     }
@@ -319,29 +318,21 @@ void horariosvalidos(int dia, int *vet)
         }
         if (disponiveis == 0)
         {
-            printf("\nNão há horários disponíveis!\n");
+            printf_vermelho("\nNão há horários disponíveis!\n");
             return;
         }
     }
 }
 
-void verificaHorario(int *escolha)
-{
-    while (*escolha != 1 && *escolha != 2 && *escolha != 3)
-    {
-        printf_vermelho("Horario invalido. Tente novamente: ");
-        scanf("%d", &*escolha);
-    }
-}
+
 
 void lembrete(int *dia, int hora, char *nome)
 {
     printf("\a"); // beep
     sleep(2);     // Tempo decorrido até aparecer a mensagem
     printf("LEMBRETE\nConsulta dia %02d/%02d/%d as %d:00\nMedico: %s\nAtt. Hospital\n",
-           dia[0], dia[1], dia[2], hora, nome);
-    // system("pause");//presisonar qualquer tecla para fechar a mensagem
-    // system("cls");//limpar a tela
+           dia[0], dia[1], dia[2], hora, nome); // adicionar email
+    
 }
 
 // Funcao para ver todas as consultas agendadas em um determinado medico.
@@ -355,7 +346,7 @@ void ver_consultas_medico()
 
     if (consultas == NULL)
     {
-        printf("\n\tNenhuma consulta agendada.\n");
+        printf_vermelho("\n\tNenhuma consulta agendada.\n");
         return;
     }
 
@@ -366,7 +357,7 @@ void ver_consultas_medico()
     for (int i = 0; i < 10; i++)
     {
         if (i == 0)
-            printf("\nSelecione o medico: ");
+            printf_verde("\nSelecione o medico: ");
 
         printf("%d. %s\n", i + 1, medicos[i]);
     }
@@ -402,7 +393,7 @@ void ver_consultas_no_dia()
 
     if (consultas == NULL)
     {
-        printf("\nNenhuma consulta agendada ainda.\n");
+        printf_vermelho("\nNenhuma consulta agendada ainda.\n");
         return;
     }
 
@@ -440,14 +431,14 @@ void buscar_consulta(const char *nome, const char *cpf)
 
     if (le_dados == NULL)
     {
-        printf("\nNenhuma consulta agendada.\n");
+        printf_vermelho("\nNenhuma consulta agendada.\n");
         return;
     }
 
     int encontrado = 0; // Variavel para saber se encontrou alguma consulta.
     struct dados_paciente paciente;
 
-    printf("\n\n\t\t=== Consultas Agendadas ===\n\n");
+    printf_verde("\n\n\t\t=== Consultas Agendadas ===\n\n");
 
     // Lê o arquivo até não encontrar mais dados.
     while (fread(&paciente, sizeof(struct dados_paciente), 1, le_dados) == 1)
@@ -471,7 +462,8 @@ void buscar_consulta(const char *nome, const char *cpf)
     // Se não encontrou nenhuma consulta com o CPF digitado, imprime essa mensagem.
     if (!encontrado)
     {
-        printf("\n\tNenhuma consulta encontrada para %s (CPF: %s).\n\n", nome, cpf);
+        printf_vermelho("\n\tNenhuma consulta encontrada para");
+        printf (" %s (CPF: %s).\n\n", nome, cpf);
     }
     // Fecha o arquivo.
     fclose(le_dados);
@@ -485,7 +477,7 @@ void cancelar_consulta(const char *cpf)
     FILE *cancelar = fopen("bin/dados_clientes.bin", "rb");
     if (cancelar == NULL)
     {
-        printf("\nConsulta não encontrada.\n");
+        printf_vermelho("\nConsulta não encontrada.\n");
         return;
     }
 
@@ -493,7 +485,7 @@ void cancelar_consulta(const char *cpf)
     FILE *auxiliar_cancelar = fopen("auxiliar.bin", "wb");
     if (auxiliar_cancelar == NULL)
     {
-        printf("\nErro ao criar arquivo temporário.\n");
+        printf_vermelho("\nErro ao criar arquivo temporário.\n");
         fclose(cancelar);
         return;
     }
@@ -511,7 +503,7 @@ void cancelar_consulta(const char *cpf)
         if (strcmp(cadastro.cpf, cpf) == 0)
         {
             encontrado = 1;
-            printf("\nConsulta cancelada com sucesso:\n");
+            printf_verde("\nConsulta cancelada com sucesso:\n");
             printf("Data: %02d/%02d/%d\n", paciente.dia[0], paciente.dia[1], paciente.dia[2]);
             printf("Horário: %02d:00\n", paciente.horario);
             printf("Médico: %s\n", paciente.medico);
@@ -530,7 +522,7 @@ void cancelar_consulta(const char *cpf)
 
     if (!encontrado)
     {
-        printf("\nConsulta não encontrada.\n");
+        printf_vermelho("\nConsulta não encontrada.\n");
         remove("auxiliar.bin");
     }
     else
@@ -550,14 +542,14 @@ void reagendar_consulta(const char *cpf)
     FILE *reagendar = fopen("bin/dados_clientes.bin", "rb");
     if (reagendar == NULL)
     {
-        printf("\nConsulta não encontrada.\n");
+        printf_vermelho("\nConsulta não encontrada.\n");
         return;
     }
     // Abre o arquivo para auxiliar o reagendamento de consultas.
     FILE *auxiliar_reagendar = fopen("temp.bin", "wb");
     if (auxiliar_reagendar == NULL)
     {
-        printf("\nErro ao criar arquivo temporário.\n");
+        printf_vermelho("\nErro ao criar arquivo temporário.\n");
         fclose(reagendar);
         return;
     }
@@ -579,38 +571,14 @@ void reagendar_consulta(const char *cpf)
             printf("Horário: %02d:00\n", paciente.horario);
             printf("Médico: %s\n", paciente.medico);
             // Questiona a nova data e hora da consulta.
-            printf("\nInforme a data da consulta (dia mes ano): ");
-            scanf("%d %d %d", &paciente.dia[0], &paciente.dia[1], &paciente.dia[2]);
-            validardata(paciente.dia[0], paciente.dia[1], paciente.dia[2]);
+            printf("\nInforme a data da consulta (dia/mes/ano): ");
+            scanf("%d/%d/%d", &paciente.dia[0], &paciente.dia[1], &paciente.dia[2]);
 
-            while (validardata(paciente.dia[0], paciente.dia[1], paciente.dia[2]))
-            {
-                printf("\n\tInforme uma data válida (dia mês ano): ");
-                scanf("%d %d %d", &paciente.dia[0], &paciente.dia[1], &paciente.dia[2]);
-            }
-
-            printf("\n\nHorários disponíveis:\n");
-            printf("1. 08:00\n2. 10:00\n3. 14:00\nEscolha: ");
-            int nova_hora; // Escaneia o novo horario da consulta.
-            scanf("%d", &nova_hora);
-
-            switch (nova_hora)
-            {
-            case 1:
-                paciente.horario = 8;
-                break;
-            case 2:
-                paciente.horario = 10;
-                break;
-            case 3:
-                paciente.horario = 14;
-                break;
-            default:
-            {
-                printf("Opção inválida. Usando horário padrão as 08:00.\n");
-                paciente.horario = 8;
-            }
-            }
+          while (validardata( paciente.dia[0], paciente.dia[1], paciente.dia[2]) == 0)
+        {
+            printf("\n\tInforme uma data válida (dia/mês/ano): ");
+            scanf("%d/%d/%d",  &paciente.dia[0], &paciente.dia[1], &paciente.dia[2]);
+        }
 
             printf("\nConsulta reagendada com sucesso!\n");
         }
@@ -681,4 +649,27 @@ void printf_vermelho(const char *txt)
 void printf_verde(const char *text)
 {
     printf("\033[1;32m%s\033[0m", text);
+}
+
+int verificaEmail(char *email)
+{
+    char *dominios[] = {"@gmail.com", "@hotmail.com", "@outlook.com",
+                        "@discente.ufg.br", "@ufg.br"};
+
+    size_t tamanhoemail = strlen(email); // verifica o tamanho da string passada
+    // size_t é melhor para lidar com tamanho de arrays e strings
+
+    int numerodominios = sizeof(dominios) / sizeof(dominios[0]); // calcula o numero de dominios (para caso se adicione mais)
+
+    for (int i = 0; i < numerodominios; i++)
+    {
+        size_t tamanhodom = strlen(dominios[i]); // calcula o tamanho do dominio atual
+
+        if (tamanhoemail >= tamanhodom && strcmp(email + tamanhoemail - tamanhodom, dominios[i]) == 0) // verifica o tamanho do email com o dominio, se for menor, nao verifica e retorna 0
+                                                                                                       // "email + tamanhoemail - tamanhodom" retira elementos da string até onde supostamente comecaria o dominio "@" e compara com o dominio
+
+            return 1; // encontrou domínio
+    }
+
+    return 0; // encontrou nada
 }
