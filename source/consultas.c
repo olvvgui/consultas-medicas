@@ -220,8 +220,8 @@ int main()
         }
     }
 
-    // Se o usuario escolher a opcao Cancelamento de consulta.
-    else if (choose == 4)
+    // se o usuario escolher a opcao Cancelamento de consulta.
+    else if (choose == 4) 
     {
         printf_verde("\n\t\t=== Cancelamento de Consulta ===\n");
         if (logado != 1)
