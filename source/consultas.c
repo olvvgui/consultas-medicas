@@ -24,10 +24,13 @@ int main()
 
     int choose = menu();
 
-    // se o usuario escolher a opcao Cadastramento de conta.
-    if (choose == 1)
+    switch (choose)
     {
-        printf_verde("\n\t\t=== SIGN IN ===\n");
+    // se o usuario escolher a opcao Cadastramento de conta.
+
+    case 1:
+        
+        printf_verde("\n\t\t\t\t\t\t=== SIGN IN ===\n");
 
         getchar(); // limpa o buffer pra iniciar
 
@@ -100,16 +103,15 @@ int main()
 
         cadastrarpaciente(plog, cadastro);
 
-        printf_verde("\n\tParabens, você está cadastrado! O que deseja fazer agora?\n\n");
+        printf_verde("\n\tParabens, você está cadastrado! O que deseja fazer agora?\n");
 
         main();
-    }
 
-    // Se o usuario escolher a opcao Cadastrar Agendamento.
-    else if (choose == 2)
-    {
+        break;
+    // Se o usuario escolher a opção Cadastrar Agendamento.
+      case 2:
 
-        printf_verde("\n\t\t=== Cadastrar Agendamento ===\n");
+        printf_verde("\n\t\t\t\t\t\t\t\t=== Cadastrar Agendamento ===\n");
         if (logado != 1)
         {
             printf_vermelho("\n\tÉ necessário fazer login primeiro.\n");
@@ -126,7 +128,7 @@ int main()
             if (i == 0)
                 printf("\n\n\tSelecione o médico: ");
 
-            printf("\n%d. %s - %s", i + 1, medicos[i], espec[i]);
+            printf("\n\t%d. %s - %s", i + 1, medicos[i], espec[i]);
         }
         printf("\n\tR: ");
         // Testes comparando a especialidade escolhida e o nome do médico.
@@ -197,16 +199,15 @@ int main()
         fwrite(&paciente, sizeof(struct dados_paciente), 1, salvar_dados);
         fclose(salvar_dados);
 
-        printf_verde("\n\tConsulta agendada com sucesso! O que deseja fazer agora?\n\n");
+        printf_verde("\n\t\t\t\t\t\tConsulta agendada com sucesso! O que deseja fazer agora?\n\n");
 
         main();
-    }
+        break;
 
     // Se o usuario escolher a opcao Buscar de agendamento.
-    else if (choose == 3)
-    {
-
-        printf_verde("\n\t\t=== Buscar Agendamento ===\n");
+      case 3:
+    
+        printf_verde("\n\t\t\t\t\t\t=== Buscar Agendamento ===\n");
         if (logado != 1)
         {
             printf_vermelho("\n\tÉ necessário fazer login primeiro.\n");
@@ -217,13 +218,14 @@ int main()
             // Funcao para buscar consultas.
             buscar_consulta(cadastro.nome, cpfDigitado);
             main();
+
         } 
-    }
+    break;
 
     // se o usuario escolher a opcao Cancelamento de consulta.
-    else if (choose == 4) 
-    {
-        printf_verde("\n\t\t=== Cancelamento de Consulta ===\n");
+    case 4: 
+    
+        printf_verde("\n\t\t\t\t\t\t=== Cancelamento de Consulta ===\n");
         if (logado != 1)
         {
             printf_vermelho("\n\tÉ necessário fazer login primeiro.\n");
@@ -236,12 +238,13 @@ int main()
             cancelar_consulta(cpfDigitado);
             main();
         }
-    }
+        break;
+    
 
     // Se o usuario escolher a opcao Reagendamento de consulta.
-    else if (choose == 5)
-    {
-        printf_verde("\n\t\t=== Reagendamento de Consulta ===\n");
+    case 5:
+    
+        printf_verde("\n\t\t\t\t\t\t=== Reagendamento de Consulta ===\n");
         if (logado != 1)
         {
             printf_vermelho("\n\tÉ necessário fazer login primeiro.\n");
@@ -254,12 +257,12 @@ int main()
             reagendar_consulta(cpfDigitado);
             main();
         }
-    }
+        break;
 
     // Se o usuario escolher a opcao Buscar consultas por dia e medico.
-    else if (choose == 6)
-    {
-        printf_verde("\n\t\t=== Buscar Consultas ===\n");
+    case 6:
+    
+        printf_verde("\n\t\t\t\t\t\t=== Buscar Consultas ===\n");
 
         int escolha;
 
@@ -281,6 +284,7 @@ int main()
             ver_consultas_no_dia();
             main();
         }
+        break;
     }
 
     return 0; // encerra o programa com sucesso
