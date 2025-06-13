@@ -57,7 +57,7 @@ void cadastrarpaciente(int *pointer, cadastro_save cad)
 
 void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], char idadeLogin[4], int *logado)
 {
-    printf_verde("\n\t\t=== LOGIN ===\n");
+    printf_verde("\n\t\t\t\t\t\t\t\t\t=== LOGIN ===\n");
 
     while (1)
     {
@@ -254,6 +254,7 @@ int validardata(int dia, int mes, int ano)
                 return 0;
         }
     }
+    return 0;
 }
 
 void horariosvalidos(int dia, int *vet)
@@ -324,8 +325,6 @@ void horariosvalidos(int dia, int *vet)
     }
 }
 
-
-
 void lembrete(int *dia, int hora, char *nome)
 {
     printf("\a"); // beep
@@ -352,18 +351,31 @@ void ver_consultas_medico()
 
     struct dados_paciente paciente;
 
-    char *medicos[10] = {"\nDr. Joao", "Dr. Medina", "Dr. Carlos", "Dr. Socrates", "Dr. Arnaldo", "Dr. Braulio", "Dr. Ulisses", "Dra. Laura", "Dra. Eneida", "Dra. Maria"};
+    char *medicos[10] = {"Dr. Joao", "Dr. Medina", "Dr. Carlos", "Dr. Socrates", "Dr. Arnaldo", "Dr. Braulio", "Dr. Ulisses", "Dra. Laura", "Dra. Eneida", "Dra. Maria"};
     // For para escolher o medico.
+
+   while(nome_med > 10 || nome_med < 1)
+   {
+
+    printf_verde("\nSelecione o medico: \n");
+
     for (int i = 0; i < 10; i++)
     {
-        if (i == 0)
-            printf_verde("\nSelecione o medico: ");
-
         printf("%d. %s\n", i + 1, medicos[i]);
     }
-    printf("R: ");
 
+    printf("R: ");
+   
     scanf("%d", &nome_med);
+
+    if (nome_med > 10 || nome_med < 1)
+    {
+    printf_vermelho("\nMedico inválido\n");
+        
+    }
+    
+   }
+   
     // Le o arquivo ate o fim.
 
     printf("\nConsultas marcadas por %s:\n\n", medicos[nome_med - 1]);
@@ -399,10 +411,10 @@ void ver_consultas_no_dia()
 
     struct dados_paciente paciente;
     // Escolher o dia.
-    printf("\nDigite o dia (dia mes ano):\n");
+    printf("\nDigite o dia (dia/mes/ano):\n");
     printf("R: ");
 
-    scanf("%d %d %d", &diaesc[0], &diaesc[1], &diaesc[2]);
+    scanf("%d/%d/%d", &diaesc[0], &diaesc[1], &diaesc[2]);
 
     printf("\nConsultas marcado no dia %02d/%02d/%04d\n", diaesc[0], diaesc[1], diaesc[2]);
 
@@ -414,7 +426,7 @@ void ver_consultas_no_dia()
         if (paciente.dia[0] == diaesc[0] && paciente.dia[1] == diaesc[1] && paciente.dia[2] == diaesc[2])
         {
             printf("Horário: %02d:00\n", paciente.horario);
-            printf("Médico: Dr. %s\n", paciente.medico);
+            printf("Médico: %s\n", paciente.medico);
             printf("Data: %02d/%02d/%d\n", paciente.dia[0], paciente.dia[1], paciente.dia[2]);
         }
 
@@ -469,7 +481,7 @@ void buscar_consulta(const char *nome, const char *cpf)
     fclose(le_dados);
 }
 
-// Funcao ara cancerlar consultas.
+// Funcao para cancerlar consultas.
 void cancelar_consulta(const char *cpf)
 {
 
@@ -503,10 +515,10 @@ void cancelar_consulta(const char *cpf)
         if (strcmp(cadastro.cpf, cpf) == 0)
         {
             encontrado = 1;
-            printf_verde("\nConsulta cancelada com sucesso:\n");
-            printf("Data: %02d/%02d/%d\n", paciente.dia[0], paciente.dia[1], paciente.dia[2]);
-            printf("Horário: %02d:00\n", paciente.horario);
-            printf("Médico: %s\n", paciente.medico);
+            printf_verde("\n\n\tConsulta cancelada com sucesso:\n");
+            printf("\tData: %02d/%02d/%d\n", paciente.dia[0], paciente.dia[1], paciente.dia[2]);
+            printf("\tHorário: %02d:00\n", paciente.horario);
+            printf("\tMédico: %s\n", paciente.medico);
         }
         else
         {
