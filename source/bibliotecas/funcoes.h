@@ -58,7 +58,7 @@ int validardata(int dia, int mes, int ano);
 void horariosvalidos(int dia, int *vet);
 
 // função que simula um lembrete de consulta no email
-void lembrete(int *dia, int hora, char *nome, char *email);
+void lembrete(int *dia, int hora, char *medico, char *email);
 
 void buscar_consulta(const char *nome, const char *cpf);
 void reagendar_consulta(const char *cpf);
