@@ -322,11 +322,13 @@ void horariosvalidos(int dia, int *vet)
     }
 }
 
-void lembrete(int *dia, int hora, char *nome)
+void lembrete(int *dia, int hora, char *nome, char *email)
 {
     printf("\a"); // beep
     sleep(2);     // Tempo decorrido até aparecer a mensagem
-    printf("LEMBRETE\nConsulta dia %02d/%02d/%d as %d:00\nMedico: %s\nAtt. Hospital\n",
+    printf("Para: %s", email);
+    printf_vermelho("\nLEMBRETE\n");
+    printf("Consulta dia %02d/%02d/%d as %d:00\nMedico: %s\nAtt. Hospital\n",
            dia[0], dia[1], dia[2], hora, nome); // adicionar email
     
 }
