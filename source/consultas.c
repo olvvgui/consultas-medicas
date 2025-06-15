@@ -3,6 +3,9 @@
 #include <string.h> // para manipulação de strings: strcmp, strtok, etc
 #include <stdlib.h> // para funções gerais (como exit, malloc, etc se usadas futuramente)
 #include <time.h>
+#if defined(_WIN32) || defined(_WIN64)
+    #include <windows.h>
+#endif
 #include "bibliotecas/funcoes.h"
 
 // login conta admin
@@ -12,6 +15,10 @@
 
 int main()
 {
+#if defined(_WIN32) || defined(_WIN64)
+    SetConsoleOutputCP(65001); //diretivas de compilação somente para windows (resolve problema de caracteres especiais)
+    SetConsoleCP(65001);
+#endif
 
     char senha1[21]; // máximo de 60 caracteres
     char senha2[21]; // máximo de 60 caracteres

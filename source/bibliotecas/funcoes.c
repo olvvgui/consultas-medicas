@@ -46,7 +46,8 @@ void cadastrarpaciente(int *pointer, cadastro_save cad)
 
     if (arquivo == NULL)
     {
-        exit(1); // fecha o programa se o arquivo não abrir
+        printf("Nao foi possivel abrir o arquivo.");
+        return; // fecha o programa se o arquivo não abrir
     }
 
     fwrite(&cad, sizeof(cadastro_save), 1, arquivo); // escreve no arquivo
