@@ -207,7 +207,7 @@ int main()
         paciente.obs[strcspn(paciente.obs, "\n")] = 0;
 
         // Salva os dados obtidos no arquivo dados_clientes.bin.
-        FILE *salvar_dados = fopen("bin/dados_clientes.bin", "ab");
+        FILE *salvar_dados = fopen("source/bin/dados_clientes.bin", "ab");
         fwrite(&paciente, sizeof(dados_paciente), 1, salvar_dados);
         fclose(salvar_dados);
 
@@ -215,6 +215,8 @@ int main()
 
         main();
         break;
+
+
 
     // Se o usuario escolher a opcao Buscar de agendamento.
       case 3:
@@ -233,6 +235,8 @@ int main()
 
         } 
     break;
+
+
 
     // se o usuario escolher a opcao Cancelamento de consulta.
     case 4: 
@@ -253,6 +257,7 @@ int main()
         break;
     
 
+
     // Se o usuario escolher a opcao Reagendamento de consulta.
     case 5:
     
@@ -270,6 +275,8 @@ int main()
             main();
         }
         break;
+
+
 
     // Se o usuario escolher a opcao Buscar consultas por dia e medico.
     case 6:

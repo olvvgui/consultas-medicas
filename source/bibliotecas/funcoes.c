@@ -436,15 +436,15 @@ void ver_consultas_no_dia()
 void buscar_consulta(const char *nome, const char *cpf)
 {
     // Abre o arquivo com os agendamentos salvos e lê.
-    FILE *le_dados = fopen("bin/dados_clientes.bin", "rb");
+    FILE *le_dados = fopen("source/bin/dados_clientes.bin", "rb");
 
     if (le_dados == NULL)
     {
-        printf_vermelho("\nNenhuma consulta agendada.\n");
+        printf_vermelho("\nErro ao buscar consultas.\n");
         return;
     }
 
-    int encontrado = 0; // Variavel para saber se encontrou alguma consulta.
+    int encontrado = 0; // flag para saber se encontrou alguma consulta.
     dados_paciente paciente;
 
     printf_verde("\n\n\t\t=== Consultas Agendadas ===\n\n");
