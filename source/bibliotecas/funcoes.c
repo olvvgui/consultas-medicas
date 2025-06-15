@@ -349,7 +349,7 @@ void ver_consultas_medico()
         return;
     }
 
-    struct dados_paciente paciente;
+    dados_paciente paciente;
 
     char *medicos[10] = {"Dr. Joao", "Dr. Medina", "Dr. Carlos", "Dr. Socrates", "Dr. Arnaldo", "Dr. Braulio", "Dr. Ulisses", "Dra. Laura", "Dra. Eneida", "Dra. Maria"};
     // For para escolher o medico.
@@ -379,7 +379,7 @@ void ver_consultas_medico()
     // Le o arquivo ate o fim.
 
     printf("\nConsultas marcadas por %s:\n\n", medicos[nome_med - 1]);
-    while (fread(&paciente, sizeof(struct dados_paciente), 1, consultas) == 1)
+    while (fread(&paciente, sizeof(dados_paciente), 1, consultas) == 1)
     {
         // Compara o nome do medico escolhido com o nome do medico da consulta marcada.
         if (strcmp(paciente.medico, medicos[nome_med - 1]) == 0)
@@ -409,7 +409,7 @@ void ver_consultas_no_dia()
         return;
     }
 
-    struct dados_paciente paciente;
+    dados_paciente paciente;
     // Escolher o dia.
     printf("\nDigite o dia (dia/mes/ano):\n");
     printf("R: ");
@@ -419,7 +419,7 @@ void ver_consultas_no_dia()
     printf("\nConsultas marcado no dia %02d/%02d/%04d\n", diaesc[0], diaesc[1], diaesc[2]);
 
     // Le o arquivo ate o fim.
-    while (fread(&paciente, sizeof(struct dados_paciente), 1, consultas) == 1)
+    while (fread(&paciente, sizeof(dados_paciente), 1, consultas) == 1)
     {
         // Compara o dia escolhido com o dia da consulta marcada.
 
@@ -448,12 +448,12 @@ void buscar_consulta(const char *nome, const char *cpf)
     }
 
     int encontrado = 0; // Variavel para saber se encontrou alguma consulta.
-    struct dados_paciente paciente;
+    dados_paciente paciente;
 
     printf_verde("\n\n\t\t=== Consultas Agendadas ===\n\n");
 
     // Lê o arquivo até não encontrar mais dados.
-    while (fread(&paciente, sizeof(struct dados_paciente), 1, le_dados) == 1)
+    while (fread(&paciente, sizeof(dados_paciente), 1, le_dados) == 1)
     {
         // Remove quebras de linha.
         removerQuebraDeLinha(paciente.nome);
@@ -502,11 +502,11 @@ void cancelar_consulta(const char *cpf)
         return;
     }
 
-    struct dados_paciente paciente;
+    dados_paciente paciente;
     int encontrado = 0; // Variavel para saber se encontrou alguma consulta.
 
     // Lê o arquivo até não encontrar mais dados.
-    while (fread(&paciente, sizeof(struct dados_paciente), 1, cancelar) == 1)
+    while (fread(&paciente, sizeof(dados_paciente), 1, cancelar) == 1)
     {
 
         removerQuebraDeLinha(cadastro.cpf); // Remove quebras de linha.
@@ -524,7 +524,7 @@ void cancelar_consulta(const char *cpf)
         {
 
             // Escreve no arquivo auxiliar as consultas que não serão canceladas.
-            fwrite(&paciente, sizeof(struct dados_paciente), 1, auxiliar_cancelar);
+            fwrite(&paciente, sizeof(dados_paciente), 1, auxiliar_cancelar);
         }
     }
 
@@ -566,11 +566,11 @@ void reagendar_consulta(const char *cpf)
         return;
     }
 
-    struct dados_paciente paciente;
+    dados_paciente paciente;
     int encontrado = 0; // Variavel para sabe se encontrou alguma consulta.
 
     // Lê o arquivo até não encontrar mais dados.
-    while (fread(&paciente, sizeof(struct dados_paciente), 1, reagendar) == 1)
+    while (fread(&paciente, sizeof(dados_paciente), 1, reagendar) == 1)
     {
         removerQuebraDeLinha(cadastro.cpf);
 
@@ -594,7 +594,7 @@ void reagendar_consulta(const char *cpf)
 
             printf("\nConsulta reagendada com sucesso!\n");
         }
-        fwrite(&paciente, sizeof(struct dados_paciente), 1, auxiliar_reagendar);
+        fwrite(&paciente, sizeof(dados_paciente), 1, auxiliar_reagendar);
     }
     // Fecha os arquivos abertos.
     fclose(reagendar);
@@ -650,9 +650,9 @@ void randomizar(int *rd, int tam, int min, int max)
     qsort(rd, tam, sizeof(int), compare); // ordena os horários para exibir em ordem
 }
 
-void printf_vermelho(const char *txt)
+void printf_vermelho(const char *text)
 {
-    printf("\033[1;31m%s\033[0m", txt);
+    printf("\033[1;31m%s\033[0m", text);
     // "\033[" ativa a sequencia ANSI (formastação espciacial d textos pro terminal)
     // "1;31m", "1" = negrito,  "31m" = vermelho
     // "\033[0m" reseta o texto pro normal do terminal

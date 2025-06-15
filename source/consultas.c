@@ -3,7 +3,6 @@
 #include <string.h> // para manipulação de strings: strcmp, strtok, etc
 #include <stdlib.h> // para funções gerais (como exit, malloc, etc se usadas futuramente)
 #include <time.h>
-#include "bibliotecas/funcoes.c"
 #include "bibliotecas/funcoes.h"
 
 // login conta admin
@@ -196,7 +195,7 @@ int main()
 
         // Salva os dados obtidos no arquivo dados_clientes.bin.
         FILE *salvar_dados = fopen("bin/dados_clientes.bin", "ab");
-        fwrite(&paciente, sizeof(struct dados_paciente), 1, salvar_dados);
+        fwrite(&paciente, sizeof(dados_paciente), 1, salvar_dados);
         fclose(salvar_dados);
 
         printf_verde("\n\t\t\t\t\t\tConsulta agendada com sucesso! O que deseja fazer agora?\n\n");

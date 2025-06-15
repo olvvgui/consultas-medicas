@@ -1,16 +1,16 @@
 #ifndef FUNCOES_H
 #define FUNCOES_H
 
-struct dados_paciente // Estrutura para guardar as informações
+typedef struct // Estrutura para guardar as informações
 {
     int dia[3];
     int horario;
     char nome[61];
     char obs[100];
     char medico[100];
-};
+} dados_paciente;
 
-struct dados_paciente paciente; // Inicializando uma estrutura
+dados_paciente paciente; // Inicializando uma estrutura
 
 typedef struct
 {
@@ -86,7 +86,7 @@ int compare(const void *a, const void *b);
 void randomizar(int *rd, int tam, int min, int max);
 
 // printa o texto em vermelho
-void printf_vermelho(const char *txt);
+void printf_vermelho(const char *text);
 
 // printa o texto em verde
 void printf_verde(const char *text);
