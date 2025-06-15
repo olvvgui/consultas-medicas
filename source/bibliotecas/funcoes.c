@@ -42,7 +42,7 @@ int menu()
 void cadastrarpaciente(int *pointer, cadastro_save cad)
 {
     FILE *arquivo;
-    arquivo = fopen("bin/cadastro.bin", "ab"); // abrindo (criando) o arquivo em modo append (adicionar)
+    arquivo = fopen("source/bin/cadastro.bin", "ab"); // abrindo (criando) o arquivo em modo append (adicionar)
 
     if (arquivo == NULL)
     {
@@ -76,15 +76,15 @@ void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], cha
         if (strcmp(cpfDigitado, "sair") == 0)
         { 
             printf_verde("\n\tFechando...");
-            exit(0);
-            break;
+            return;
+
         }
 
-        FILE *lercadastro = fopen("bin/cadastro.bin", "rb");
+        FILE *lercadastro = fopen("source/bin/cadastro.bin", "rb");
         if (lercadastro == NULL)
         {
             printf_vermelho("\n\tErro: não foi possível abrir o arquivo de usuários.\n");
-            exit(1);
+            return;
         }
 
         while (fread(&cadastro, sizeof(cadastro_save), 1, lercadastro) == 1)
@@ -120,18 +120,14 @@ void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], cha
                     fclose(lercadastro);
                     return;
                 }
+                printf_vermelho("\n\tSenha incorreta! Tente novamente.");
 
-                else
-                {
-                    printf_vermelho("\n\tSenha incorreta! Tente novamente.");
-                }
             }
+            break;
         }
 
-        if (loginRealizado != 1)
-        {
-            printf_vermelho("\n\tCPF incorreto! Tente novamente.");
-        }
+        printf_vermelho("\n\tCPF incorreto! Tente novamente.");
+
     }
 }
 

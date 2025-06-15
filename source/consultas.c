@@ -15,10 +15,13 @@
 
 int main()
 {
+
 #if defined(_WIN32) || defined(_WIN64)
     SetConsoleOutputCP(65001); //diretivas de compilação somente para windows (resolve problema de caracteres especiais)
     SetConsoleCP(65001);
 #endif
+
+
 
     char senha1[21]; // máximo de 60 caracteres
     char senha2[21]; // máximo de 60 caracteres
@@ -115,9 +118,12 @@ int main()
 
         break;
     // Se o usuario escolher a opção Cadastrar Agendamento.
+
+
+
       case 2:
 
-        printf_verde("\n\t\t\t\t\t\t\t\t=== Cadastrar Agendamento ===\n");
+        printf_verde("\n\t\t\t\t\t\t\t\t===Agendamento ===\n");
         if (logado != 1)
         {
             printf_vermelho("\n\tÉ necessário fazer login primeiro.\n");
