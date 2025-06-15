@@ -39,26 +39,38 @@ int menu()
     return escolha;
 }
 
-void cadastrarpaciente(int *pointer, cadastro_save cad)
+void cadastrarpaciente(cadastro_save cad, int *logado)
 {
+    if (*logado == 1) {
+
+        return;
+
+    }
     FILE *arquivo;
     arquivo = fopen("source/bin/cadastro.bin", "ab"); // abrindo (criando) o arquivo em modo append (adicionar)
 
     if (arquivo == NULL)
     {
-        printf("Nao foi possivel abrir o arquivo.");
+        printf("\nNao foi possivel abrir o arquivo.");
         return; // fecha o programa se o arquivo não abrir
     }
 
     fwrite(&cad, sizeof(cadastro_save), 1, arquivo); // escreve no arquivo
     fclose(arquivo);                                 // fecha o arquivo
 
-    *pointer = 1;
+    *logado = 1;
 }
 
 void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], char idadeLogin[4], int *logado)
 {
     printf_verde("\n\t\t\t\t\t\t\t\t\t=== LOGIN ===\n");
+
+    if (*logado == 1) {
+
+        printf("Login já realizado!");
+
+        return;
+    }
 
     while (1)
     {
@@ -93,6 +105,7 @@ void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], cha
             if (strcmp(cpfDigitado, cadastro.cpf) == 0) // busca o cpf
             {
                 loginRealizado = 1;
+                printf_vermelho("\n\tcpfs coincidem!");
                 break;
             }
         }
@@ -118,6 +131,7 @@ void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], cha
                     strcpy(nomeLogin, cadastro.nome);
                     strcpy(idadeLogin, cadastro.idade);
                     fclose(lercadastro);
+                    printf("\nteste. valor do ponteiro logado: %d", *logado);
                     return;
                 }
                 printf_vermelho("\n\tSenha incorreta! Tente novamente.");
@@ -340,7 +354,7 @@ void ver_consultas_medico()
     int nome_med = 0;
 
     // Abre o arquivo com os dados das consultas.
-    FILE *consultas = fopen("bin/dados_clientes.bin", "rb");
+    FILE *consultas = fopen("source/bin/dados_clientes.bin", "rb");
 
     if (consultas == NULL)
     {
@@ -400,7 +414,7 @@ void ver_consultas_no_dia()
     int diaesc[3];
 
     // Abre o arquivo com os dados das consultas.
-    FILE *consultas = fopen("bin/dados_clientes.bin", "rb");
+    FILE *consultas = fopen("source/bin/dados_clientes.bin", "rb");
 
     if (consultas == NULL)
     {
@@ -438,6 +452,7 @@ void ver_consultas_no_dia()
 void buscar_consulta(const char *nome, const char *cpf)
 {
     // Abre o arquivo com os agendamentos salvos e lê.
+
     FILE *le_dados = fopen("source/bin/dados_clientes.bin", "rb");
 
     if (le_dados == NULL)
@@ -607,8 +622,8 @@ void reagendar_consulta(const char *cpf)
     else
     {
         // Apaga o arquivos que contem os dados de consultas e renomeia o arquivo auxiliar com o nome do antigo arquivo que armazenava os dados das consultas.
-        remove("bin/dados_clientes.bin");
-        rename("temp.bin", "bin/dados_clientes.bin");
+        remove("source/bin/dados_clientes.bin");
+        rename("temp.bin", "source/bin/dados_clientes.bin");
     }
 }
 

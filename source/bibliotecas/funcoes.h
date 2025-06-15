@@ -40,7 +40,7 @@ void removerQuebraDeLinha(char *str);
 int menu();
 
 // criação de conta
-void cadastrarpaciente(int *pointer, cadastro_save cad);
+void cadastrarpaciente(cadastro_save cad, int *logado);
 
 // login na conta
 void login(char cpfDigitado[12], char senhaDigitada[21], char nomeLogin[61], char idadeLogin[4], int *logado);
@@ -63,9 +63,6 @@ void lembrete(int *dia, int hora, char *nome, char *email);
 void buscar_consulta(const char *nome, const char *cpf);
 void reagendar_consulta(const char *cpf);
 void cancelar_consulta(const char *cpf);
-
-// Funcao para buscar consultas já agendadas.
-void buscar_consulta(const char *nome, const char *cpf);
 
 // Funcao ara cancelar consultas.
 void cancelar_consulta(const char *cpf);
