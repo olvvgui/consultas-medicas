@@ -483,7 +483,7 @@ void cancelar_consulta(const char *cpf)
 {
 
     // Abre o arquivo onde está salvo os dados das consultas.
-    FILE *cancelar = fopen("bin/dados_clientes.bin", "rb");
+    FILE *cancelar = fopen("source/bin/dados_clientes.bin", "rb");
     if (cancelar == NULL)
     {
         printf_vermelho("\nConsulta não encontrada.\n");
@@ -538,8 +538,8 @@ void cancelar_consulta(const char *cpf)
     {
 
         // Apaga o arquivos que contem os dados de consultas e renomeia o arquivo auxiliar com o nome do antigo arquivo que armazenava os dados das consultas.
-        remove("bin/dados_clientes.bin");
-        rename("auxiliar.bin", "bin/dados_clientes.bin");
+        remove("source/bin/dados_clientes.bin");
+        rename("auxiliar.bin", "source/bin/dados_clientes.bin");
     }
 }
 
