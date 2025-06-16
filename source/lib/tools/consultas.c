@@ -198,7 +198,7 @@ void cancelar_consulta(const char *cpf)
     FILE *cancelar = fopen("source/bin/dados_clientes.bin", "rb");
     if (cancelar == NULL)
     {
-        printf_vermelho("\nConsulta não encontrada.\n");
+        printf_vermelho("\n\nConsulta não encontrada.\n");
         return;
     }
 

@@ -7,7 +7,7 @@
 
 void agendar(usuario *usr)
 {
-      printf_verde("\n\t\t\t\t\t\t=== Buscar Agendamento ===\n");
+      printf_verde("\n\t\t\t\t\t\t===Agendamento ===\n");
     if (usr->autenticado != 1)
     {
         printf_vermelho("\n\tÉ necessário fazer login primeiro.\n");
@@ -41,23 +41,24 @@ void agendar(usuario *usr)
         printf("\n\tMédico selecionado: %s!", paciente.medico);
         strcpy(paciente.medico, medicos[nome_med - 1]);
         // aloca os dados da consulta agendada pelo paciente
-        int dia, mes, ano, hora; // declaracao de variaveis
+        int dia, mes, hora; // declaracao de variaveis
 
         tempo data;
         tempoagora(&data); // coletando o tempo de agora
 
-        printf("\n\tInforme a data da consulta (ex: %d/%d/%d): ", data.dia, data.mes, data.ano);
-        scanf("%d/%d/%d", &dia, &mes, &ano);
+        printf("\n\tInforme a data da consulta (dia/mês, exemplo: %d/%d): ", data.dia, data.mes);
+        scanf("%d/%d", &dia, &mes);
 
         while (validardata(dia, mes) == 0)
         {
-            printf_vermelho("\n\tInforme uma data válida de consulta (dia/mês/ano): ");
-            scanf("%d/%d/%d", &dia, &mes, &ano);
+            printf_vermelho("\n\tInforme uma data válida de consulta (dia/mês, exemplo: %d/%d): ");
+            scanf("%d/%d", &dia, &mes);
         }
+
 
         paciente.dia[0] = dia;
         paciente.dia[1] = mes; // Lendo e colocando o dia, o mes e o ano dentro do vetor
-        paciente.dia[2] = ano;
+        paciente.dia[2] = 2025;
 
         printf("\n\tHórarios disponíveis: ");
 
@@ -68,7 +69,7 @@ void agendar(usuario *usr)
 
         while (!valido)
         {
-            printf("Digite o horário disponível que deseja agendar: ");
+            printf("\n\rDigite o horário disponível que deseja agendar: ");
             scanf("%d", &hora);
 
             // verifica se o horário digitado está entre os horários disponíveis
@@ -88,7 +89,7 @@ void agendar(usuario *usr)
 
         // aloca o horario escolhido pelo paciente na struct
         // Pergunta se deseja adicionar alguma observacao e salva o que foi digitado.
-        printf("\n\tAdicione alguma observacao: \nR: ");
+        printf("\n\tAdicione alguma observação: \nR: ");
         getchar();
         fgets(paciente.obs, sizeof(paciente.obs), stdin);
         paciente.obs[strcspn(paciente.obs, "\n")] = 0;
