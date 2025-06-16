@@ -8,6 +8,7 @@ typedef struct // Estrutura para guardar as informações
     char nome[61];
     char obs[100];
     char medico[100];
+    char cpf[12];
 } dados_paciente;
 
 typedef struct

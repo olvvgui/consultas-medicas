@@ -49,7 +49,7 @@ void ver_consultas_medico()
     int nome_med = 0;
 
     // Abre o arquivo com os dados das consultas.
-    FILE *consultas = fopen("source/bin/dados_clientes.bin", "rb");
+    FILE *consultas = fopen("bin/dados_clientes.bin", "rb");
 
     if (consultas == NULL)
     {
@@ -107,7 +107,7 @@ void ver_consultas_no_dia()
     int diaesc[3];
 
     // Abre o arquivo com os dados das consultas.
-    FILE *consultas = fopen("source/bin/dados_clientes.bin", "rb");
+    FILE *consultas = fopen("bin/dados_clientes.bin", "rb");
 
     if (consultas == NULL)
     {
@@ -144,10 +144,10 @@ void ver_consultas_no_dia()
 // Funcao para buscar consultas já agendadas.
 void buscar_consulta(const char *nome, const char *cpf)
 {
-    cadastro_save cadastro;
+    dados_paciente paciente;
     // Abre o arquivo com os agendamentos salvos e lê.
 
-    FILE *le_dados = fopen("source/bin/dados_clientes.bin", "rb");
+    FILE *le_dados = fopen("bin/dados_clientes.bin", "rb");
 
     if (le_dados == NULL)
     {
@@ -156,7 +156,6 @@ void buscar_consulta(const char *nome, const char *cpf)
     }
 
     int encontrado = 0; // flag para saber se encontrou alguma consulta.
-    dados_paciente paciente;
 
     printf_verde("\n\n\t\t=== Consultas Agendadas ===\n\n");
 
@@ -165,13 +164,13 @@ void buscar_consulta(const char *nome, const char *cpf)
     {
         // Remove quebras de linha.
         removerQuebraDeLinha(paciente.nome);
-        removerQuebraDeLinha(cadastro.cpf);
+        removerQuebraDeLinha(paciente.cpf);
 
         // Compara o cpf do paciente com o cpf dos cadastros e imprime a consulta agendada se os dados estiverem corretos.
 
-        if (strcmp(cadastro.cpf, cpf) == 0)
+        if (strcmp(paciente.cpf, cpf) == 0)
         {
-            printf("\nPaciente CPF: %s", cadastro.cpf);
+            printf("\nPaciente CPF: %s", paciente.cpf);
             printf("\nData: %02d/%02d/%d", paciente.dia[0], paciente.dia[1], paciente.dia[2]);
             printf("\nHorário: %02d:00", paciente.horario);
             printf("\nMédico: %s", paciente.medico);
@@ -192,10 +191,9 @@ void buscar_consulta(const char *nome, const char *cpf)
 // Funcao para cancerlar consultas.
 void cancelar_consulta(const char *cpf)
 {
-    cadastro_save cadastro;
 
     // Abre o arquivo onde está salvo os dados das consultas.
-    FILE *cancelar = fopen("source/bin/dados_clientes.bin", "rb");
+    FILE *cancelar = fopen("bin/dados_clientes.bin", "rb");
     if (cancelar == NULL)
     {
         printf_vermelho("\n\nConsulta não encontrada.\n");
@@ -203,7 +201,7 @@ void cancelar_consulta(const char *cpf)
     }
 
     // Abre um arquivo para auxiliar no cancelamento de consultas.
-    FILE *auxiliar_cancelar = fopen("source/bin/auxiliar.bin", "wb");
+    FILE *auxiliar_cancelar = fopen("bin/auxiliar.bin", "wb");
     if (auxiliar_cancelar == NULL)
     {
         printf_vermelho("\nErro ao criar arquivo temporário.\n");
@@ -218,10 +216,10 @@ void cancelar_consulta(const char *cpf)
     while (fread(&paciente, sizeof(dados_paciente), 1, cancelar) == 1)
     {
 
-        removerQuebraDeLinha(cadastro.cpf); // Remove quebras de linha.
+        removerQuebraDeLinha(paciente.cpf); // Remove quebras de linha.
 
         // Compara o cpf do paciente com o cpf dos cadastros e imprime a consulta agendada se os dados estiverem corretos.
-        if (strcmp(cadastro.cpf, cpf) == 0)
+        if (strcmp(paciente.cpf, cpf) == 0)
         {
             encontrado = 1;
             printf_verde("\n\n\tConsulta cancelada com sucesso:\n");
@@ -250,25 +248,25 @@ void cancelar_consulta(const char *cpf)
     {
 
         // Apaga o arquivos que contem os dados de consultas e renomeia o arquivo auxiliar com o nome do antigo arquivo que armazenava os dados das consultas.
-        remove("source/bin/dados_clientes.bin");
-        rename("auxiliar.bin", "source/bin/dados_clientes.bin");
+        remove("bin/dados_clientes.bin");
+        rename("auxiliar.bin", "bin/dados_clientes.bin");
     }
 }
 
 // Funcao para reagendar consulta.
 void reagendar_consulta(const char *cpf)
 {
-    cadastro_save cadastro;
+
 
     // Abre o arquivo com os dados de consultas agendadas.
-    FILE *reagendar = fopen("source/bin/dados_clientes.bin", "rb");
+    FILE *reagendar = fopen("bin/dados_clientes.bin", "rb");
     if (reagendar == NULL)
     {
         printf_vermelho("\nConsulta não encontrada.\n");
         return;
     }
     // Abre o arquivo para auxiliar o reagendamento de consultas.
-    FILE *auxiliar_reagendar = fopen("source/bin/temp.bin", "wb");
+    FILE *auxiliar_reagendar = fopen("bin/temp.bin", "wb");
     if (auxiliar_reagendar == NULL)
     {
         printf_vermelho("\nErro ao criar arquivo temporário.\n");
@@ -282,10 +280,10 @@ void reagendar_consulta(const char *cpf)
     // Lê o arquivo até não encontrar mais dados.
     while (fread(&paciente, sizeof(dados_paciente), 1, reagendar) == 1)
     {
-        removerQuebraDeLinha(cadastro.cpf);
+        removerQuebraDeLinha(paciente.cpf);
 
         // Compara o cpf do paciente com o cpf dos cadastros e imprime a consulta agendada se os dados estiverem corretos.
-        if (strcmp(cadastro.cpf, cpf) == 0)
+        if (strcmp(paciente.cpf, cpf) == 0)
         {
             encontrado = 1;
             printf("\nConsulta:\n");
@@ -318,7 +316,7 @@ void reagendar_consulta(const char *cpf)
     else
     {
         // Apaga o arquivos que contem os dados de consultas e renomeia o arquivo auxiliar com o nome do antigo arquivo que armazenava os dados das consultas.
-        remove("source/bin/dados_clientes.bin");
-        rename("temp.bin", "source/bin/dados_clientes.bin");
+        remove("bin/dados_clientes.bin");
+        rename("temp.bin", "bin/dados_clientes.bin");
     }
 }

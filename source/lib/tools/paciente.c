@@ -12,13 +12,12 @@ void cadastrarpaciente(cadastro_save cad, usuario *usr)
 
         return;
     }
-    cadastro_save cadastro;
     FILE *arquivo;
-    arquivo = fopen("source/bin/cadastro.bin", "ab"); // abrindo (criando) o arquivo em modo append (adicionar)
+    arquivo = fopen("bin/cadastro.bin", "ab"); // abrindo (criando) o arquivo em modo append (adicionar)
 
     if (arquivo == NULL)
     {
-        printf("\nNao foi possivel abrir o arquivo.");
+        printf("\nNâo foi possivel abrir o arquivo.");
         return; // fecha o programa se o arquivo não abrir
     }
 
@@ -63,7 +62,7 @@ void login(usuario *usr)
             break;
         }
 
-        FILE *lercadastro = fopen("source/bin/cadastro.bin", "rb");
+        FILE *lercadastro = fopen("bin/cadastro.bin", "rb");
         if (lercadastro == NULL)
         {
             printf_vermelho("\n\tErro: não foi possível abrir o arquivo de usuários.\n");
@@ -149,7 +148,7 @@ int verificaEmail(char *email)
 
 int verificaCPF(char *cpf)
 {
-    FILE *lercadastro = fopen("source/bin/cadastro.bin", "rb");
+    FILE *lercadastro = fopen("bin/cadastro.bin", "rb");
     if (lercadastro == NULL)
     {
         return 0; // arquivo não existe ou está vazio
