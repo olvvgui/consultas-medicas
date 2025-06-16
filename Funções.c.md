@@ -42,14 +42,14 @@
     - **Objetivo:** Exibir todas as consultas agendadas para um determinado CPF.
     - **Funcionamento:** Abre `source/bin/dados_clientes.bin` e lê cada registro de consulta.
 - `cancelar_consulta(const char *cpf)`
-    
+    // adicionei mais algumas informações para melhorar a objetividade, já que achei muito ambíguo
     - **Objetivo:** Remover um agendamento do arquivo de consultas.
     - **Funcionamento:**
-        1. Abre o arquivo original `dados_clientes.bin` para leitura e um arquivo temporário (`auxiliar.bin`) para escrever no auxiliar.
-        2. Lê cada consulta do arquivo original.
-        3. Se a consulta **não** pertence ao CPF que se deseja cancelar, ela é escrita no arquivo temporário.
+        1. Abre o arquivo original `dados_clientes.bin` em binário para leitura e um arquivo temporário (`auxiliar.bin`) para escrever no auxiliar sem alterar o original.
+        2. Lê cada consulta do arquivo original, percorrendo todo o arquivo.
+        3. Se a consulta **não** pertence ao CPF que se deseja cancelar, ela é escrita no arquivo temporário para não interferir no arquivo original.
         4. Se a consulta pertence ao CPF, ela simplesmente não é copiada, sendo apagada.
-        5. Ao final, fecha os dois arquivos. O arquivo original é removido (`remove`) e o arquivo temporário é renomeado (`rename`) para o nome do original.
+        5. Ao final, fecha os dois arquivos. O arquivo original é removido (`remove`) e o arquivo temporário é renomeado (`rename`) para o nome do original, sendo uma forma de repor o arquivo e salvar.
 
 - `reagendar_consulta(const char *cpf)`
     
