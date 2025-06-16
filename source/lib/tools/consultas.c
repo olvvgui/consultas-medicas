@@ -49,7 +49,7 @@ void ver_consultas_medico()
     int nome_med = 0;
 
     // Abre o arquivo com os dados das consultas.
-    FILE *consultas = fopen("bin/dados_clientes.bin", "rb");
+    FILE *consultas = fopen("source/bin/dados_clientes.bin", "rb");
 
     if (consultas == NULL)
     {
@@ -107,7 +107,7 @@ void ver_consultas_no_dia()
     int diaesc[3];
 
     // Abre o arquivo com os dados das consultas.
-    FILE *consultas = fopen("bin/dados_clientes.bin", "rb");
+    FILE *consultas = fopen("source/bin/dados_clientes.bin", "rb");
 
     if (consultas == NULL)
     {
@@ -147,7 +147,7 @@ void buscar_consulta(const char *nome, const char *cpf)
     cadastro_save cadastro;
     // Abre o arquivo com os agendamentos salvos e lê.
 
-    FILE *le_dados = fopen("bin/dados_clientes.bin", "rb");
+    FILE *le_dados = fopen("source/bin/dados_clientes.bin", "rb");
 
     if (le_dados == NULL)
     {
@@ -195,7 +195,7 @@ void cancelar_consulta(const char *cpf)
     cadastro_save cadastro;
 
     // Abre o arquivo onde está salvo os dados das consultas.
-    FILE *cancelar = fopen("bin/dados_clientes.bin", "rb");
+    FILE *cancelar = fopen("source/bin/dados_clientes.bin", "rb");
     if (cancelar == NULL)
     {
         printf_vermelho("\nConsulta não encontrada.\n");
@@ -203,7 +203,7 @@ void cancelar_consulta(const char *cpf)
     }
 
     // Abre um arquivo para auxiliar no cancelamento de consultas.
-    FILE *auxiliar_cancelar = fopen("bin/auxiliar.bin", "wb");
+    FILE *auxiliar_cancelar = fopen("source/bin/auxiliar.bin", "wb");
     if (auxiliar_cancelar == NULL)
     {
         printf_vermelho("\nErro ao criar arquivo temporário.\n");
@@ -261,14 +261,14 @@ void reagendar_consulta(const char *cpf)
     cadastro_save cadastro;
 
     // Abre o arquivo com os dados de consultas agendadas.
-    FILE *reagendar = fopen("bin/dados_clientes.bin", "rb");
+    FILE *reagendar = fopen("source/bin/dados_clientes.bin", "rb");
     if (reagendar == NULL)
     {
         printf_vermelho("\nConsulta não encontrada.\n");
         return;
     }
     // Abre o arquivo para auxiliar o reagendamento de consultas.
-    FILE *auxiliar_reagendar = fopen("bin/temp.bin", "wb");
+    FILE *auxiliar_reagendar = fopen("source/bin/temp.bin", "wb");
     if (auxiliar_reagendar == NULL)
     {
         printf_vermelho("\nErro ao criar arquivo temporário.\n");
