@@ -206,6 +206,8 @@ int main() {
                 fgets(paciente.obs, sizeof(paciente.obs), stdin);
                 paciente.obs[strcspn(paciente.obs, "\n")] = 0;
 
+                lembrete(paciente.dia, hora, paciente.medico,cadastro.email);//simular uma notificação no e-mail
+
                 // Salva os dados obtidos no arquivo dados_clientes.bin.
                 FILE *salvar_dados = fopen("source/bin/dados_clientes.bin", "ab");
                 fwrite(&paciente, sizeof(dados_paciente), 1, salvar_dados);
