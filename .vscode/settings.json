@@ -1,6 +1,13 @@
 {
     "files.associations": {
         "stdlib.h": "c",
-        "funcoes.h": "c"
+        "funcoes.h": "c",
+        "menu.h": "c",
+        "paciente.h": "c",
+        "structs.h": "c",
+        "utilitarios.h": "c",
+        "unistd.h": "c",
+        "consultas.h": "c",
+        "stdio.h": "c"
     }
 }
