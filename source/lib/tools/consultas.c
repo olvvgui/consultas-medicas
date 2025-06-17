@@ -6,31 +6,6 @@
 #include <time.h>
 #include "../consultas.h"
 
-void selecionar(char selecao[50], char med1[50], char med2[50], char nome_medico[50])
-{
-    int escolha;
-    printf("Escolha um %s:\n", selecao); // variavel de mesmo valor
-    printf("\n1. %s\n", med1);
-    printf("2. %s\n\n\tValor digitado: ", med2);
-    scanf("%d", &escolha);
-    while (escolha < 1 || escolha > 2)
-    {
-        printf_vermelho("Opção inválida. Digite 1 ou 2.\n");
-        printf("Escolha um %s:\n", selecao);
-        printf("1. %s\n", med1);
-        printf("2. %s\n", med2);
-        scanf("%d", &escolha);
-    }
-    switch (escolha)
-    {
-    case 1:
-        strcpy(nome_medico, med1);
-        break;
-    case 2:
-        strcpy(nome_medico, med2);
-        break;
-    }
-}
 
 void lembrete(int *dia, int hora, char *medico, char *email)
 {
@@ -242,14 +217,14 @@ void cancelar_consulta(const char *cpf)
     if (!encontrado)
     {
         printf_vermelho("\nConsulta não encontrada.\n");
-        remove("auxiliar.bin");
+        remove("bin/auxiliar.bin");
     }
     else
     {
 
         // Apaga o arquivos que contem os dados de consultas e renomeia o arquivo auxiliar com o nome do antigo arquivo que armazenava os dados das consultas.
         remove("bin/dados_clientes.bin");
-        rename("auxiliar.bin", "bin/dados_clientes.bin");
+        rename("bin/auxiliar.bin", "bin/dados_clientes.bin");
     }
 }
 
@@ -311,12 +286,12 @@ void reagendar_consulta(const char *cpf)
     if (!encontrado)
     {
         printf("\nConsulta não encontrada.\n");
-        remove("temp.bin");
+        remove("bin/temp.bin");
     }
     else
     {
         // Apaga o arquivos que contem os dados de consultas e renomeia o arquivo auxiliar com o nome do antigo arquivo que armazenava os dados das consultas.
         remove("bin/dados_clientes.bin");
-        rename("temp.bin", "bin/dados_clientes.bin");
+        rename("bin/temp.bin", "bin/dados_clientes.bin");
     }
 }

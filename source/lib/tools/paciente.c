@@ -7,11 +7,7 @@
 
 void cadastrarpaciente(cadastro_save cad, usuario *usr)
 {
-    if (usr->autenticado == 1)
-    {
 
-        return;
-    }
     FILE *arquivo;
     arquivo = fopen("bin/cadastro.bin", "ab"); // abrindo (criando) o arquivo em modo append (adicionar)
 
@@ -78,8 +74,8 @@ void login(usuario *usr)
                 break;
             }
         }
-
-        while (1)
+        short tentativas = 0; // usuario só pode errar a senha 3 vezes
+        while (tentativas < 3)
         {
             if (cpfAchado == 1)
             { // Entrada da senha
@@ -112,8 +108,16 @@ void login(usuario *usr)
                 else
                 {
                     printf_vermelho("\n\tSenha incorreta! Tente novamente.");
+                    tentativas++;
                 }
             }
+        }
+
+        if (tentativas == 3)
+        {
+            printf_vermelho("\n\tNúmero máximo de tentativas excedido. Encerrando o programa.");
+            fclose(lercadastro);
+            exit(1);
         }
 
         if (cpfAchado != 1)

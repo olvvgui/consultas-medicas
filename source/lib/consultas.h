@@ -4,9 +4,6 @@
 #include "utilitarios.h"
 #include "structs.h"
 
-// funcao para selecionar o medico
-void selecionar(char selecao[50], char med1[50], char med2[50], char nome_medico[50]);
-
 // implementação dos lembretes
 void lembrete(int *dia, int hora, char *medico, char *email);
 

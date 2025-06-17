@@ -19,9 +19,12 @@ void agendar(usuario *usr)
         dados_paciente paciente;
         strcpy(paciente.cpf, usr->cpf);
         strcpy(paciente.nome, usr->nome); // Salva o nome do usuário logado
-        
-        char *espec[10] = {"Clinica", "Pediatria", "Ginecologia", "Cardiologia", "Dermatologia", "Neurologia", "Ortopedia", "Psiquiatria", "Oftalmologia", "Oncologia"};
-        char *medicos[10] = {"Dr. Joao", "Dr. Medina", "Dr. Carlos", "Dr. Socrates", "Dr. Arnaldo", "Dr. Braulio", "Dr. Ulisses", "Dra. Laura", "Dra. Eneida", "Dra. Maria"};
+
+        char *espec[10] = {"Clinica", "Pediatria", "Ginecologia", "Cardiologia", "Dermatologia",
+                           "Neurologia", "Ortopedia", "Psiquiatria", "Oftalmologia", "Oncologia"};
+                           
+        char *medicos[10] = {"Dr. Joao", "Dr. Medina", "Dr. Carlos", "Dr. Socrates",
+                             "Dr. Arnaldo", "Dr. Braulio", "Dr. Ulisses", "Dra. Laura", "Dra. Eneida", "Dra. Maria"};
 
         // Pergunta e escaneia a especialidade medica desejada.
 
@@ -36,9 +39,18 @@ void agendar(usuario *usr)
         // Testes comparando a especialidade escolhida e o nome do médico.
 
         int nome_med = 0;
-        scanf("%d", &nome_med);
-
-        // segfault quando nome_med > 10
+        do
+        {
+            if (nome_med < 1 || nome_med > 10)
+            {
+                printf_vermelho("\n\tSelecione um médico válido (1-10): ");
+            }
+            else
+            {
+                printf("\n\tSelecione o médico: ");
+            }
+            scanf("%d", &nome_med);
+        } while (nome_med < 1 || nome_med > 10);
 
         strcpy(paciente.medico, medicos[nome_med - 1]);
         printf("\n\tMédico selecionado: %s!", paciente.medico);
