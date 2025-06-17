@@ -166,18 +166,18 @@ void buscar_consulta(const char *nome, const char *cpf)
 // Funcao para cancerlar consultas.
 void cancelar_consulta(const char *cpf)
 {
-
+    int diaesc[3];
     // Abre o arquivo onde está salvo os dados das consultas.
     FILE *cancelar = fopen("bin/dados_clientes.bin", "rb");
     if (cancelar == NULL)
     {
-        printf_vermelho("\n\nConsulta não encontrada.\n");
+        printf_vermelho("\n\n\tConsulta não encontrada.\n");
         return;
     }
 
     // Abre um arquivo para auxiliar no cancelamento de consultas.
     FILE *auxiliar_cancelar = fopen("bin/auxiliar.bin", "wb");
-    if (auxiliar_cancelar == NULL)
+    if(auxiliar_cancelar == NULL)
     {
         printf_vermelho("\nErro ao criar arquivo temporário.\n");
         fclose(cancelar);
@@ -185,27 +185,37 @@ void cancelar_consulta(const char *cpf)
     }
 
     dados_paciente paciente;
-    int encontrado = 0; // Variavel para saber se encontrou alguma consulta.
+
+    int encontrado = 0;
 
     // Lê o arquivo até não encontrar mais dados.
-    while (fread(&paciente, sizeof(dados_paciente), 1, cancelar) == 1)
-    {
+    while (fread(&paciente, sizeof(dados_paciente), 1, cancelar) == 1) {
 
-        removerQuebraDeLinha(paciente.cpf); // Remove quebras de linha.
-
-        // Compara o cpf do paciente com o cpf dos cadastros e imprime a consulta agendada se os dados estiverem corretos.
-        if (strcmp(paciente.cpf, cpf) == 0)
-        {
+        if (strcmp(paciente.cpf, cpf) == 0) {
             encontrado = 1;
-            printf_verde("\n\n\tConsulta cancelada com sucesso:\n");
+            printf_verde("\n\n\tConsulta encontrada:\n");
+            printf("\tPaciente: %s\n", paciente.nome);
             printf("\tData: %02d/%02d/%d\n", paciente.dia[0], paciente.dia[1], paciente.dia[2]);
-            printf("\tHorário: %02d:00\n", paciente.horario);
             printf("\tMédico: %s\n", paciente.medico);
         }
-        else
-        {
-            // Escreve no arquivo auxiliar as consultas que não serão canceladas.
+    }
+   rewind(cancelar);
+    printf("\n\tDigite a data da consulta que deseja cancelar(dia/mês/ano)\n");
+    scanf("%d/%d/%d", &diaesc[0], &diaesc[1], &diaesc[2]);
+    getchar();
+
+    while (fread(&paciente, sizeof(dados_paciente), 1, cancelar) == 1) {
+
+        if (strcmp(paciente.cpf, cpf) == 0 && diaesc[0] == paciente.dia[0] && diaesc[1] == paciente.dia[1] && diaesc[2] == paciente.dia[2]) {
+            encontrado = 1;
+            printf_verde("\n\n\tConsulta cancelada:\n");
+            printf("\tPaciente: %s\n", paciente.nome);
+            printf("\tData: %02d/%02d/%d\n", paciente.dia[0], paciente.dia[1], paciente.dia[2]);
+            printf("\tMédico: %s\n", paciente.medico);
+        } else {
+
             fwrite(&paciente, sizeof(dados_paciente), 1, auxiliar_cancelar);
+
         }
     }
 
@@ -215,24 +225,14 @@ void cancelar_consulta(const char *cpf)
 
     if (!encontrado)
     {
-        printf_vermelho("\nConsulta não encontrada.\n");
-
-        if (remove("bin/auxiliar.bin") != 0)
-            perror("\n\tErro ao remoover o arquivo auxiliar.");
-
-        else
-        {
-
-            // Apaga o arquivos que contem os dados de consultas e renomeia o arquivo auxiliar com o nome do antigo arquivo que armazenava os dados das consultas.
-
-            if (remove("bin/dados_clientes.bin") != 0)
-            {
-                perror("\n\tErro ao remover o arquivo dados_clientes.bin.");
-            }
-
-            if (rename("bin/auxiliar.bin", "bin/dados_clientes.bin") != 0)
-                perror("\n\tERro ao renomear");
-        }
+        printf_vermelho("\n\tConsulta não encontrada.\n");
+        remove("auxiliar.bin");
+    }
+    else
+    {
+        // Apaga o arquivos que contem os dados de consultas e renomeia o arquivo auxiliar com o nome do antigo arquivo que armazenava os dados das consultas.
+        remove("bin/dados_clientes.bin");
+        rename("bin/auxiliar.bin", "bin/dados_clientes.bin");
     }
 }
 
