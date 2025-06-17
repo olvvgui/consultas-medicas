@@ -3,6 +3,7 @@
 
 #include "structs.h"
 #include "utilitarios.h"
+#include "consultas.h"
 
 // criação de conta
 void cadastrarpaciente(cadastro_save cad, usuario *usr);

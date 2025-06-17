@@ -80,7 +80,11 @@ void agendar(usuario *usr)
         int vet[4] = {0};
         int valido = 0;
 
-        horariosvalidos(dia, vet);
+       short check = horariosvalidos(dia, vet);
+
+       if (check == 1){
+        return;
+       }
 
         while (!valido)
         {

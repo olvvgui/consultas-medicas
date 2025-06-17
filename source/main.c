@@ -12,13 +12,14 @@
 
 int main()
 {
-
 #if defined(_WIN32) || defined(_WIN64)
-    SetConsoleOutputCP(65001); // diretivas de compilação somente para windows (resolve problema de caracteres especiais)
+    SetConsoleOutputCP(65001);
+    // diretivas de compilação somente para windows (resolve problema de caracteres especiais)
     SetConsoleCP(65001);
 #endif
 
     int choose = menu();
+    int lem = 0; // numero de lembretes enviados
     usuario usr;
 
     do
@@ -27,41 +28,51 @@ int main()
         {
         case 1:
             cadastrar(&usr);
+            lembrete(usr.email, usr.cpf, &lem); // envia lembrete de consulta
             choose = menu();
             break;
 
         case 2:
             agendar(&usr);
+            lembrete(usr.email, usr.cpf, &lem); // envia lembrete de consulta
             choose = menu();
             break;
 
         case 3:
             buscar(&usr);
+            lembrete(usr.email, usr.cpf, &lem); // envia lembrete de consulta
             choose = menu();
             break;
 
         case 4:
             cancelar(&usr);
+            lembrete(usr.email, usr.cpf, &lem); // envia lembrete de consulta
             choose = menu();
             break;
 
         case 5:
             reagendar(&usr);
+            lembrete(usr.email, usr.cpf, &lem); // envia lembrete de consulta
             choose = menu();
             break;
 
         case 6:
             medOudia(&usr);
+            lembrete(usr.email, usr.cpf, &lem); // envia lembrete de consulta
             choose = menu();
             break;
 
-        case 935: // senha para acessar o a funcção de limpar cadastros ultrapassados
+        case 935: // senha para acessar o a função de limpar cadastros ultrapassados
             atualizar_consultas();
             choose = menu();
             break;
-        }
 
-    } while (choose != 0);
+        case -1:
+            choose = menu();
+            break;
+        }
+    }
+    while (choose != 0);
 
     return 0; // encerra o programa com sucesso
 }

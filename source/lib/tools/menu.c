@@ -21,11 +21,16 @@ int menu()
         printf_verde("\n\tFinalizando programa...");
         return 0;
     }
-    
+
+    if (escolha == 935)
+    {
+        return escolha;
+    }
+
     if (escolha < 0 || escolha > 6)
     {
-
-        printf_vermelho("\n\tErro. Escolha uma opção válida.\n");
+        printf_vermelho("\n\tErro! Escolha uma opção válida.\n");
+        return -1;
     }
 
     return escolha;

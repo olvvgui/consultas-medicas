@@ -1,6 +1,5 @@
 #ifndef UTILITARIOS_H
 #define UTILITARIOS_H
-
 #include "structs.h"
 
 // remover \n
@@ -13,7 +12,7 @@ void tempoagora(tempo *data);
 int validardata(int dia, int mes);
 
 // função para mostrar horários disponíveis, de acordo com a data
-void horariosvalidos(int dia, int *vet);
+int horariosvalidos(int dia, int *vet);
 
 // função para fazer o qsort comparar se um n é maior que o outro e ajustar em ordem crescente
 int compare(const void *a, const void *b);

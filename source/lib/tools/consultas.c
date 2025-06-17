@@ -1,4 +1,3 @@
-
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -7,20 +6,42 @@
 #include "../consultas.h"
 #include "sys/stat.h"
 
-void lembrete(int *dia, int hora, char *medico, char *email)
+void lembrete(char *email, char *cpf, int *n)
 {
-    printf("\a"); // beep
-    sleep(2);     // Tempo decorrido até aparecer a mensagem
-    printf("Para: %s\n\n", email);
-    printf_vermelho("\t====LEMBRETE====\n");
-    printf("Consulta dia %02d/%02d/%d as %d:00\nMedico: %s\nAtt. Hospital\n",
-           dia[0], dia[1], dia[2], hora, medico); // adicionar email
+    if (*n == 0)
+    {
+
+        FILE *arq = fopen("bin/dados_paciente.bin", "rb");
+        if (arq == NULL)
+            return;
+
+        dados_paciente paciente;
+        int contador = 0;
+
+        while (fread(&paciente, sizeof(dados_paciente), 1, arq) == 1)
+        {
+            if (strcmp(paciente.cpf, cpf) == 0 && paciente.status == 1)
+            {
+                contador++;
+                (*n)++;
+                printf("\a"); // beep
+                printf_vermelho("\n\t====LEMBRETE====\n");
+                printf("Para: %s\n\n", email);
+                printf("Consulta dia %02d/%02d/%d as %d:00\nMedico: %s\nAtt. Hospital\n",
+                       paciente.dia[0], paciente.dia[1], paciente.dia[2], paciente.horario, paciente.medico);
+            }
+        }
+        fclose(arq);
+        if (contador == 0)
+            return;
+    }
+    else 
+    return; //já recebeu o lembretes
 }
 
 // Funcao para ver todas as consultas agendadas em um determinado medico.
 void ver_consultas_medico()
 {
-
     int nome_med = 0;
 
     // Abre o arquivo com os dados das consultas.
@@ -34,12 +55,13 @@ void ver_consultas_medico()
 
     dados_paciente paciente;
 
-    char *medicos[10] = {"Dr. Joao", "Dr. Medina", "Dr. Carlos", "Dr. Socrates", "Dr. Arnaldo", "Dr. Braulio", "Dr. Ulisses", "Dra. Laura", "Dra. Eneida", "Dra. Maria"};
+    char *medicos[10] = {
+        "Dr. Joao", "Dr. Medina", "Dr. Carlos", "Dr. Socrates", "Dr. Arnaldo", "Dr. Braulio", "Dr. Ulisses",
+        "Dra. Laura", "Dra. Eneida", "Dra. Maria"};
     // For para escolher o medico.
 
     while (nome_med > 10 || nome_med < 1)
     {
-
         printf_verde("\nSelecione o medico: \n");
 
         for (int i = 0; i < 10; i++)
@@ -78,7 +100,6 @@ void ver_consultas_medico()
 // Funcao para ver todas as consultas agendadas em determinado dia.
 void ver_consultas_no_dia()
 {
-
     int diaesc[3];
 
     // Abre o arquivo com os dados das consultas.
@@ -92,10 +113,17 @@ void ver_consultas_no_dia()
 
     dados_paciente paciente;
     // Escolher o dia.
-    printf("\nDigite o dia (dia/mes/ano):\n");
+    printf("\nDigite a data (dia/mes):\n");
     printf("R: ");
+    scanf("%d/%d", &diaesc[0], &diaesc[1]);
 
-    scanf("%d/%d/%d", &diaesc[0], &diaesc[1], &diaesc[2]);
+    while (validardata(diaesc[0], diaesc[1]) == 0)
+    {
+        printf_vermelho("\n\t Digite uma data válida! Abrimos apenas em dias úteis");
+        scanf("%d/%d", &diaesc[0], &diaesc[1]);
+    }
+
+    diaesc[2] = 2025;
 
     printf("\nConsultas marcado no dia %02d/%02d/%04d\n", diaesc[0], diaesc[1], diaesc[2]);
 
@@ -143,7 +171,7 @@ void buscar_consulta(const char *nome, const char *cpf)
 
         // Compara o cpf do paciente com o cpf dos cadastros e imprime a consulta agendada se os dados estiverem corretos.
 
-        if (strcmp(paciente.cpf, cpf) == 0)
+        if (strcmp(paciente.cpf, cpf) == 0 && paciente.status == 1)
         {
             printf("\nPaciente CPF: %s", paciente.cpf);
             printf("\nData: %02d/%02d/%d", paciente.dia[0], paciente.dia[1], paciente.dia[2]);
@@ -293,14 +321,12 @@ void reagendar_consulta(const char *cpf)
 
 void atualizar_consultas()
 {
-
     printf("\n\tdigite a senha para continuar: ");
     char senha[9] = "19283746"; // senha
     char digitada[9];
     scanf("%s", digitada);
     if (strcmp(senha, digitada) == 0)
     {
-
         FILE *arquivo = fopen("bin/dados_clientes.bin", "rb+");
         if (!arquivo)
         {
@@ -346,5 +372,5 @@ void atualizar_consultas()
     }
 
     else
-    return;
+        return;
 }

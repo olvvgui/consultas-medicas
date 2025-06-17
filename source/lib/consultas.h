@@ -5,7 +5,7 @@
 #include "structs.h"
 
 // implementação dos lembretes
-void lembrete(int *dia, int hora, char *medico, char *email);
+void lembrete(char  *email, char *cpf, int *n);
 
 // Funcao para buscar consultas já agendadas.
 void buscar_consulta(const char *nome, const char *cpf);

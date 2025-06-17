@@ -104,7 +104,7 @@ int validardata(int dia, int mes)
     }
 }
 
-void horariosvalidos(int dia, int *vet)
+int horariosvalidos(int dia, int *vet)
 {
     int rd[4] = {0};
 
@@ -124,7 +124,7 @@ void horariosvalidos(int dia, int *vet)
         if (min_hora > max_hora)
         {
             printf_vermelho("\nNão há horários disponíveis para hoje!\n");
-            return;
+            return 1;
         }
 
         // preenche o vetor rd com horários únicos, dentro do intervalo correto
@@ -145,7 +145,7 @@ void horariosvalidos(int dia, int *vet)
         if (disponiveis == 0)
         {
             printf_vermelho("\nNão há horários disponíveis para hoje!\n");
-            return;
+            return 1;
         }
     }
     else
@@ -167,7 +167,7 @@ void horariosvalidos(int dia, int *vet)
         if (disponiveis == 0)
         {
             printf_vermelho("\nNão há horários disponíveis!\n");
-            return;
+            return 1;
         }
     }
 }
