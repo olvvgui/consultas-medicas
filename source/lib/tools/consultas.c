@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "../consultas.h"
-
+#include "sys/stat.h"
 
 void lembrete(int *dia, int hora, char *medico, char *email)
 {
@@ -204,7 +204,6 @@ void cancelar_consulta(const char *cpf)
         }
         else
         {
-
             // Escreve no arquivo auxiliar as consultas que não serão canceladas.
             fwrite(&paciente, sizeof(dados_paciente), 1, auxiliar_cancelar);
         }
@@ -217,21 +216,29 @@ void cancelar_consulta(const char *cpf)
     if (!encontrado)
     {
         printf_vermelho("\nConsulta não encontrada.\n");
-        remove("bin/auxiliar.bin");
-    }
-    else
-    {
 
-        // Apaga o arquivos que contem os dados de consultas e renomeia o arquivo auxiliar com o nome do antigo arquivo que armazenava os dados das consultas.
-        remove("bin/dados_clientes.bin");
-        rename("bin/auxiliar.bin", "bin/dados_clientes.bin");
+        if (remove("bin/auxiliar.bin") != 0)
+            perror("\n\tErro ao remoover o arquivo auxiliar.");
+
+        else
+        {
+
+            // Apaga o arquivos que contem os dados de consultas e renomeia o arquivo auxiliar com o nome do antigo arquivo que armazenava os dados das consultas.
+
+            if (remove("bin/dados_clientes.bin") != 0)
+            {
+                perror("\n\tErro ao remover o arquivo dados_clientes.bin.");
+            }
+
+            if (rename("bin/auxiliar.bin", "bin/dados_clientes.bin") != 0)
+                perror("\n\tERro ao renomear");
+        }
     }
 }
 
 // Funcao para reagendar consulta.
 void reagendar_consulta(const char *cpf)
 {
-
 
     // Abre o arquivo com os dados de consultas agendadas.
     FILE *reagendar = fopen("bin/dados_clientes.bin", "rb");
@@ -285,13 +292,23 @@ void reagendar_consulta(const char *cpf)
     // Imprime a mensaem se não foi encotrado a consulta.
     if (!encontrado)
     {
-        printf("\nConsulta não encontrada.\n");
-        remove("bin/temp.bin");
+        printf_vermelho("\nConsulta não encontrada.\n");
+
+        if (remove("bin/temp.bin") != 0)
+        {
+            perror("\n\tErro ao remover o arquivo temporário.");
+        }
     }
     else
     {
-        // Apaga o arquivos que contem os dados de consultas e renomeia o arquivo auxiliar com o nome do antigo arquivo que armazenava os dados das consultas.
-        remove("bin/dados_clientes.bin");
-        rename("bin/temp.bin", "bin/dados_clientes.bin");
+
+        if (remove("bin/dados_clientes.bin") != 0)
+        {
+            perror("\n\tErro ao remover o arquivo dados_clientes.bin.");
+        }
+        if (rename("bin/temp.bin", "bin/dados_clientes.bin") != 0)
+        {
+            perror("\n\tErro ao renomear.");
+        }
     }
 }

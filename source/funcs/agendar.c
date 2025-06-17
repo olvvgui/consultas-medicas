@@ -61,6 +61,7 @@ void agendar(usuario *usr)
         tempo data;
         tempoagora(&data); // coletando o tempo de agora
 
+        printf_vermelho("\n\tNão abrimos em domingos e feriados\n");
         printf("\n\tInforme a data da consulta (dia/mês, exemplo: %d/%d): ", data.dia, data.mes);
         scanf("%d/%d", &dia, &mes);
 

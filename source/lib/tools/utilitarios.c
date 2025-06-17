@@ -35,8 +35,11 @@ int validardata(int dia, int mes)
     if (mes < 1 || mes > 12 || dia < 1) // retorna erro se a data for menor ou maior que os limites (mes 13, mes -1, dia -1, ano menor que o ano de agora)
         return 0;                       // data invalida
 
-    if (mes < data.mes || dia < data.dia) // retorna erro se o mês for menor que o mês de agora e se o dia for anterior ao de hoje
-        return 0;
+    if (mes < data.mes)
+        return 0; // se o mes for anterior ao de hoje, erro
+
+    if (mes == data.mes && dia < data.dia)
+        return 0; // se, nesse mes, o dia for anterior ao de hoje
 
     int domingos[][7] = {
         {15, 22, 29},        // mes 6
@@ -69,10 +72,14 @@ int validardata(int dia, int mes)
             if (domingos[j][i] == dia)
                 return 0;
         }
-        for (int i = 0; i < qtdFeriados[j]; i++)
+
+        if (mes != 7)
         {
-            if (feriados[j][i] == dia && feriados[j][i] != 0)
-                return 0; //
+            for (int i = 0; i < qtdFeriados[j]; i++)
+            {
+                if (feriados[j][i] == dia && feriados[j][i] != 0)
+                    return 0; //
+            }
         }
     }
 
@@ -130,7 +137,7 @@ void horariosvalidos(int dia, int *vet)
             if (rd[i] != 0)
             {
                 vet[i] = rd[i];
-                printf("\n%d", rd[i]);
+                printf("\n%d:00", rd[i]);
                 disponiveis++;
             }
         }
@@ -153,7 +160,7 @@ void horariosvalidos(int dia, int *vet)
             if (rd[i] != 0)
             {
                 vet[i] = rd[i];
-                printf("%d ", rd[i]);
+                printf("\n%d:00", rd[i]);
                 disponiveis++;
             }
         }

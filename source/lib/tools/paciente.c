@@ -39,7 +39,6 @@ void login(usuario *usr)
     char senhaDigitada[21];
     char nomeLogin[61];
     char idadeLogin[4];
-    int cpfAchado = 0;
     cadastro_save cadastro;
 
     printf_verde("\n\t\t=== LOGIN ===\n");
@@ -48,7 +47,7 @@ void login(usuario *usr)
     {
 
         printf("\n\tDigite o seu CPF (ou digite 'sair' para fechar o programa): ");
-        scanf("%s", cpfDigitado);
+        scanf("%11s", cpfDigitado);
         removerQuebraDeLinha(cpfDigitado);
 
         if (strcmp(cpfDigitado, "sair") == 0)
@@ -65,6 +64,8 @@ void login(usuario *usr)
             exit(1);
         }
 
+        int cpfAchado = 0;
+
         while (fread(&cadastro, sizeof(cadastro_save), 1, lercadastro) == 1)
         {
 
@@ -74,6 +75,14 @@ void login(usuario *usr)
                 break;
             }
         }
+        fclose(lercadastro);
+
+        if (!cpfAchado)
+        {
+            printf_vermelho("\n\tCPF incorreto! Tente novamente.\n");
+            continue; // pede pro usuario digitar o cpf novamente em caso de erro
+        }
+
         short tentativas = 0; // usuario só pode errar a senha 3 vezes
         while (tentativas < 3)
         {
@@ -81,7 +90,7 @@ void login(usuario *usr)
             { // Entrada da senha
 
                 printf("\n\tSenha: ");
-                getchar();
+
                 scanf("%20s", senhaDigitada);
                 removerQuebraDeLinha(senhaDigitada);
 
@@ -113,17 +122,8 @@ void login(usuario *usr)
             }
         }
 
-        if (tentativas == 3)
-        {
-            printf_vermelho("\n\tNúmero máximo de tentativas excedido. Encerrando o programa.");
-            fclose(lercadastro);
-            exit(1);
-        }
-
-        if (cpfAchado != 1)
-        {
-            printf_vermelho("\n\tCPF incorreto! Tente novamente.");
-        }
+        printf_vermelho("\n\tNúmero máximo de tentativas excedido. Encerrando o programa.");
+        exit(1);
     }
 }
 
