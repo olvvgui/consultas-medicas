@@ -57,6 +57,8 @@ void cadastrar(usuario* usr)
 
     removerQuebraDeLinha(cadastro.email);
 
+    printf ("%s", cadastro.email);
+
     printf("\n\tDigite sua senha");
     printf_vermelho(" (mínimo 8 caracteres & máximo 20 caracteres)");
     printf(": ");

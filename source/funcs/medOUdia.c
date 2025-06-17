@@ -6,7 +6,7 @@
 #include "../main.h"
 
 //buscar por medico ou por dia
-void medOudia(usuario* usr)
+void medOudia()
 {
     printf_verde("\n\t\t=== Buscar Consultas ===\n");
 

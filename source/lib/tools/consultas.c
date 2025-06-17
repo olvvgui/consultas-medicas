@@ -11,7 +11,7 @@ void lembrete(char *email, char *cpf, int *n)
     if (*n == 0)
     {
 
-        FILE *arq = fopen("bin/dados_paciente.bin", "rb");
+        FILE *arq = fopen("bin/dados_clientes.bin", "rb");
         if (arq == NULL)
             return;
 
@@ -25,9 +25,9 @@ void lembrete(char *email, char *cpf, int *n)
                 contador++;
                 (*n)++;
                 printf("\a"); // beep
-                printf_vermelho("\n\t====LEMBRETE====\n");
-                printf("Para: %s\n\n", email);
-                printf("Consulta dia %02d/%02d/%d as %d:00\nMedico: %s\nAtt. Hospital\n",
+                printf_vermelho("\n\t\t\t\t====LEMBRETE====\n");
+                printf("\t\tPara: %s\n\n", email);
+                printf("\t\tConsulta dia %02d/%02d/%d as %d:00\n\t\tMedico: %s\n\t\tAtt. Hospital\n",
                        paciente.dia[0], paciente.dia[1], paciente.dia[2], paciente.horario, paciente.medico);
             }
         }

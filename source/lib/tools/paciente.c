@@ -16,15 +16,17 @@ void cadastrarpaciente(cadastro_save cad, usuario *usr)
         printf("\nNâo foi possivel abrir o arquivo.");
         return; // fecha o programa se o arquivo não abrir
     }
-
+    
     fwrite(&cad, sizeof(cadastro_save), 1, arquivo); // escreve no arquivo
-    fclose(arquivo);                                 // fecha o arquivo
-
-    usr->autenticado = 0;
+    
+    usr->autenticado = 1;
     strcpy(usr->nome, cad.nome);
     strcpy(usr->idade, cad.idade);
     strcpy(usr->cpf, cad.cpf);
+    strcpy(usr->email, cad.email);
+    fclose(arquivo);                                 // fecha o arquivo
 }
+
 void login(usuario *usr)
 {
     if (usr->autenticado == 1)
@@ -107,6 +109,8 @@ void login(usuario *usr)
                     strcpy(usr->nome, cadastro.nome);
 
                     strcpy(usr->idade, cadastro.idade);
+
+                    strcpy(usr->email, cadastro.email);
 
                     strcpy(usr->cpf, cpfDigitado);
 

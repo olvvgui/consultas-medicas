@@ -17,6 +17,6 @@ void cancelar(usuario *usr);
 
 void reagendar(usuario *usr);
 
-void medOudia(usuario *usr);
+void medOudia();
 
 #endif

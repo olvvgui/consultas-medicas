@@ -28,37 +28,36 @@ int main()
         {
         case 1:
             cadastrar(&usr);
-            lembrete(usr.email, usr.cpf, &lem); // envia lembrete de consulta
             choose = menu();
             break;
 
         case 2:
             agendar(&usr);
-            lembrete(usr.email, usr.cpf, &lem); // envia lembrete de consulta
+            lembrete(usr.email, usr.cpf, &lem); 
             choose = menu();
             break;
 
         case 3:
             buscar(&usr);
-            lembrete(usr.email, usr.cpf, &lem); // envia lembrete de consulta
+            lembrete(usr.email, usr.cpf, &lem); 
             choose = menu();
             break;
 
         case 4:
             cancelar(&usr);
-            lembrete(usr.email, usr.cpf, &lem); // envia lembrete de consulta
+            lembrete(usr.email, usr.cpf, &lem); 
             choose = menu();
             break;
 
         case 5:
             reagendar(&usr);
-            lembrete(usr.email, usr.cpf, &lem); // envia lembrete de consulta
+            lembrete(usr.email, usr.cpf, &lem);
             choose = menu();
             break;
 
         case 6:
-            medOudia(&usr);
-            lembrete(usr.email, usr.cpf, &lem); // envia lembrete de consulta
+            medOudia();
+            lembrete(usr.email, usr.cpf, &lem); 
             choose = menu();
             break;
 
