@@ -22,6 +22,8 @@ void ver_consultas_medico();
 // Funcao para ver todas as consultas agendadas em determinado dia.
 void ver_consultas_no_dia();
 
+void atualizar_consultas();
+
 
 
 #endif

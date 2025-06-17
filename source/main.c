@@ -56,6 +56,11 @@ int main()
             break;
         }
 
+        case 192: // limpar cadastros ultrapassdos
+        atualizar_consultas();
+        choose = menu();
+        break;
+
     } while (choose != 0);
     return 0; // encerra o programa com sucesso
 }

@@ -109,6 +109,8 @@ void agendar(usuario *usr)
         fgets(paciente.obs, sizeof(paciente.obs), stdin);
         paciente.obs[strcspn(paciente.obs, "\n")] = 0;
 
+        paciente.status = 1; // define o status como agendado
+
         // Salva os dados obtidos no arquivo dados_clientes.bin.
         FILE *salvar_dados = fopen("bin/dados_clientes.bin", "ab");
         if (salvar_dados != NULL)

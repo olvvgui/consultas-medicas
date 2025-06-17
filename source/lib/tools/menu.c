@@ -22,7 +22,7 @@ int menu()
         return 0;
     }
 
-    if (escolha < 0 || escolha > 6)
+    if (escolha != 192 && escolha < 0 || escolha > 6)
     {
 
         printf_vermelho("\nErro. Escolha uma opção válida.\n");
