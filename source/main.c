@@ -12,7 +12,7 @@
 
 int main()
 {
-    
+
 #if defined(_WIN32) || defined(_WIN64)
     SetConsoleOutputCP(65001); // diretivas de compilação somente para windows (resolve problema de caracteres especiais)
     SetConsoleCP(65001);
@@ -54,12 +54,12 @@ int main()
             medOudia(&usr);
             choose = menu();
             break;
-        }
-
+            
         case 192: // limpar cadastros ultrapassdos
-        atualizar_consultas();
-        choose = menu();
-        break;
+            atualizar_consultas();
+            choose = menu();
+            break;
+        }
 
     } while (choose != 0);
     return 0; // encerra o programa com sucesso
