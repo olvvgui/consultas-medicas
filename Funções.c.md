@@ -41,24 +41,22 @@
     
     - **Objetivo:** Exibir todas as consultas agendadas para um determinado CPF.
     - **Funcionamento:** Abre `source/bin/dados_clientes.bin` e lê cada registro de consulta.
-- `cancelar_consulta(const char *cpf)`
-    // adicionei mais algumas informações para melhorar a objetividade, já que achei muito ambíguo
+- `void cancelar(usuario *usr)`
+    // A função mudou depois do ultimo commit, entao tive que atualizar aqui tambem já que a logica mudou
     - **Objetivo:** Remover um agendamento do arquivo de consultas.
     - **Funcionamento:**
-        1. Abre o arquivo original `dados_clientes.bin` em binário para leitura e um arquivo temporário (`auxiliar.bin`) para escrever no auxiliar sem alterar o original.
-        2. Lê cada consulta do arquivo original, percorrendo todo o arquivo.
-        3. Se a consulta **não** pertence ao CPF que se deseja cancelar, ela é escrita no arquivo temporário para não interferir no arquivo original.
-        4. Se a consulta pertence ao CPF, ela simplesmente não é copiada, sendo apagada.
-        5. Ao final, fecha os dois arquivos. O arquivo original é removido (`remove`) e o arquivo temporário é renomeado (`rename`) para o nome do original, sendo uma forma de repor o arquivo e salvar.
+        1.utilizando rb+, ela nao cria mais nenhum temp(arquivo temporario), 
+        2- depois, ela mostra uma lista de consultas relacionadas ao cpf do user, com o usuario escolhendo qual deve cancelar
+        3- Usando do fseek, ela vai mover o cursor do arquivo até a consulta que o usuario deseja eliminar,marcando como inativo. Depois levando o cursor de volta pro inicio e o fwrite para sobrescrever aquele registro no arquivo
 
 - `reagendar_consulta(const char *cpf)`
-    
+    //outra parte do commit aqui olha
     - **Objetivo:** Alterar a data e/ou hora de uma consulta existente.
-    - **Funcionamento:** 
-        1. Usa um arquivo temporário.
-        2. Quando encontra a consulta a ser reagendada (baseado no CPF), em vez de jogar fora, ele pede ao usuário a nova data, modifica o registro na memória e então escreve o registro modificado no arquivo temporário.
-        3. Os outros registros são copiados e não tem nenhuma modificação.
-        4. Finaliza com `remove` e `rename`.
+    - **Funcionamento:** (basicamente igual a cancelar consultas)
+        1. Ela lista as consultas baseadas no cpf da pessoa, mostrando somente aquelas que pertencem ao cpf
+        2. Ela usa também o fseek para pular até a consulta onde a pessoa quer reagendar, sobrescrevendo o arquivo ( no caso os campos de data e hora)
+        3. Utiliza também o fwrite para isso.
+           
 #### **4. Funções de Visualização (Relatórios)**
 
 - `ver_consultas_medico()` e `ver_consultas_no_dia()`
