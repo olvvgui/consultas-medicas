@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "../menu.h"
-
+#include "../consultas.h"
 
 int menu()
 {
@@ -21,13 +21,12 @@ int menu()
         printf_verde("\n\tFinalizando programa...");
         return 0;
     }
-
-    if (escolha != 192 && escolha < 0 || escolha > 6)
+    
+    if (escolha < 0 || escolha > 6)
     {
 
-        printf_vermelho("\nErro. Escolha uma opção válida.\n");
+        printf_vermelho("\n\tErro. Escolha uma opção válida.\n");
     }
 
     return escolha;
 }
-

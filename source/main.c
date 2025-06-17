@@ -54,13 +54,14 @@ int main()
             medOudia(&usr);
             choose = menu();
             break;
-            
-        case 192: // limpar cadastros ultrapassdos
+
+        case 935: // senha para acessar o a funcção de limpar cadastros ultrapassados
             atualizar_consultas();
             choose = menu();
             break;
         }
 
     } while (choose != 0);
+
     return 0; // encerra o programa com sucesso
 }

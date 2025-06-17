@@ -222,7 +222,6 @@ void cancelar_consulta(const char *cpf)
     fclose(arquivo);
 }
 
-
 // Funcao para reagendar consulta.
 void reagendar_consulta(const char *cpf)
 {
@@ -292,51 +291,60 @@ void reagendar_consulta(const char *cpf)
     fclose(arquivo);
 }
 
-void atualizar_consultas(){
+void atualizar_consultas()
+{
 
-    FILE *arquivo = fopen("bin/dados_clientes.bin", "rb+");
-    if (!arquivo)
+    printf("\n\tdigite a senha para continuar: ");
+    char senha[9] = "19283746"; // senha
+    char digitada[9];
+    scanf("%s", digitada);
+    if (strcmp(senha, digitada) == 0)
     {
-        printf_vermelho("\nErro ao abrir o arquivo.\n");
-        return;
-    }
 
-    dados_paciente paciente;
-    tempo data;
-    tempoagora(&data);
-
-    int status = 0;
-
-    while (fread(&paciente, sizeof(dados_paciente), 1, arquivo) == 1)
-    {
-        if (paciente.status == 1)
+        FILE *arquivo = fopen("bin/dados_clientes.bin", "rb+");
+        if (!arquivo)
         {
-            int dia = paciente.dia[0];
-            int mes = paciente.dia[1];
-            int ano = paciente.dia[2];
+            printf_vermelho("\nErro ao abrir o arquivo.\n");
+            return;
+        }
 
-            // verifica se a data já passou
-            if ((ano < data.ano) ||
-                (ano == data.ano && mes < data.mes) ||
-                (ano == data.ano && mes == data.mes && dia < data.dia))
+        dados_paciente paciente;
+        tempo data;
+        tempoagora(&data);
+
+        int status = 0;
+
+        while (fread(&paciente, sizeof(dados_paciente), 1, arquivo) == 1)
+        {
+            if (paciente.status == 1)
             {
-                paciente.status = 0;
-                fseek(arquivo, -sizeof(dados_paciente), SEEK_CUR);
-                fwrite(&paciente, sizeof(dados_paciente), 1, arquivo); // joga no arquivo
-                status++;
+                int dia = paciente.dia[0];
+                int mes = paciente.dia[1];
+                int ano = paciente.dia[2];
+
+                // verifica se a data já passou
+                if ((ano < data.ano) ||
+                    (ano == data.ano && mes < data.mes) ||
+                    (ano == data.ano && mes == data.mes && dia < data.dia))
+                {
+                    paciente.status = 0;
+                    fseek(arquivo, -sizeof(dados_paciente), SEEK_CUR);
+                    fwrite(&paciente, sizeof(dados_paciente), 1, arquivo); // joga no arquivo
+                    status++;
+                }
             }
         }
-    }
 
-    fclose(arquivo);
+        fclose(arquivo);
 
-    if (status > 0)
-        printf ("\n\t%d consultas vencidas foram marcadas como inativas.\n", status);
-    else
-        printf_vermelho("\nNenhuma consulta vencida encontrada.\n");
+        if (status > 0)
+            printf("\n\t%d consultas vencidas foram marcadas como inativas.\n", status);
+        else
+            printf_vermelho("\n\tNenhuma consulta vencida encontrada.\n");
 
         return;
+    }
+
+    else
+    return;
 }
-
-
-
