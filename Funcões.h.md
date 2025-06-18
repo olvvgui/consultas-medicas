@@ -34,6 +34,7 @@
 - `selecionar()`: Uma função usada para escolher um médico.
 - `horariosvalidos()`: Mostra os horários de consulta disponíveis para uma determinada data.
 - `lembrete()`: Simula o envio de um lembrete de consulta para o e-mail do paciente.
+- lembrete agora aparece somente uma vez pela utilização de flags, sendo mais pratico pro user nao ser recebido toda vez pelo mesmo lembrete
 - `buscar_consulta()`: Busca por uma consulta já existente.
 - `reagendar_consulta()`: Realiza o reagendamento de uma consulta.
 - `cancelar_consulta()`: Realiza o cancelamento de uma consulta.
